@@ -166,13 +166,14 @@ form.addEventListener("submit", async (e) => {
 
   const car = selection();
   const payload = {
-    _subject: `Remote start enquiry: ${car.Make} ${car.Model} (${data.name})`,
+    _subject: `Redline Coding enquiry: ${car.Make} ${car.Model} (${data.name})`,
     _template: "table",
     _replyto: data.email,
     "Name": data.name,
     "Email": data.email,
     "Phone": data.phone || "-",
-    "Location": data.location || "-",
+    "Suburb": data.location || "-",
+    "Mobile or drop-off": data.service || "-",
     "VIN": (data.vin || "-").toUpperCase(),
     ...car,
     "Message": data.message || "-",
