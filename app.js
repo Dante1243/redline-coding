@@ -169,8 +169,10 @@ form.addEventListener("submit", async (e) => {
     _subject: `Redline Coding enquiry: ${car.Make} ${car.Model} (${data.name})`,
     _template: "table",
     _replyto: data.email,
+    // Confirmation email FormSubmit sends to the customer (needs the field to be named "email")
+    _autoresponse: autoReply(data.name, car),
     "Name": data.name,
-    "Email": data.email,
+    "email": data.email,
     "Phone": data.phone || "-",
     "Suburb": data.location || "-",
     "Mobile or drop-off": data.service || "-",
@@ -189,9 +191,7 @@ form.addEventListener("submit", async (e) => {
     });
     const json = await res.json().catch(() => ({}));
     if (!res.ok || json.success === "false" || json.success === false) throw new Error(json.message || res.statusText);
-    form.reset();
-    statusEl.className = "status ok";
-    statusEl.textContent = "Thanks, your enquiry has been sent. We'll be in touch shortly.";
+    showThanks(data, car);
   } catch (err) {
     statusEl.className = "status err";
     statusEl.textContent = `Sorry, your enquiry didn't send (${err.message}). Please try again or email ${ENQUIRY_EMAIL} directly.`;
@@ -200,5 +200,49 @@ form.addEventListener("submit", async (e) => {
     btn.textContent = "Send enquiry";
   }
 });
+
+function carName(car) {
+  const name = [car.Make, car.Model].filter((v) => v && v !== "-" && !/not sure|other/i.test(v)).join(" ");
+  return name ? `your ${name}` : "your car";
+}
+
+function autoReply(name, car) {
+  const first = name.trim().split(/\s+/)[0];
+  return `Hi ${first},
+
+Thanks for contacting Redline Coding. We've received your enquiry about ${carName(car)} and will get back to you within one business day with pricing and availability.
+
+What happens next:
+1. We check your car's eligibility (from your VIN if you gave one).
+2. We reply with your exact price and available times, either mobile anywhere in Perth or drop-off.
+3. If your car can't be coded, you don't pay. You only pay once it's working.
+
+Need to add something? Just send another enquiry through the website.
+
+Redline Coding
+BMW Coding Services, Perth
+
+Redline Coding is an independent business and is not affiliated with BMW AG or Toyota Motor Corporation.`;
+}
+
+function showThanks(data, car) {
+  const first = data.name.trim().split(/\s+/)[0];
+  const esc = (s) => s.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
+  const box = document.createElement("div");
+  box.className = "thanks";
+  box.setAttribute("role", "status");
+  box.tabIndex = -1;
+  box.innerHTML = `
+    <div class="thanks-tick" aria-hidden="true"></div>
+    <h3>Thanks, ${esc(first)}! Your enquiry is in.</h3>
+    <p>We've sent a confirmation to <b>${esc(data.email)}</b>. If you can't see it, check your spam folder.</p>
+    <ol>
+      <li>We check ${esc(carName(car))} for eligibility${data.vin ? " using your VIN" : ""}.</li>
+      <li>We reply within one business day with your price and available times.</li>
+      <li>You only pay once it's working.</li>
+    </ol>`;
+  form.replaceWith(box);
+  box.focus();
+}
 
 $("yr").textContent = thisYear;
