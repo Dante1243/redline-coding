@@ -278,3 +278,20 @@ form .btn { margin-top: 24px; }
 @media (max-width: 560px) {
   .demo img { max-height: 80vh; width: auto; max-width: 100%; margin: 0 auto; }
 }
+
+/* enquiry confirmation */
+.thanks {
+  border: 1px solid var(--yes-bd); background: var(--yes-bg); color: var(--yes-fg);
+  border-radius: 12px; padding: 24px; outline: none;
+}
+.thanks h3 { margin: 12px 0 6px; font-size: 20px; }
+.thanks p { margin: 0 0 12px; }
+.thanks ol { margin: 0; padding-left: 20px; }
+.thanks li { margin-bottom: 4px; }
+.thanks-tick {
+  width: 40px; height: 40px; border-radius: 50%; background: var(--yes-fg); position: relative;
+}
+.thanks-tick::after {
+  content: ""; position: absolute; left: 13px; top: 11px; width: 14px; height: 8px;
+  border-left: 3px solid var(--yes-bg); border-bottom: 3px solid var(--yes-bg); transform: rotate(-45deg);
+}
