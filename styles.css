@@ -265,3 +265,16 @@ form .btn { margin-top: 24px; }
   .brand-sub { display: none; }
   .facts dt { font-size: 19px; }
 }
+
+/* demo media */
+.demo { margin: 28px 0 0; }
+.demo img {
+  display: block; width: 100%; height: auto;
+  border-radius: var(--radius); border: 1px solid var(--border);
+  background: var(--ink);
+}
+.demo figcaption { margin-top: 12px; font-size: 14px; color: var(--muted); }
+.demo figcaption b { color: var(--text); font-weight: 600; }
+@media (max-width: 560px) {
+  .demo img { max-height: 80vh; width: auto; max-width: 100%; margin: 0 auto; }
+}
