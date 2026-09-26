@@ -141,3 +141,69 @@ const HEATED_SEATS_VEHICLES = {
     ],
   },
 };
+
+// Coding menu: general BMW list. Which features a car can have depends on its equipment,
+// so the checker only confirms the model and build date; features are confirmed per VIN.
+const MENU_VEHICLES = {
+  "BMW": {
+    "1 Series": [
+      { code: "F40", label: "F40 (2019+)", status: "eligible", cutoff: BMW_CUTOFF },
+    ],
+    "2 Series Gran Coupe": [
+      { code: "F44", label: "F44 (2020+)", status: "eligible", cutoff: BMW_CUTOFF },
+    ],
+    "3 Series": [
+      { code: "G20", label: "G20 Sedan", status: "eligible", cutoff: BMW_CUTOFF },
+      { code: "G21", label: "G21 Touring (wagon)", status: "eligible", cutoff: BMW_CUTOFF },
+    ],
+    "4 Series": [
+      { code: "G22", label: "G22 Coupe", status: "eligible", cutoff: BMW_CUTOFF },
+      { code: "G23", label: "G23 Convertible", status: "eligible", cutoff: BMW_CUTOFF },
+      { code: "G26", label: "G26 Gran Coupe (4-door)", status: "excluded",
+        note: "The 4 Series Gran Coupe went into production in late 2021, after BMW locked coding, so no build date qualifies." },
+    ],
+    "5 Series": [
+      { code: "G30/G31 LCI", label: "G30 / G31 facelift (LCI, mid-2020 on)", status: "eligible", cutoff: BMW_CUTOFF },
+      { code: "G30/G31 pre-LCI", label: "G30 / G31 pre-facelift (2017 – mid-2020)", status: "conditional", cutoff: BMW_CUTOFF,
+        note: "Pre-facelift 5 Series cars have an older head unit, so fewer features are available. We'll confirm which ones from your VIN." },
+      { code: "G60/G61", label: "G60 / G61 (2023+)", status: "excluded",
+        note: "Current-generation cars are coding-locked from launch (iDrive 8.5+ and NCD 2.0/3.0)." },
+    ],
+    "7 Series": [
+      { code: "G11/G12 LCI", label: "G11 / G12 facelift (LCI)", status: "eligible", cutoff: BMW_CUTOFF },
+      { code: "G11/G12 pre-LCI", label: "G11 / G12 pre-facelift", status: "conditional", cutoff: BMW_CUTOFF,
+        note: "Pre-facelift 7 Series cars have an older head unit, so fewer features are available. We'll confirm which ones from your VIN." },
+      { code: "G70", label: "G70 (2022+)", status: "excluded",
+        note: "Current-generation cars are coding-locked from launch (iDrive 8.5+ and NCD 2.0/3.0)." },
+    ],
+    "8 Series": [
+      { code: "G14", label: "G14 Convertible", status: "eligible", cutoff: BMW_CUTOFF },
+      { code: "G15", label: "G15 Coupe", status: "eligible", cutoff: BMW_CUTOFF },
+      { code: "G16", label: "G16 Gran Coupe", status: "eligible", cutoff: BMW_CUTOFF },
+    ],
+    "X1": [
+      { code: "F48", label: "F48", status: "conditional", cutoff: BMW_CUTOFF,
+        note: "Some X1s use an older head unit, so fewer features are available. We'll confirm which ones from your VIN." },
+    ],
+    "X2": [
+      { code: "F39", label: "F39", status: "conditional", cutoff: BMW_CUTOFF,
+        note: "Some X2s use an older head unit, so fewer features are available. We'll confirm which ones from your VIN." },
+    ],
+    "X3": [{ code: "G01", label: "G01", status: "eligible", cutoff: BMW_CUTOFF }],
+    "X4": [{ code: "G02", label: "G02", status: "eligible", cutoff: BMW_CUTOFF }],
+    "X5": [{ code: "G05", label: "G05", status: "eligible", cutoff: BMW_CUTOFF }],
+    "X6": [{ code: "G06", label: "G06", status: "eligible", cutoff: BMW_CUTOFF }],
+    "X7": [{ code: "G07", label: "G07", status: "eligible", cutoff: BMW_CUTOFF }],
+    "Z4": [{ code: "G29", label: "G29", status: "eligible", cutoff: BMW_CUTOFF }],
+    "M models": [
+      { code: "F97/F98", label: "X3 M / X4 M (F97 / F98)", status: "eligible", cutoff: BMW_CUTOFF },
+      { code: "F90 LCI", label: "M5 facelift (F90 LCI)", status: "eligible", cutoff: BMW_CUTOFF },
+      { code: "F91/F92/F93", label: "M8 (F91 / F92 / F93)", status: "eligible", cutoff: BMW_CUTOFF },
+      { code: "F95/F96", label: "X5 M / X6 M (F95 / F96)", status: "eligible", cutoff: BMW_CUTOFF },
+      { code: "G80/G82/G83", label: "M3 / M4 (G80 / G82 / G83)", status: "excluded",
+        note: "The G80 M3 and G82/G83 M4 are coding-locked from launch, so no build date qualifies." },
+      { code: "G87", label: "M2 (G87, 2023+)", status: "excluded",
+        note: "The G87 M2 is coding-locked from launch (iDrive 8 and NCD 2.0)." },
+    ],
+  },
+};

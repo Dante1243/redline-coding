@@ -16,12 +16,33 @@ function addOnText(s) {
   return s.addOn ? `${money(s.addOn.price)} with ${SERVICES[s.addOn.with].name}` : "";
 }
 
-// Starting price for a set of service slugs, applying add-on discounts
+// Features ticked on the Coding Menu page
+let menuPicked = [];
+const menuService = Object.values(SERVICES).find((s) => s.menu);
+
+// Coding Menu price: the three priciest picks for MENU_DEALS.three, or every feature for MENU_DEALS.all
+function menuQuote(ids) {
+  const prices = FEATURES.filter((f) => ids.includes(f.id)).map((f) => f.price).sort((a, b) => b - a);
+  const sum = (arr) => arr.reduce((a, b) => a + b, 0);
+  const full = sum(prices);
+  let total = full;
+  if (prices.length >= 3) total = Math.min(total, MENU_DEALS.three + sum(prices.slice(3)));
+  if (prices.length === FEATURES.length) total = Math.min(total, MENU_DEALS.all);
+  return { full, total, saved: full - total, count: prices.length };
+}
+
+// Starting price for a set of service slugs, applying add-on and menu discounts
 function quote(slugs) {
   let full = 0, total = 0;
   for (const slug of slugs) {
     const s = SERVICES[slug];
     if (!s) continue;
+    if (s.menu && menuPicked.length) {
+      const m = menuQuote(menuPicked);
+      full += m.full;
+      total += m.total;
+      continue;
+    }
     full += s.price;
     total += s.addOn && slugs.includes(s.addOn.with) ? s.addOn.price : s.price;
   }
@@ -118,10 +139,64 @@ function renderServiceCards() {
     </a>`).join("") + `
     <a class="svc-card svc-card-alt" href="#enquire">
       <div class="f-icon" aria-hidden="true">${ICONS.chat}</div>
-      <h3>Something else?</h3>
-      <p>Looking for another BMW coding feature? Tell us what you're after and we'll let you know if your car can have it.</p>
+      <div class="svc-alt-text"><h3>Something else?</h3>
+      <p>Looking for another BMW coding feature? Tell us what you're after and we'll let you know if your car can have it.</p></div>
       <span class="svc-more">Ask us <span aria-hidden="true">→</span></span>
     </a>`;
+}
+
+// ---- Coding Menu page ----
+function renderMenu() {
+  const root = $("menu");
+  if (!root) return;
+  const groups = [...new Set(FEATURES.map((f) => f.group))];
+  root.innerHTML = groups.map((g) => `
+    <h3 class="menu-group">${esc(g)}</h3>
+    <div class="menu-grid">
+      ${FEATURES.filter((f) => f.group === g).map((f) => `
+        <label class="feat">
+          <input type="checkbox" data-feature="${f.id}">
+          <span class="feat-top">
+            <span class="f-icon" aria-hidden="true">${ICONS[f.icon] || ""}</span>
+            <span class="feat-price">${money(f.price)}</span>
+          </span>
+          <b class="feat-name">${esc(f.name)}</b>
+          <span class="feat-desc">${esc(f.desc)}</span>
+          ${f.note ? `<small class="feat-note">${esc(f.note)}</small>` : ""}
+          <span class="feat-add" aria-hidden="true"></span>
+        </label>`).join("")}
+    </div>`).join("") + `
+    <div class="menu-bar">
+      <p id="menuSummary"></p>
+      <a class="btn btn-primary" href="#enquire">Enquire</a>
+    </div>`;
+
+  root.addEventListener("change", (e) => {
+    if (!e.target.dataset.feature) return;
+    menuPicked = [...root.querySelectorAll("input[data-feature]:checked")].map((i) => i.dataset.feature);
+    updateMenuSummary();
+    // keep the enquiry form's Coding Menu box and price in step
+    const box = document.querySelector('input[name="svc"][data-slug="coding-menu"]');
+    if (box) {
+      if (menuPicked.length) box.checked = true;
+      box.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+  });
+  updateMenuSummary();
+}
+
+function updateMenuSummary() {
+  const el = $("menuSummary");
+  if (!el) return;
+  const deals = `<b>Any 3 for ${money(MENU_DEALS.three)}</b> or <b>all ${FEATURES.length} for ${money(MENU_DEALS.all)}</b>`;
+  if (!menuPicked.length) {
+    el.innerHTML = `Tick the features you want. ${deals}.`;
+    return;
+  }
+  const m = menuQuote(menuPicked);
+  const more = m.count < 3 ? ` Pick ${3 - m.count} more for the 3-for-${money(MENU_DEALS.three)} deal.` : "";
+  el.innerHTML = `${m.count} feature${m.count > 1 ? "s" : ""} selected: <b class="menu-total">${money(m.total)}</b>` +
+    (m.saved ? ` <span class="menu-save">You save ${money(m.saved)}</span>` : "") + more;
 }
 
 // ---- eligibility checker (service pages) ----
@@ -283,6 +358,8 @@ function buildChecker() {
       else if (heated.value !== "yes") check.push("We need to confirm your car has factory heated seats (a button with a seat and wavy lines).");
     }
 
+    if (svc.checkerNote) info.push(svc.checkerNote);
+
     let cls, title;
     if (no.length) { cls = "no"; title = "Sorry, this car isn't eligible"; }
     else if (check.length) { cls = "check"; title = "Possibly eligible. We'll need to confirm a few details"; }
@@ -380,8 +457,8 @@ function buildEnquiry() {
   const pickedSlugs = () => [...form.querySelectorAll('input[name="svc"]:checked')].map((i) => i.dataset.slug).filter(Boolean);
   const showDeal = () => {
     const q = quote(pickedSlugs());
-    pickDeal.hidden = q.saved <= 0;
-    pickDeal.innerHTML = `Bundle price: from <b>${money(q.total)}</b> AUD. You save ${money(q.saved)}.`;
+    pickDeal.hidden = !q.total;
+    pickDeal.innerHTML = `Estimated price: from <b>${money(q.total)}</b> AUD.${q.saved ? ` You save ${money(q.saved)}.` : ""}`;
   };
   form.addEventListener("change", (e) => {
     if (e.target.name !== "svc") return;
@@ -407,22 +484,25 @@ function buildEnquiry() {
     if (data._honey) return; // bot
 
     const car = (checker && checker.touched() && checker.carName()) || data.car.trim();
+    // Coding Menu picks are listed by name, e.g. "Coding Menu (Brake force display, Cluster style)"
+    const menuNames = FEATURES.filter((f) => menuPicked.includes(f.id)).map((f) => f.name);
+    const shown = picked.map((n) => (menuService && n === menuService.name && menuNames.length ? `${n} (${menuNames.join(", ")})` : n));
     const q = quote(pickedSlugs());
     const other = picked.length > pickedSlugs().length;
     const estimate = q.total
-      ? `From ${money(q.total)}${q.saved ? ` (bundle, saves ${money(q.saved)})` : ""}${other ? " + other coding to quote" : ""}`
+      ? `From ${money(q.total)}${q.saved ? ` (saves ${money(q.saved)} with deals)` : ""}${other ? " + other coding to quote" : ""}`
       : "To quote";
     const payload = {
       _subject: `Redline Coding enquiry: ${picked.join(" + ")}${car ? " – " + car : ""} (${data.name})`,
       _template: "table",
       _replyto: data.email,
       // Confirmation email FormSubmit sends to the customer (needs the field to be named "email")
-      _autoresponse: autoReply(data.name, picked, car, q),
+      _autoresponse: autoReply(data.name, shown, car, q),
       "Name": data.name,
       "email": data.email,
       "Phone": data.phone || "-",
       "Suburb": data.location || "-",
-      "Services": picked.join(", "),
+      "Services": shown.join(", "),
       "Estimated price": estimate,
       "Car": data.car || "-",
       "Mobile or drop-off": data.service || "-",
@@ -441,7 +521,7 @@ function buildEnquiry() {
       });
       const json = await res.json().catch(() => ({}));
       if (!res.ok || json.success === "false" || json.success === false) throw new Error(json.message || res.statusText);
-      showThanks(form, data, picked, car);
+      showThanks(form, data, shown, car);
     } catch (err) {
       statusEl.className = "status err";
       statusEl.textContent = `Sorry, your enquiry didn't send (${err.message}). Please try again or email ${ENQUIRY_EMAIL} directly.`;
@@ -461,7 +541,7 @@ function autoReply(name, picked, car, q) {
   return `Hi ${first},
 
 Thanks for contacting Redline Coding. We've received your enquiry about ${listText(picked)}${car ? ` for your ${car}` : ""} and will get back to you within one business day with pricing and availability.
-${q.saved ? `\nGood news: booking these together gets you our bundle price, from ${money(q.total)} AUD (you save ${money(q.saved)}).\n` : ""}
+${q.saved ? `\nGood news: booking these together gets you our deal price, from ${money(q.total)} AUD (you save ${money(q.saved)}).\n` : ""}
 What happens next:
 1. We check your car's eligibility (from your VIN if you gave one).
 2. We reply with your exact price and available times, either mobile anywhere in Perth or drop-off.
@@ -508,6 +588,7 @@ function fillServiceFacts() {
 renderChrome();
 renderServiceCards();
 renderBundles();
+renderMenu();
 buildChecker();
 buildEnquiry();
 fillServiceFacts();
