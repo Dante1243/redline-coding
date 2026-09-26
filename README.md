@@ -1,9 +1,19 @@
 # Redline Coding: BMW Coding Services Perth
 
-Static site for OEM remote engine start (option 1CR) coding enquiries. It's hosted on GitHub Pages.
+Static site for Redline Coding. It's hosted on GitHub Pages.
 
-- `index.html`, `styles.css`: the page
-- `vehicles.js`: eligibility data. Keep it in sync with *Supported Vehicles.docx*.
-- `app.js`: eligibility checker and enquiry form. Enquiries are emailed through [FormSubmit](https://formsubmit.co) to the address in `ENQUIRY_EMAIL`.
+## Pages
+- `index.html`: home page with the service cards, how it works, general FAQ and the enquiry form
+- `remote-start.html`, `heated-seats.html`: one page per service, each with an eligibility checker, pricing and FAQ
 
-The first enquiry sends a one-time activation email from FormSubmit. Click the link in it, and every enquiry after that arrives in your inbox.
+## Shared files
+- `services.js`: the list of services (name, price, time, which checker questions). The home cards, enquiry checkboxes and footer links are built from it.
+- `vehicles.js`: eligible vehicles for each service
+- `app.js`: menu, footer, eligibility checker and enquiry form. Enquiries are emailed through [FormSubmit](https://formsubmit.co), and customers get an automatic confirmation email.
+- `styles.css`: all styling
+
+## Adding a new service
+1. In `vehicles.js`, add a vehicle list, e.g. `const MY_FEATURE_VEHICLES = { "BMW": { ... } };`
+2. In `services.js`, add an entry with `name`, `short`, `page`, `price`, `time`, `icon`, `checks` and `vehicles`.
+3. Copy `heated-seats.html` to the new `page` name. Set `<body data-service="...">` to the new slug and rewrite the hero, features, pricing and FAQ text.
+4. Optionally add a link-preview image at `media/og-<slug>.jpg` and point the page's `og:image` at it.
