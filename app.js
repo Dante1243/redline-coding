@@ -11,6 +11,48 @@ const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
 const money = (n) => `$${n}`;
 
+// "$39 with Remote Engine Start" for services that are cheaper when booked together
+function addOnText(s) {
+  return s.addOn ? `${money(s.addOn.price)} with ${SERVICES[s.addOn.with].name}` : "";
+}
+
+// Starting price for a set of service slugs, applying add-on discounts
+function quote(slugs) {
+  let full = 0, total = 0;
+  for (const slug of slugs) {
+    const s = SERVICES[slug];
+    if (!s) continue;
+    full += s.price;
+    total += s.addOn && slugs.includes(s.addOn.with) ? s.addOn.price : s.price;
+  }
+  return { full, total, saved: full - total };
+}
+
+// Bundle banners: on the home page for every add-on, on a service page for the ones involving it
+function renderBundles() {
+  const root = $("bundles");
+  if (!root) return;
+  const deals = Object.entries(SERVICES)
+    .filter(([slug, s]) => s.addOn && (!pageService || pageService === slug || pageService === s.addOn.with))
+    .map(([slug, s]) => {
+      const slugs = [s.addOn.with, slug];
+      const q = quote(slugs);
+      return `
+        <div class="bundle">
+          <div>
+            <p class="bundle-tag">Bundle and save ${money(q.saved)}</p>
+            <p class="bundle-title">${esc(SERVICES[s.addOn.with].name)} + ${esc(s.name)}</p>
+            <p class="bundle-sub">Add ${esc(s.name.toLowerCase())} to a ${esc(SERVICES[s.addOn.with].name.toLowerCase())} booking for just ${money(s.addOn.price)} (normally ${money(s.price)}). Both done in the same visit.</p>
+          </div>
+          <div class="bundle-price">
+            <p><span class="from">From</span> ${money(q.total)}</p>
+            <a class="btn btn-primary" href="?pick=${slugs.join(",")}#enquire">Book the bundle</a>
+          </div>
+        </div>`;
+    });
+  root.innerHTML = deals.join("");
+}
+
 function fill(select, items, placeholder) {
   select.innerHTML = "";
   select.add(new Option(placeholder, ""));
@@ -71,6 +113,7 @@ function renderServiceCards() {
       <h3>${esc(s.name)}</h3>
       <p>${esc(s.short)}</p>
       <p class="svc-meta"><span>From <b>${money(s.price)}</b></span><span>${esc(s.time)}</span></p>
+      ${s.addOn ? `<p class="svc-deal">Only ${esc(addOnText(s))}</p>` : ""}
       <span class="svc-more">Details and eligibility <span aria-hidden="true">→</span></span>
     </a>`).join("") + `
     <a class="svc-card svc-card-alt" href="#enquire">
@@ -285,10 +328,12 @@ function buildChecker() {
 function buildEnquiry() {
   const root = $("enquiry-form");
   if (!root) return;
+  // ?pick=remote-start,heated-seats preselects services (used by the bundle buttons)
+  const preset = (new URLSearchParams(location.search).get("pick") || pageService).split(",");
   const boxes = Object.entries(SERVICES).map(([slug, s]) => `
     <label class="pick">
-      <input type="checkbox" name="svc" value="${esc(s.name)}" ${slug === pageService ? "checked" : ""}>
-      <span><b>${esc(s.name)}</b><small>From ${money(s.price)} · ${esc(s.time)}</small></span>
+      <input type="checkbox" name="svc" value="${esc(s.name)}" data-slug="${slug}" ${preset.includes(slug) ? "checked" : ""}>
+      <span><b>${esc(s.name)}</b><small>From ${money(s.price)} · ${esc(s.time)}</small>${s.addOn ? `<small class="pick-offer">${esc(addOnText(s))}</small>` : ""}</span>
     </label>`).join("");
 
   root.innerHTML = `
@@ -303,6 +348,7 @@ function buildEnquiry() {
           </label>
         </div>
         <p class="pick-err" id="pickErr" hidden>Please choose at least one option.</p>
+        <p class="pick-deal" id="pickDeal" hidden></p>
       </fieldset>
       <div class="grid">
         <label>Full name *<input name="name" required autocomplete="name"></label>
@@ -330,8 +376,19 @@ function buildEnquiry() {
       <p id="formStatus" class="status" role="status" aria-live="polite"></p>
     </form>`;
 
-  const form = $("form"), statusEl = $("formStatus"), btn = $("submitBtn"), pickErr = $("pickErr");
-  form.addEventListener("change", (e) => { if (e.target.name === "svc") pickErr.hidden = true; });
+  const form = $("form"), statusEl = $("formStatus"), btn = $("submitBtn"), pickErr = $("pickErr"), pickDeal = $("pickDeal");
+  const pickedSlugs = () => [...form.querySelectorAll('input[name="svc"]:checked')].map((i) => i.dataset.slug).filter(Boolean);
+  const showDeal = () => {
+    const q = quote(pickedSlugs());
+    pickDeal.hidden = q.saved <= 0;
+    pickDeal.innerHTML = `Bundle price: from <b>${money(q.total)}</b> AUD. You save ${money(q.saved)}.`;
+  };
+  form.addEventListener("change", (e) => {
+    if (e.target.name !== "svc") return;
+    pickErr.hidden = true;
+    showDeal();
+  });
+  showDeal();
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -350,17 +407,23 @@ function buildEnquiry() {
     if (data._honey) return; // bot
 
     const car = (checker && checker.touched() && checker.carName()) || data.car.trim();
+    const q = quote(pickedSlugs());
+    const other = picked.length > pickedSlugs().length;
+    const estimate = q.total
+      ? `From ${money(q.total)}${q.saved ? ` (bundle, saves ${money(q.saved)})` : ""}${other ? " + other coding to quote" : ""}`
+      : "To quote";
     const payload = {
       _subject: `Redline Coding enquiry: ${picked.join(" + ")}${car ? " – " + car : ""} (${data.name})`,
       _template: "table",
       _replyto: data.email,
       // Confirmation email FormSubmit sends to the customer (needs the field to be named "email")
-      _autoresponse: autoReply(data.name, picked, car),
+      _autoresponse: autoReply(data.name, picked, car, q),
       "Name": data.name,
       "email": data.email,
       "Phone": data.phone || "-",
       "Suburb": data.location || "-",
       "Services": picked.join(", "),
+      "Estimated price": estimate,
       "Car": data.car || "-",
       "Mobile or drop-off": data.service || "-",
       "VIN": (data.vin || "-").toUpperCase(),
@@ -393,12 +456,12 @@ function listText(items) {
   return items.length < 2 ? items.join("") : `${items.slice(0, -1).join(", ")} and ${items[items.length - 1]}`;
 }
 
-function autoReply(name, picked, car) {
+function autoReply(name, picked, car, q) {
   const first = name.trim().split(/\s+/)[0];
   return `Hi ${first},
 
 Thanks for contacting Redline Coding. We've received your enquiry about ${listText(picked)}${car ? ` for your ${car}` : ""} and will get back to you within one business day with pricing and availability.
-
+${q.saved ? `\nGood news: booking these together gets you our bundle price, from ${money(q.total)} AUD (you save ${money(q.saved)}).\n` : ""}
 What happens next:
 1. We check your car's eligibility (from your VIN if you gave one).
 2. We reply with your exact price and available times, either mobile anywhere in Perth or drop-off.
@@ -444,6 +507,7 @@ function fillServiceFacts() {
 
 renderChrome();
 renderServiceCards();
+renderBundles();
 buildChecker();
 buildEnquiry();
 fillServiceFacts();

@@ -14,6 +14,6 @@ Static site for Redline Coding. It's hosted on GitHub Pages.
 
 ## Adding a new service
 1. In `vehicles.js`, add a vehicle list, e.g. `const MY_FEATURE_VEHICLES = { "BMW": { ... } };`
-2. In `services.js`, add an entry with `name`, `short`, `page`, `price`, `time`, `icon`, `checks` and `vehicles`.
+2. In `services.js`, add an entry with `name`, `short`, `page`, `price`, `time`, `icon`, `checks` and `vehicles`. Add `addOn: { with: "<other-slug>", price: N }` to make it cheaper when booked with another service. The bundle banner, form price and emails update automatically.
 3. Copy `heated-seats.html` to the new `page` name. Set `<body data-service="...">` to the new slug and rewrite the hero, features, pricing and FAQ text.
 4. Optionally add a link-preview image at `media/og-<slug>.jpg` and point the page's `og:image` at it.

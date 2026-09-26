@@ -3,6 +3,8 @@
 // then copy heated-seats.html to <slug>.html and change the text.
 // The home page cards, enquiry form checkboxes and footer links all come from this list.
 //
+// addOn: optional discounted price when booked with another service, e.g. { with: "remote-start", price: 39 }
+//
 // checks: which questions the eligibility checker asks
 //   "build"       build month/year against each chassis cutoff
 //   "engine"      petrol only (no diesel, hybrid or EV)
@@ -26,6 +28,7 @@ const SERVICES = {
     short: "Your heated seats switch on by themselves when it's cold, at the temperature and heat level you choose.",
     page: "heated-seats.html",
     price: 79,
+    addOn: { with: "remote-start", price: 39 }, // discounted price when booked together
     time: "~15 min",
     icon: "seat",
     checks: ["build", "heatedSeats"],
