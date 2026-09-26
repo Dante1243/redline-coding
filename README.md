@@ -5,10 +5,12 @@ Static site for Redline Coding. It's hosted on GitHub Pages.
 ## Pages
 - `index.html`: home page with the service cards, how it works and the general FAQ
 - `remote-start.html`, `heated-seats.html`, `coding-menu.html`: one page per service, each with an eligibility checker and FAQ
+- `404.html`: branded "page not found" page (GitHub Pages serves it for any missing URL)
+- `sitemap.xml`: page list for Google Search Console
 - `enquire.html`: the "Get a quote" page. Customers tick services and Coding Menu features, see an itemised total and send it. Links can preselect items: `?pick=remote-start,heated-seats`, `?f=adv,sla` (menu features), `?other=1`.
 
 ## Shared files
-- `services.js`: the list of services (name, price, time, which checker questions). The home cards, enquiry checkboxes and footer links are built from it.
+- `services.js`: the list of services (name, price, time, which checker questions). The home cards, menu, quote page rows and footer links are built from it.
 - `vehicles.js`: eligible vehicles for each service
 - `app.js`: nav, footer, eligibility checker, pricing and the quote page. Quotes are emailed through [FormSubmit](https://formsubmit.co), and customers get an automatic confirmation with the same itemised total.
 - `styles.css`: all styling

@@ -9,6 +9,7 @@
 <meta property="og:description" content="Pick what you want, see your total and send it. BMW coding in Perth, mobile or drop-off.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://dante1243.github.io/redline-coding/enquire.html">
+<link rel="canonical" href="https://dante1243.github.io/redline-coding/enquire.html">
 <meta property="og:site_name" content="Redline Coding">
 <meta property="og:image" content="https://dante1243.github.io/redline-coding/media/og-home.jpg">
 <meta property="og:image:width" content="1200">
@@ -40,9 +41,11 @@
 <main>
   <form id="quote" class="wrap quote-form" novalidate>
 
+    <div class="quote-main">
+
     <section class="card qstep">
       <h2 class="h2">1. What would you like?</h2>
-      <p class="muted">Tick everything you're interested in. Tap <span class="chev-hint" aria-hidden="true">⌄</span> for details.</p>
+      <p class="muted">Tick everything you're interested in. Tap the arrow on any row for details.</p>
       <div id="quote-items"></div>
       <p class="pick-err" id="pickErr" hidden>Please tick at least one item.</p>
     </section>
@@ -89,17 +92,28 @@
       <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
     </section>
 
+    </div>
+
     <div class="total-bar" id="quoteBar" hidden>
       <p id="quoteBarText"></p>
       <a class="btn btn-primary btn-sm" href="#summary">Review</a>
     </div>
 
+    <aside class="quote-aside">
+
     <section class="card qstep" id="summary">
-      <h2 class="h2">4. Your quote</h2>
+      <h2 class="h2">Your quote</h2>
       <div id="quote-summary"></div>
       <button class="btn btn-primary" type="submit" id="submitBtn">Send quote request</button>
       <p id="formStatus" class="status" role="status" aria-live="polite"></p>
+      <ul class="assure">
+        <li>No fix, no fee</li>
+        <li>You only pay once it's working</li>
+        <li>Mobile across Perth, or drop-off</li>
+      </ul>
+      <p class="fine">We only use your details to reply to your quote request.</p>
     </section>
+    </aside>
 
   </form>
 </main>

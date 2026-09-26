@@ -94,9 +94,14 @@ function renderChrome() {
   const faq = $("faq") ? "#faq" : "index.html#faq";
   const nav = $("site-nav");
   if (nav) {
+    const svcLinks = Object.entries(SERVICES).map(([slug, s]) => `
+      <a href="${s.page}"${slug === pageService ? ' aria-current="page"' : ""}>
+        <span class="f-icon" aria-hidden="true">${ICONS[s.icon] || ""}</span>
+        <span>${esc(s.name)}<small>From ${money(s.price)} · ${esc(s.time)}</small></span>
+      </a>`).join("");
     nav.outerHTML = `
       <div class="mstripe" aria-hidden="true"></div>
-      <nav class="nav">
+      <nav class="nav" aria-label="Main">
         <div class="wrap nav-inner">
           <a class="brand" href="${home || "#top"}" aria-label="Redline Coding home">
             <span class="brand-name">REDLINE<b>CODING</b></span>
@@ -108,8 +113,35 @@ function renderChrome() {
             <a href="${faq}">FAQ</a>
             <a class="btn btn-primary btn-sm" href="enquire.html" data-quote>Get a quote</a>
           </div>
+          <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="nav-panel" aria-label="Open menu">
+            <span></span><span></span>
+          </button>
+        </div>
+        <div class="nav-panel" id="nav-panel" hidden>
+          <div class="wrap">
+            <p class="nav-label">Services</p>
+            <div class="nav-svcs">${svcLinks}</div>
+            <div class="nav-more">
+              <a href="${home}#how">How it works</a>
+              <a href="${faq}">FAQ</a>
+              <a href="enquire.html">Get a quote</a>
+            </div>
+          </div>
         </div>
       </nav>`;
+
+    // phone menu
+    const toggle = document.querySelector(".nav-toggle"), panel = $("nav-panel");
+    const setOpen = (open) => {
+      toggle.setAttribute("aria-expanded", String(open));
+      toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      panel.hidden = !open;
+    };
+    toggle.addEventListener("click", () => setOpen(panel.hidden));
+    panel.addEventListener("click", (e) => { if (e.target.closest("a")) setOpen(false); });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !panel.hidden) { setOpen(false); toggle.focus(); }
+    });
   }
   const foot = $("site-footer");
   if (foot) {
@@ -118,20 +150,46 @@ function renderChrome() {
       <footer class="footer">
         <div class="mstripe" aria-hidden="true"></div>
         <div class="wrap">
-          <p class="foot-brand">REDLINE<b>CODING</b> <span>BMW Coding Services · Perth, WA</span></p>
-          <p class="foot-links"><a href="index.html">Home</a>${links}<a href="enquire.html">Get a quote</a></p>
+          <div class="foot-grid">
+            <div class="foot-about">
+              <p class="foot-brand">REDLINE<b>CODING</b></p>
+              <p>Independent BMW coding in Perth. We switch on factory features already in your car's software. Mobile across Perth, or drop-off.</p>
+              <a class="btn btn-primary btn-sm" href="enquire.html">Get a quote</a>
+            </div>
+            <div class="foot-col">
+              <p class="foot-head">Services</p>
+              ${links}
+            </div>
+            <div class="foot-col">
+              <p class="foot-head">Info</p>
+              <a href="index.html">Home</a>
+              <a href="index.html#how">How it works</a>
+              <a href="${faq}">FAQ</a>
+              <a href="enquire.html">Get a quote</a>
+            </div>
+          </div>
           <p class="disclaimer">Redline Coding is an independent business. It is not affiliated with, authorised by, sponsored by or endorsed by BMW AG, BMW M GmbH, Bayerische Motoren Werke AG, Toyota Motor Corporation, or any of their subsidiaries or dealers. BMW, M, iDrive, Supra and all related model names are trademarks of their respective owners and are used on this site only to identify compatible vehicles.</p>
-          <p class="copy">© ${thisYear} Redline Coding</p>
+          <p class="copy">© ${thisYear} Redline Coding · Perth, WA</p>
         </div>
       </footer>`;
   }
 }
 
-// ---- home page service cards ----
-function renderServiceCards() {
-  const root = $("service-cards");
-  if (!root) return;
-  root.innerHTML = Object.values(SERVICES).map((s) => `
+// "Home / Remote Engine Start" above the hero on inner pages
+function renderCrumbs() {
+  const hero = document.querySelector(".hero .wrap");
+  const svc = SERVICES[pageService];
+  const here = svc ? svc.name : document.body.dataset.page === "quote" ? "Get a quote" : "";
+  if (!hero || !here) return;
+  hero.insertAdjacentHTML("afterbegin", `
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="index.html">Home</a><span aria-hidden="true">/</span><span aria-current="page">${esc(here)}</span>
+    </nav>`);
+}
+
+// ---- service cards ----
+function svcCard(s) {
+  return `
     <a class="svc-card" href="${s.page}">
       <div class="f-icon" aria-hidden="true">${ICONS[s.icon] || ""}</div>
       <h3>${esc(s.name)}</h3>
@@ -140,7 +198,39 @@ function renderServiceCards() {
       ${s.addOn ? `<p class="svc-deal">Only ${money(s.addOn.price)} with ${esc(SERVICES[s.addOn.with].name)}</p>` : ""}
       ${s.menu ? `<p class="svc-deal">${dealsText()}</p>` : ""}
       <span class="svc-more">Details and eligibility <span aria-hidden="true">→</span></span>
-    </a>`).join("") + `
+    </a>`;
+}
+
+function ctaCard() {
+  return `
+    <div class="cta-card">
+      <div>
+        <h2>Ready when you are.</h2>
+        <p>Pick what you want, see your total and send it in under a minute.</p>
+      </div>
+      <a class="btn btn-primary" href="enquire.html" data-quote>Get a quote</a>
+    </div>`;
+}
+
+// Service pages end with the other services and a call to action
+function renderClosing() {
+  const main = document.querySelector("main");
+  if (!SERVICES[pageService] || !main) return;
+  const others = Object.entries(SERVICES).filter(([slug]) => slug !== pageService).map(([, s]) => s);
+  main.insertAdjacentHTML("beforeend", `
+    <section class="wrap section" id="more">
+      <h2 class="h2">More coding</h2>
+      <p class="muted">Book them together and we'll do everything in the same visit.</p>
+      <div class="svc-grid svc-grid-${others.length}">${others.map(svcCard).join("")}</div>
+    </section>
+    <section class="wrap section">${ctaCard()}</section>`);
+}
+
+// ---- home page service cards ----
+function renderServiceCards() {
+  const root = $("service-cards");
+  if (!root) return;
+  root.innerHTML = Object.values(SERVICES).map(svcCard).join("") + `
     <a class="svc-card svc-card-alt" href="enquire.html?other=1">
       <div class="f-icon" aria-hidden="true">${ICONS.chat}</div>
       <div class="svc-alt-text"><h3>Something else?</h3>
@@ -489,6 +579,11 @@ function buildQuotePage() {
   fill($("qYear"), yearOptions(), "Year…");
   const chk = load("rc-checker");
   const form = $("quote");
+  form.vin.addEventListener("input", () => {
+    const pos = form.vin.selectionStart;
+    form.vin.value = form.vin.value.toUpperCase();
+    form.vin.setSelectionRange(pos, pos);
+  });
   if (chk && chk.car) {
     form.car.value = chk.car;
     const note = $("checkerNote");
@@ -670,11 +765,52 @@ function fillServiceFacts() {
   });
 }
 
+// YouTube only loads when the visitor presses play (keeps pages fast)
+function liteYouTube() {
+  document.querySelectorAll("button.yt[data-yt]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const f = document.createElement("iframe");
+      f.src = `https://www.youtube-nocookie.com/embed/${btn.dataset.yt}?autoplay=1&rel=0`;
+      f.title = btn.dataset.title || "YouTube video";
+      f.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+      f.referrerPolicy = "strict-origin-when-cross-origin";
+      f.allowFullscreen = true;
+      btn.replaceWith(f);
+    });
+  });
+}
+
+// Sections below the fold fade up gently as they scroll into view
+function revealOnScroll() {
+  if (document.body.dataset.page === "quote") return;
+  if (!("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  let alive = false; // the observer reports every element once straight away; if it doesn't, show everything
+  setTimeout(() => { if (!alive) document.querySelectorAll(".reveal").forEach((el) => el.classList.add("in")); }, 1500);
+  const io = new IntersectionObserver((entries) => {
+    alive = true;
+    for (const e of entries) {
+      if (!e.isIntersecting) continue;
+      e.target.classList.add("in");
+      io.unobserve(e.target);
+    }
+  }, { rootMargin: "0px 0px -6% 0px" });
+  document.querySelectorAll(".svc-card, .features article, .steps li, .price-card, .bundle, .demo, main .card, .cta-card, .faq, .items")
+    .forEach((el) => {
+      if (el.getBoundingClientRect().top < innerHeight) return; // already on screen: leave as is
+      el.classList.add("reveal");
+      io.observe(el);
+    });
+}
+
 renderChrome();
+renderCrumbs();
 renderServiceCards();
 renderBundles();
 renderMenu();
 buildChecker();
 buildQuotePage();
+renderClosing();
 fillServiceFacts();
+liteYouTube();
 updateQuoteLinks();
+revealOnScroll();
