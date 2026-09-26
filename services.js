@@ -40,13 +40,13 @@ const SERVICES = {
     short: "Extra drive modes, M cluster styles, start-up badges, brake force display and more. Pick what you want from $15 each.",
     page: "coding-menu.html",
     price: 15,
-    time: "Minutes each",
+    time: "~5 min each",
     icon: "dial",
     checks: ["build"],
     vehicles: MENU_VEHICLES,
     makes: "BMW",
     checkerNote: "Some features need specific equipment, like the full digital cluster or driver-assistance cameras. We'll confirm which ones your car can have from its VIN.",
-    menu: true, // price comes from the features picked on the Coding Menu page
+    menu: true, // its FEATURES are listed and priced individually on the quote page
   },
 };
 

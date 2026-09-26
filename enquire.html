@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Get a Quote | Redline Coding Perth</title>
+<meta name="description" content="Build your BMW coding quote: pick remote start, automatic heated seats or Coding Menu features, see your total and send it to Redline Coding in Perth.">
+<meta property="og:title" content="Get a Quote | Redline Coding Perth">
+<meta property="og:description" content="Pick what you want, see your total and send it. BMW coding in Perth, mobile or drop-off.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dante1243.github.io/redline-coding/enquire.html">
+<meta property="og:site_name" content="Redline Coding">
+<meta property="og:image" content="https://dante1243.github.io/redline-coding/media/og-home.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0e1116">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="icon" href="media/icon-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="apple-mobile-web-app-title" content="Redline">
+</head>
+<body data-page="quote">
+
+<div id="site-nav"></div>
+
+<header class="hero hero-slim" id="top">
+  <div class="wrap">
+    <p class="eyebrow">Get a quote</p>
+    <h1>Build your quote.</h1>
+    <p class="lede">Tick what you want, see your total, and send it to us. We'll confirm your price from your VIN and reply within one business day.</p>
+  </div>
+</header>
+
+<main>
+  <form id="quote" class="wrap quote-form" novalidate>
+
+    <section class="card qstep">
+      <h2 class="h2">1. What would you like?</h2>
+      <p class="muted">Tick everything you're interested in. Tap <span class="chev-hint" aria-hidden="true">⌄</span> for details.</p>
+      <div id="quote-items"></div>
+      <p class="pick-err" id="pickErr" hidden>Please tick at least one item.</p>
+    </section>
+
+    <section class="card qstep">
+      <h2 class="h2">2. Your car</h2>
+      <div id="checkerNote" hidden></div>
+      <div class="grid">
+        <label class="span2">Car
+          <input name="car" placeholder="e.g. 2020 BMW 330i" autocomplete="off">
+        </label>
+        <label>Build date (optional)
+          <div class="row">
+            <select id="qMonth" aria-label="Build month"></select>
+            <select id="qYear" aria-label="Build year"></select>
+          </div>
+          <small class="hint">It's on the sticker inside the driver's door jamb.</small>
+        </label>
+        <label>VIN (optional, 17 characters)
+          <input name="vin" maxlength="17" pattern="[A-HJ-NPR-Za-hj-npr-z0-9]{17}" placeholder="e.g. WBA5R1C50KA000000" autocomplete="off">
+          <small class="hint">With your VIN we can confirm exactly what your car can have.</small>
+        </label>
+      </div>
+    </section>
+
+    <section class="card qstep">
+      <h2 class="h2">3. Your details</h2>
+      <div class="grid">
+        <label>Full name *<input name="name" required autocomplete="name"></label>
+        <label>Email *<input name="email" type="email" required autocomplete="email"></label>
+        <label>Phone<input name="phone" type="tel" autocomplete="tel"></label>
+        <label>Suburb<input name="location" autocomplete="address-level2" placeholder="e.g. Joondalup"></label>
+        <label class="span2">Where would you like it done?
+          <select name="service">
+            <option>Mobile (at my home or work)</option>
+            <option>Drop-off</option>
+            <option>No preference</option>
+          </select>
+        </label>
+        <label class="span2">Message
+          <textarea name="message" rows="3" placeholder="Anything else we should know? Preferred days or times?"></textarea>
+        </label>
+      </div>
+      <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+    </section>
+
+    <div class="total-bar" id="quoteBar" hidden>
+      <p id="quoteBarText"></p>
+      <a class="btn btn-primary btn-sm" href="#summary">Review</a>
+    </div>
+
+    <section class="card qstep" id="summary">
+      <h2 class="h2">4. Your quote</h2>
+      <div id="quote-summary"></div>
+      <button class="btn btn-primary" type="submit" id="submitBtn">Send quote request</button>
+      <p id="formStatus" class="status" role="status" aria-live="polite"></p>
+    </section>
+
+  </form>
+</main>
+
+<div id="site-footer"></div>
+
+<script src="vehicles.js"></script>
+<script src="services.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
