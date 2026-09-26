@@ -37,9 +37,9 @@ const SERVICES = {
   },
   "coding-menu": {
     name: "Coding Menu",
-    short: "Extra drive modes, M cluster styles, start-up badges, brake force display and more. Pick what you want from $15 each.",
+    short: "Auto start/stop memory, comfort blink, extra drive modes, M cluster styles, start-up badges and more. Pick what you want from $10 each.",
     page: "coding-menu.html",
-    price: 15,
+    price: 10,
     time: "~5 min each",
     icon: "dial",
     checks: ["build"],
@@ -52,6 +52,12 @@ const SERVICES = {
 
 // Coding Menu features. Prices are per feature; MENU_DEALS below discounts multiple picks.
 const FEATURES = [
+  { id: "start-stop", group: "Comfort", name: "Auto start/stop memory", price: 15, icon: "power",
+    desc: "The car remembers when you switch engine auto start/stop off, so you don't have to press the button every time you drive." },
+  { id: "comfort-blink", group: "Comfort", name: "Comfort blink (3 → 5 flashes)", price: 10, icon: "blink",
+    desc: "One tap of the indicator stalk flashes 5 times instead of 3. Handy for lane changes on the freeway." },
+  { id: "disclaimers", group: "Comfort", name: "Skip start-up legal disclaimers", price: 10, icon: "screen",
+    desc: "Removes the legal disclaimer pop-ups you have to click through on iDrive every time you start the car." },
   { id: "drive-modes", group: "Driving", name: "Sport Plus & Comfort Plus modes", price: 15, icon: "dial",
     desc: "Adds Sport Plus and Comfort Plus to your drive mode button, for a sharper or softer drive than the standard modes." },
   { id: "adv", group: "Driving", name: "Assisted Driving View", price: 25, icon: "lanes",
@@ -68,10 +74,12 @@ const FEATURES = [
   { id: "badge", group: "Style", name: "M or high-trim start-up badge", price: 15, icon: "badge",
     desc: "Show an M, M4 CS, X3 M, X7 M or other badge on the cluster when you start the car.",
     note: "Purely cosmetic, and we can remove it any time, e.g. before you sell the car." },
+  { id: "idrive-startup", group: "Style", name: "iDrive start-up animation", price: 15, icon: "badge",
+    desc: "Change the animation on the iDrive screen when you start the car, for example the BMW M logo." },
 ];
 
 // Multi-feature deals: the best price is used automatically.
-const MENU_DEALS = { three: 39, all: 79 };
+const MENU_DEALS = { three: 39, all: 99 };
 
 const ICONS = {
   fob: '<svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="3"/><circle cx="12" cy="8" r="1.6"/><path d="M10 13.5h4M10 16.5h4"/></svg>',
@@ -84,5 +92,7 @@ const ICONS = {
   lanes: '<svg viewBox="0 0 24 24"><path d="M8 3 5 21M16 3l3 18M12 4v3M12 10.5v3M12 17v3"/></svg>',
   brake: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/><path d="M12 9v3.5M12 15h.01"/><path d="M4.5 7.5a9 9 0 0 0 0 9M19.5 7.5a9 9 0 0 1 0 9"/></svg>',
   badge: '<svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 10v4.5M12 10v4.5M15 10v4.5"/></svg>',
+  power: '<svg viewBox="0 0 24 24"><path d="M12 3v8"/><path d="M7 6.5a7 7 0 1 0 10 0"/></svg>',
+  blink: '<svg viewBox="0 0 24 24"><path d="M4 12h11"/><path d="m11 7 5 5-5 5"/><path d="M19 7v10"/></svg>',
   chat: '<svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9.5h8M8 12.5h5"/></svg>',
 };
