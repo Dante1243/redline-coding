@@ -281,3 +281,47 @@ form .btn { margin-top: 24px; }
   .demo { grid-template-columns: 1fr; }
   .demo-photo img { max-height: 75vh; width: auto; max-width: 100%; margin: 0 auto; }
 }
+
+/* home: service cards */
+.svc-grid { margin-top: 28px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.svc-card {
+  display: flex; flex-direction: column; text-decoration: none; color: var(--text);
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 26px; position: relative; overflow: hidden; transition: border-color .15s, transform .15s;
+}
+.svc-card::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; opacity: 0; transition: opacity .15s;
+  background: linear-gradient(90deg,
+    var(--m-light) 0 33.34%, var(--m-dark) 33.34% 66.67%, var(--m-red) 66.67% 100%);
+}
+.svc-card:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); transform: translateY(-2px); }
+.svc-card:hover::before { opacity: 1; }
+.svc-card h3 { margin: 16px 0 6px; font-size: 18px; }
+.svc-card p { margin: 0; color: var(--muted); font-size: 15px; }
+.svc-meta { display: flex; gap: 16px; margin-top: 16px !important; font-size: 14px !important; }
+.svc-meta b { color: var(--text); font-weight: 700; }
+.svc-more { margin-top: auto; padding-top: 18px; color: var(--accent); font-weight: 600; font-size: 14px; }
+.svc-card-alt { background: transparent; border-style: dashed; }
+
+/* enquiry: service checkboxes */
+.picks { border: 0; margin: 0 0 22px; padding: 0; }
+.picks legend { font-weight: 600; font-size: 14px; margin-bottom: 10px; padding: 0; }
+.pick-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+.pick {
+  flex-direction: row; align-items: flex-start; gap: 10px; cursor: pointer;
+  border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; background: var(--bg);
+  font-weight: 400;
+}
+.pick:has(input:checked) { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, var(--bg)); }
+.pick input { width: 18px; height: 18px; margin: 2px 0 0; accent-color: var(--accent); flex: none; padding: 0; }
+.pick span { display: flex; flex-direction: column; line-height: 1.35; }
+.pick b { font-weight: 600; }
+.pick small { color: var(--muted); font-size: 13px; }
+.pick-err { color: var(--no-fg); font-size: 14px; margin: 8px 0 0; }
+
+.foot-links { display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 0 0 18px; font-size: 14px; }
+.foot-links a { color: var(--ink-text); text-decoration: none; }
+.foot-links a:hover { color: #fff; text-decoration: underline; }
+
+@media (max-width: 860px) { .svc-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .svc-grid { grid-template-columns: 1fr; } }

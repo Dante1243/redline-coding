@@ -1,4 +1,4 @@
-// Eligibility data. Keep in sync with "Supported Vehicles.docx" (v1.1, 25 Sep 2026).
+// Eligibility data per service. Remote start is kept in sync with "Supported Vehicles.docx" (v1.1, 25 Sep 2026).
 //
 // status:   "eligible"    - supported, subject to build date / engine / transmission
 //           "conditional" - high risk, must be verified per-VIN before charging
@@ -9,7 +9,7 @@
 
 const BMW_CUTOFF = { year: 2021, month: 3 };
 
-const VEHICLES = {
+const REMOTE_START_VEHICLES = {
   "Toyota": {
     "Supra": [
       { code: "A90", label: "A90 (2019–2020)", trims: "2.0L, 3.0L", status: "eligible", cutoff: null,
@@ -97,6 +97,47 @@ const VEHICLES = {
     "i4 / iX / other electric": [
       { code: "EV", label: "Any fully electric BMW", status: "excluded",
         note: "Electric cars have no engine control unit to code remote start into." },
+    ],
+  },
+};
+
+// Automatic heated seats: models below the 5 Series that don't get the automatic mode from the factory.
+// The car must already have factory heated seats (checked separately by the checker).
+const HEATED_SEATS_VEHICLES = {
+  "BMW": {
+    "1 Series": [
+      { code: "F40", label: "F40 (2019+)", trims: "118i, M135i", status: "eligible", cutoff: BMW_CUTOFF },
+    ],
+    "2 Series Gran Coupe": [
+      { code: "F44", label: "F44 (2020+)", trims: "218i, M235i", status: "eligible", cutoff: BMW_CUTOFF },
+    ],
+    "3 Series": [
+      { code: "G20", label: "G20 Sedan", trims: "320i, 330i, M340i", status: "eligible", cutoff: BMW_CUTOFF },
+      { code: "G21", label: "G21 Touring (wagon)", trims: "320i, 330i, M340i", status: "eligible", cutoff: BMW_CUTOFF },
+    ],
+    "4 Series": [
+      { code: "G22", label: "G22 Coupe", trims: "420i, 430i, M440i", status: "eligible", cutoff: BMW_CUTOFF },
+      { code: "G23", label: "G23 Convertible", trims: "420i, 430i, M440i", status: "eligible", cutoff: BMW_CUTOFF },
+      { code: "G26", label: "G26 Gran Coupe (4-door)", status: "excluded",
+        note: "The 4 Series Gran Coupe went into production in late 2021, after BMW locked coding, so no build date qualifies." },
+    ],
+    "X1": [
+      { code: "F48", label: "F48", status: "conditional", cutoff: BMW_CUTOFF,
+        note: "Some X1s use an older head unit. We'll confirm your car from its VIN before booking." },
+    ],
+    "X2": [
+      { code: "F39", label: "F39", status: "conditional", cutoff: BMW_CUTOFF,
+        note: "Some X2s use an older head unit. We'll confirm your car from its VIN before booking." },
+    ],
+    "X3": [
+      { code: "G01", label: "G01", trims: "xDrive30i, M40i", status: "eligible", cutoff: BMW_CUTOFF },
+    ],
+    "X4": [
+      { code: "G02", label: "G02", trims: "xDrive30i, M40i", status: "eligible", cutoff: BMW_CUTOFF },
+    ],
+    "5 Series or above": [
+      { code: "5+", label: "5 Series, 7 Series, 8 Series, X5, X6, X7", status: "excluded",
+        note: "Higher-spec models like these usually have automatic seat heating from the factory already. Check your iDrive seat heating settings, or send us your VIN and we'll check." },
     ],
   },
 };
