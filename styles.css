@@ -266,32 +266,18 @@ form .btn { margin-top: 24px; }
   .facts dt { font-size: 19px; }
 }
 
-/* demo media */
-.demo { margin: 28px 0 0; }
-.demo img {
-  display: block; width: 100%; height: auto;
-  border-radius: var(--radius); border: 1px solid var(--border);
-  background: var(--ink);
+/* demo media: 16:9 video and 3:4 photo at equal height (16/9 : 3/4 = 2.37 : 1) */
+.demo { margin-top: 28px; display: grid; grid-template-columns: 2.37fr 1fr; gap: 16px; align-items: start; }
+.demo-video { aspect-ratio: 16 / 9; border-radius: var(--radius); overflow: hidden; background: var(--ink); border: 1px solid var(--border); }
+.demo-video iframe { width: 100%; height: 100%; border: 0; display: block; }
+.demo-photo { margin: 0; }
+.demo-photo img {
+  display: block; width: 100%; height: auto; aspect-ratio: 3 / 4; object-fit: cover;
+  border-radius: var(--radius); border: 1px solid var(--border); background: var(--ink);
 }
-.demo figcaption { margin-top: 12px; font-size: 14px; color: var(--muted); }
-.demo figcaption b { color: var(--text); font-weight: 600; }
-@media (max-width: 560px) {
-  .demo img { max-height: 80vh; width: auto; max-width: 100%; margin: 0 auto; }
-}
-
-/* enquiry confirmation */
-.thanks {
-  border: 1px solid var(--yes-bd); background: var(--yes-bg); color: var(--yes-fg);
-  border-radius: 12px; padding: 24px; outline: none;
-}
-.thanks h3 { margin: 12px 0 6px; font-size: 20px; }
-.thanks p { margin: 0 0 12px; }
-.thanks ol { margin: 0; padding-left: 20px; }
-.thanks li { margin-bottom: 4px; }
-.thanks-tick {
-  width: 40px; height: 40px; border-radius: 50%; background: var(--yes-fg); position: relative;
-}
-.thanks-tick::after {
-  content: ""; position: absolute; left: 13px; top: 11px; width: 14px; height: 8px;
-  border-left: 3px solid var(--yes-bg); border-bottom: 3px solid var(--yes-bg); transform: rotate(-45deg);
+.demo-caption { margin: 12px 0 0; font-size: 14px; color: var(--muted); }
+.demo-caption b { color: var(--text); font-weight: 600; }
+@media (max-width: 700px) {
+  .demo { grid-template-columns: 1fr; }
+  .demo-photo img { max-height: 75vh; width: auto; max-width: 100%; margin: 0 auto; }
 }
