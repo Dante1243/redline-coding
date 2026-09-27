@@ -19,6 +19,7 @@ const SERVICES = {
     price: 199,
     time: "~1 hr",
     icon: "fob",
+    img: "rs-cluster",
     checks: ["build", "engine", "trans"],
     vehicles: REMOTE_START_VEHICLES,
     makes: "BMW and Toyota Supra",
@@ -31,6 +32,7 @@ const SERVICES = {
     addOn: { with: "remote-start", price: 39 }, // discounted price when booked together
     time: "~15 min",
     icon: "seat",
+    img: "hs-hero",
     checks: ["build", "heatedSeats"],
     vehicles: HEATED_SEATS_VEHICLES,
     makes: "BMW",
@@ -42,6 +44,8 @@ const SERVICES = {
     price: 10,
     time: "~5 min each",
     icon: "dial",
+    img: "feat-adv",
+    coverPos: "100% 50%", // show the Assisted Driving View side of the screenshot
     checks: ["build", "cluster", "dap"],
     vehicles: MENU_VEHICLES,
     makes: "BMW",
@@ -70,6 +74,7 @@ const REQUIREMENTS = {
 
 // Coding Menu features. Prices are per feature; MENU_DEALS below discounts multiple picks.
 // needs: REQUIREMENTS keys the car must have. note: caveats shown when the row is expanded.
+// img: photos in media/ (name.jpg full size, name-sm.jpg thumbnail); features without one show their icon.
 // Every feature also needs iDrive 7 and a build date before March 2021 (checked per model).
 const FEATURES = [
   { id: "start-stop", group: "Comfort", name: "Auto start/stop memory", price: 15, icon: "power", needs: [],
@@ -80,20 +85,20 @@ const FEATURES = [
   { id: "disclaimers", group: "Comfort", name: "Skip start-up legal disclaimers", price: 10, icon: "screen", needs: [],
     desc: "Removes the legal disclaimer pop-ups you have to click through on iDrive every time you start the car.",
     note: "A dealer software update can bring the pop-ups back. We can remove them again." },
-  { id: "drive-modes", group: "Driving", name: "Sport Plus & Comfort Plus modes", price: 15, icon: "dial", needs: [],
+  { id: "drive-modes", group: "Driving", name: "Sport Plus & Comfort Plus modes", price: 15, icon: "dial", needs: [], img: ["feat-sport-plus", "feat-comfort-plus"],
     desc: "Adds Sport Plus and Comfort Plus to your drive mode button, for a sharper or softer drive than the standard modes.",
     note: "Changes throttle, steering and gearbox response. The ride only gets firmer or softer if your car has adaptive suspension." },
-  { id: "adv", group: "Driving", name: "Assisted Driving View", price: 25, icon: "lanes", needs: ["dap", "cluster"],
+  { id: "adv", group: "Driving", name: "Assisted Driving View", price: 25, icon: "lanes", needs: ["dap", "cluster"], img: ["feat-adv"],
     desc: "Shows your car, the lanes and the cars around you live on the instrument cluster while the driver assistance is on." },
-  { id: "sla", group: "Driving", name: "Speed Limit Assist auto-adjust", price: 25, icon: "gauge", needs: ["dap"],
+  { id: "sla", group: "Driving", name: "Speed Limit Assist auto-adjust", price: 25, icon: "gauge", needs: ["dap"], img: ["feat-sla"],
     desc: "Cruise control automatically adjusts your set speed to the speed limits the car detects.",
     note: "You're still responsible for your speed, because sign reading isn't always right." },
   { id: "brake-force", group: "Safety", name: "Brake force display", price: 15, icon: "brake", needs: [],
     desc: "Under hard braking, your brake lights flash to warn the driver behind that you're stopping fast.",
     note: "Works with the factory Australian-spec tail lights." },
-  { id: "cluster", group: "Style", name: "Cluster style", price: 19, icon: "screen", needs: ["cluster"],
+  { id: "cluster", group: "Style", name: "Cluster style", price: 19, icon: "screen", needs: ["cluster"], img: ["feat-cluster"],
     desc: "Change the instrument cluster's look: the M-car layout, the Alpina style, or a 330 km/h speedo like the M340i." },
-  { id: "badge", group: "Style", name: "M or high-trim start-up badge", price: 15, icon: "badge", needs: ["cluster"],
+  { id: "badge", group: "Style", name: "M or high-trim start-up badge", price: 15, icon: "badge", needs: ["cluster"], img: ["feat-badge"],
     desc: "Show an M, M4 CS, X3 M, X7 M or other badge on the cluster when you start the car.",
     note: "Purely cosmetic, and we can remove it any time, e.g. before you sell the car." },
   { id: "idrive-startup", group: "Style", name: "iDrive start-up animation", price: 15, icon: "badge", needs: [],

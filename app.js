@@ -191,7 +191,9 @@ function renderCrumbs() {
 function svcCard(s) {
   return `
     <a class="svc-card" href="${s.page}">
-      <div class="f-icon" aria-hidden="true">${ICONS[s.icon] || ""}</div>
+      ${s.img
+        ? `<div class="svc-cover"><img src="media/${s.img}.jpg" alt="" loading="lazy"${s.coverPos ? ` style="object-position: ${s.coverPos}"` : ""}></div>`
+        : `<div class="f-icon" aria-hidden="true">${ICONS[s.icon] || ""}</div>`}
       <h3>${esc(s.name)}</h3>
       <p>${esc(s.short)}</p>
       <p class="svc-meta"><span>From <b>${money(s.price)}</b></span><span>${esc(s.time)}</span></p>
@@ -267,19 +269,28 @@ function renderBundles() {
 const CHEVRON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
 let rowCount = 0;
 
-function itemRow({ kind, id, name, price, sub, desc, note, link, checked }) {
+function itemRow({ kind, id, name, price, sub, desc, note, link, checked, img, icon }) {
   const did = `item-desc-${++rowCount}`;
+  const photos = [].concat(img || []);
+  const thumb = photos.length
+    ? `<img class="item-thumb" src="media/${photos[0]}-sm.jpg" alt="" loading="lazy">`
+    : icon ? `<span class="item-thumb item-icon" aria-hidden="true">${ICONS[icon] || ""}</span>` : "";
+  const shots = photos.length
+    ? `<div class="item-shots">${photos.map((p) => `<img src="media/${p}.jpg" alt="${esc(name)} on a BMW screen" loading="lazy">`).join("")}</div>`
+    : "";
   return `
     <div class="item">
       <label class="item-main">
         <input type="checkbox" data-kind="${kind}" value="${esc(id)}" ${checked ? "checked" : ""}>
         <span class="item-box" aria-hidden="true"></span>
+        ${thumb}
         <span class="item-name">${esc(name)}${sub ? `<small>${esc(sub)}</small>` : ""}</span>
         <span class="item-price" data-price="${esc(id)}">${price}</span>
       </label>
       ${desc ? `
       <button type="button" class="item-more" aria-expanded="false" aria-controls="${did}" aria-label="More about ${esc(name)}">${CHEVRON}</button>
       <div class="item-desc" id="${did}" hidden>
+        ${shots}
         <p>${esc(desc)}</p>
         ${note ? `<p class="item-fine">${esc(note)}</p>` : ""}
         ${link ? `<p><a href="${link}">Details and eligibility →</a></p>` : ""}
@@ -314,7 +325,7 @@ function renderMenu() {
     <h3 class="item-group">${esc(g)}</h3>
     <div class="items">
       ${FEATURES.filter((f) => f.group === g)
-        .map((f) => itemRow({ kind: "feature", id: f.id, name: f.name, price: money(f.price), sub: needsText(f), desc: f.desc, note: f.note }))
+        .map((f) => itemRow({ kind: "feature", id: f.id, name: f.name, price: money(f.price), sub: needsText(f), desc: f.desc, note: f.note, img: f.img, icon: f.icon }))
         .join("")}
     </div>`).join("") + `
     <div class="total-bar">
@@ -615,19 +626,19 @@ function buildQuotePage() {
       ${services.map(([slug, s]) => itemRow({
         kind: "service", id: slug, name: s.name, price: money(s.price), checked: pickS.includes(slug),
         sub: [s.time, s.addOn ? `${money(s.addOn.price)} with ${SERVICES[s.addOn.with].name}` : ""].filter(Boolean).join(" · "),
-        desc: s.short, link: s.page,
+        desc: s.short, link: s.page, img: s.img, icon: s.icon,
       })).join("")}
     </div>
     <h3 class="item-group">Coding Menu <small>${dealsText()}</small></h3>
     <div class="items">
       ${FEATURES.map((f) => itemRow({
         kind: "feature", id: f.id, name: f.name, price: money(f.price), checked: pickF.includes(f.id), sub: needsText(f),
-        desc: f.desc, note: f.note,
+        desc: f.desc, note: f.note, img: f.img, icon: f.icon,
       })).join("")}
     </div>
     <h3 class="item-group">Something else</h3>
     <div class="items">
-      ${itemRow({ kind: "other", id: "other", name: "Other coding", price: "Quote", sub: "Tell us what you're after in the message", checked: params.has("other") })}
+      ${itemRow({ kind: "other", id: "other", name: "Other coding", price: "Quote", sub: "Tell us what you're after in the message", checked: params.has("other"), icon: "chat" })}
     </div>`;
   wireRows(root);
 

@@ -20,3 +20,9 @@ Static site for Redline Coding. It's hosted on GitHub Pages.
 2. In `services.js`, add an entry with `name`, `short`, `page`, `price`, `time`, `icon`, `checks` and `vehicles`. Add `addOn: { with: "<other-slug>", price: N }` to make it cheaper when booked with another service. The bundle banner, form price and emails update automatically.
 3. Copy `heated-seats.html` to the new `page` name. Set `<body data-service="...">` to the new slug and rewrite the hero, features, pricing and FAQ text.
 4. Optionally add a link-preview image at `media/og-<slug>.jpg` and point the page's `og:image` at it.
+
+## Photos
+All photos live in `media/`. Each has a full-size version (`name.jpg`, about 1400px wide) and, for menu and quote rows, a thumbnail (`name-sm.jpg`, 360px wide).
+- Service cards and page heroes use the `img` set on each service in `services.js`.
+- Coding Menu rows use the `img` list on each feature. Features without a photo show their icon.
+- To swap a photo, replace the file with one of the same name and shape.
