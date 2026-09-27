@@ -87,9 +87,9 @@ const FEATURES = [
   { id: "drive-modes", group: "Driving", name: "Sport Plus & Comfort Plus modes", price: 15, icon: "dial", needs: [], img: ["feat-sport-plus", "feat-comfort-plus"],
     desc: "Adds Sport Plus and Comfort Plus to your drive mode button, for a sharper or softer drive than the standard modes.",
     note: "Changes throttle, steering and gearbox response. The ride only gets firmer or softer if your car has adaptive suspension." },
-  { id: "adv", group: "Driving", name: "Assisted Driving View", price: 25, icon: "lanes", needs: ["dap", "cluster"], img: ["feat-adv"],
+  { id: "adv", group: "Driving", name: "Assisted Driving View", price: 39, noDeal: true, icon: "lanes", needs: ["dap", "cluster"], img: ["feat-adv"],
     desc: "Shows your car, the lanes and the cars around you live on the instrument cluster while the driver assistance is on." },
-  { id: "sla", group: "Driving", name: "Speed Limit Assist auto-adjust", price: 25, icon: "gauge", needs: ["dap"], img: ["feat-sla"],
+  { id: "sla", group: "Driving", name: "Speed Limit Assist auto-adjust", price: 39, noDeal: true, icon: "gauge", needs: ["dap"], img: ["feat-sla"],
     desc: "Cruise control automatically adjusts your set speed to the speed limits the car detects.",
     note: "You're still responsible for your speed, because sign reading isn't always right." },
   { id: "brake-force", group: "Safety", name: "Brake force display", price: 15, icon: "brake", needs: [],
@@ -110,8 +110,8 @@ function needsText(f) {
   return f.needs && f.needs.length ? `Needs ${f.needs.map((k) => REQUIREMENTS[k].label).join(" + ")}` : "";
 }
 
-// Multi-feature deals: the best price is used automatically.
-const MENU_DEALS = { three: 39, all: 99 };
+// Multi-feature deals on the quick features (noDeal ones are always full price). The best price is used automatically.
+const MENU_DEALS = { three: 39, all: 79 };
 
 const ICONS = {
   fob: '<svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="3"/><circle cx="12" cy="8" r="1.6"/><path d="M10 13.5h4M10 16.5h4"/></svg>',

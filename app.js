@@ -787,6 +787,8 @@ async function submitQuote(e, form, selection) {
     "Message": data.message || "-",
   };
 
+  if (!(await confirmQuote(q, data, car))) return; // customer chose to go back and edit
+
   btn.disabled = true;
   btn.textContent = "Sending…";
   try {
@@ -807,6 +809,44 @@ async function submitQuote(e, form, selection) {
   }
 }
 
+const ELIGIBILITY_NOTE = "We assess your car's eligibility before anything is booked. You won't be charged for any feature your car already has, or for anything that can't be coded on it. You only pay once it's working.";
+
+// Review step: shows the request and the eligibility note. Resolves true to send, false to go back.
+function confirmQuote(q, data, car) {
+  return new Promise((resolve) => {
+    const dlg = document.createElement("dialog");
+    dlg.className = "confirm";
+    dlg.setAttribute("aria-labelledby", "confirmTitle");
+    dlg.innerHTML = `
+      <div class="confirm-inner">
+        <h2 id="confirmTitle">Check your request</h2>
+        <p class="muted">Here's what we'll send. Nothing is booked or charged yet.</p>
+        ${summaryHtml(q)}
+        <dl class="confirm-details">
+          <div><dt>Car</dt><dd>${esc(car || "Not given")}${data.vin ? ` · VIN ${esc(data.vin.toUpperCase())}` : ""}</dd></div>
+          <div><dt>Contact</dt><dd>${esc(data.name)} · ${esc(data.email)}${data.phone ? ` · ${esc(data.phone)}` : ""}</dd></div>
+          <div><dt>Where</dt><dd>${esc(data.service)}${data.location ? `, ${esc(data.location)}` : ""}</dd></div>
+        </dl>
+        <div class="confirm-note">
+          <p class="confirm-note-title">Your eligibility will be assessed first</p>
+          <p>${ELIGIBILITY_NOTE}</p>
+        </div>
+        <div class="confirm-actions">
+          <button type="button" class="btn btn-secondary" data-act="back">Go back and edit</button>
+          <button type="button" class="btn btn-primary" data-act="send">Confirm and send</button>
+        </div>
+      </div>`;
+    document.body.appendChild(dlg);
+    const done = (ok) => { dlg.close(); dlg.remove(); resolve(ok); };
+    dlg.querySelector('[data-act="send"]').addEventListener("click", () => done(true));
+    dlg.querySelector('[data-act="back"]').addEventListener("click", () => done(false));
+    dlg.addEventListener("cancel", (e) => { e.preventDefault(); done(false); }); // Escape key
+    dlg.showModal();
+    dlg.querySelector('[data-act="send"]').focus({ preventScroll: true });
+    dlg.scrollTop = 0;
+  });
+}
+
 function autoReply(name, q, car) {
   const first = name.trim().split(/\s+/)[0];
   return `Hi ${first},
@@ -817,7 +857,7 @@ ${quoteText(q)}
 
 We'll check your car's eligibility (from your VIN if you gave one) and get back to you within one business day with your final price and available times, either mobile anywhere in Perth or drop-off.
 
-If something can't be coded on your car, you don't pay for it. You only pay once it's working.
+${ELIGIBILITY_NOTE}
 
 Need to add something? Just send another quote request through the website.
 
@@ -843,6 +883,7 @@ function showThanks(form, data, q, car) {
         <li>We reply within one business day with your final price and available times.</li>
         <li>You only pay once it's working.</li>
       </ol>
+      <p class="thanks-note">${ELIGIBILITY_NOTE}</p>
     </div>
     <h3 class="sum-head">Your quote</h3>
     ${summaryHtml(q)}`;
