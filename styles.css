@@ -631,3 +631,35 @@ h1, h2, .h2 { text-wrap: balance; }
   .hero-art::before { inset: -10%; }
   .hero-grid { gap: 32px; }
 }
+
+/* ---------- wide service rows: photo on the left, details on the right ---------- */
+.svc-grid, .svc-grid-1, .svc-grid-2 { grid-template-columns: 1fr; }
+.svc-card:not(.svc-card-alt) {
+  display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); padding: 0; align-items: stretch;
+}
+.svc-card:not(.svc-card-alt) .svc-cover {
+  margin: 0; aspect-ratio: auto; height: 100%; min-height: 280px;
+  border-bottom: 0; border-right: 1px solid var(--border);
+}
+.svc-card:not(.svc-card-alt) > .f-icon { margin: 28px 0 0 30px; }
+.svc-body { display: flex; flex-direction: column; padding: 28px 30px; }
+.svc-body h3 { margin: 0 0 6px; font-size: 20px; }
+
+/* every Coding Menu feature listed on its card */
+.svc-feats { list-style: none; margin: 16px 0 2px; padding: 0; columns: 2; column-gap: 28px; }
+.svc-feats li {
+  break-inside: avoid; display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+  padding: 6px 0; border-bottom: 1px dashed var(--border); font-size: 14px; color: var(--text);
+}
+.svc-feats li span { display: flex; flex-direction: column; line-height: 1.35; }
+.svc-feats small { font-size: 12px; font-weight: 600; color: var(--accent); }
+.svc-feats b { font-weight: 700; white-space: nowrap; }
+
+@media (max-width: 760px) {
+  .svc-card:not(.svc-card-alt) { grid-template-columns: 1fr; }
+  .svc-card:not(.svc-card-alt) .svc-cover {
+    height: auto; min-height: 0; aspect-ratio: 16 / 9; border-right: 0; border-bottom: 1px solid var(--border);
+  }
+  .svc-body { padding: 22px; }
+  .svc-feats { columns: 1; }
+}

@@ -113,47 +113,6 @@ const REMOTE_START_VEHICLES = {
   },
 };
 
-// Automatic heated seats: models below the 5 Series that don't get the automatic mode from the factory.
-// The car must already have factory heated seats (checked separately by the checker).
-const HEATED_SEATS_VEHICLES = {
-  "BMW": {
-    "1 Series": [
-      { code: "F40", label: "F40 (2019+)", trims: "118i, M135i", status: "eligible", cutoff: BMW_CUTOFF },
-    ],
-    "2 Series Gran Coupe": [
-      { code: "F44", label: "F44 (2020+)", trims: "218i, M235i", status: "eligible", cutoff: BMW_CUTOFF },
-    ],
-    "3 Series": [
-      { code: "G20", label: "G20 Sedan", trims: "320i, 330i, M340i", status: "eligible", cutoff: BMW_CUTOFF, idrive7: G20_IDRIVE7 },
-      { code: "G21", label: "G21 Touring (wagon)", trims: "320i, 330i, M340i", status: "eligible", cutoff: BMW_CUTOFF, idrive7: G20_IDRIVE7 },
-    ],
-    "4 Series": [
-      { code: "G22", label: "G22 Coupe", trims: "420i, 430i, M440i", status: "eligible", cutoff: BMW_CUTOFF },
-      { code: "G23", label: "G23 Convertible", trims: "420i, 430i, M440i", status: "eligible", cutoff: BMW_CUTOFF },
-      { code: "G26", label: "G26 Gran Coupe (4-door)", status: "excluded",
-        note: "The 4 Series Gran Coupe went into production in late 2021, after BMW locked coding, so no build date qualifies." },
-    ],
-    "X1": [
-      { code: "F48", label: "F48", status: "conditional", cutoff: BMW_CUTOFF,
-        note: "Some X1s use an older head unit. We'll confirm your car from its VIN before booking." },
-    ],
-    "X2": [
-      { code: "F39", label: "F39", status: "conditional", cutoff: BMW_CUTOFF,
-        note: "Some X2s use an older head unit. We'll confirm your car from its VIN before booking." },
-    ],
-    "X3": [
-      { code: "G01", label: "G01", trims: "xDrive30i, M40i", status: "eligible", cutoff: BMW_CUTOFF, idrive7: G01_IDRIVE7 },
-    ],
-    "X4": [
-      { code: "G02", label: "G02", trims: "xDrive30i, M40i", status: "eligible", cutoff: BMW_CUTOFF, idrive7: G01_IDRIVE7 },
-    ],
-    "5 Series or above": [
-      { code: "5+", label: "5 Series, 7 Series, 8 Series, X5, X6, X7", status: "excluded",
-        note: "Higher-spec models like these usually have automatic seat heating from the factory already. Check your iDrive seat heating settings, or send us your VIN and we'll check." },
-    ],
-  },
-};
-
 // Coding menu: general BMW list. Which features a car can have depends on its equipment,
 // so the checker only confirms the model and build date; features are confirmed per VIN.
 const MENU_VEHICLES = {

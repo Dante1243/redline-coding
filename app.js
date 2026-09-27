@@ -39,33 +39,48 @@ function load(key) {
 
 // ---- pricing ----
 
-// Coding Menu price: the three priciest picks for MENU_DEALS.three, or every feature for MENU_DEALS.all
+// Features that count towards the multi-feature deals (heated seats has its own remote start discount instead)
+const DEAL_FEATURES = FEATURES.filter((f) => !f.noDeal);
+
+// Coding Menu price: the three priciest deal features for MENU_DEALS.three, or all of them for MENU_DEALS.all.
+// noDeal features are added at their normal price.
 function menuQuote(ids) {
-  const prices = FEATURES.filter((f) => ids.includes(f.id)).map((f) => f.price).sort((a, b) => b - a);
-  const full = sum(prices);
-  let total = full, deal = "";
-  if (prices.length >= 3 && MENU_DEALS.three + sum(prices.slice(3)) < total) {
-    total = MENU_DEALS.three + sum(prices.slice(3));
+  const picked = FEATURES.filter((f) => ids.includes(f.id));
+  const prices = picked.filter((f) => !f.noDeal).map((f) => f.price).sort((a, b) => b - a);
+  const extra = sum(picked.filter((f) => f.noDeal).map((f) => f.price));
+  const dealFull = sum(prices);
+  let dealTotal = dealFull, deal = "";
+  if (prices.length >= 3 && MENU_DEALS.three + sum(prices.slice(3)) < dealTotal) {
+    dealTotal = MENU_DEALS.three + sum(prices.slice(3));
     deal = `Coding Menu deal: any 3 for ${money(MENU_DEALS.three)}`;
   }
-  if (prices.length === FEATURES.length && MENU_DEALS.all < total) {
-    total = MENU_DEALS.all;
-    deal = `Coding Menu deal: all ${FEATURES.length} for ${money(MENU_DEALS.all)}`;
+  if (prices.length === DEAL_FEATURES.length && MENU_DEALS.all < dealTotal) {
+    dealTotal = MENU_DEALS.all;
+    deal = `Coding Menu deal: all ${DEAL_FEATURES.length} for ${money(MENU_DEALS.all)}`;
   }
-  return { full, total, saved: full - total, count: prices.length, deal };
+  return {
+    full: dealFull + extra, total: dealTotal + extra, saved: dealFull - dealTotal,
+    count: picked.length, dealCount: prices.length, deal,
+  };
 }
 
 // Itemised quote for { services: [slug], features: [id], other: bool }
 function buildQuote({ services = [], features = [], other = false }) {
   const lines = [], discounts = [];
+  const addOnDiscount = (item) => {
+    if (item.addOn && services.includes(item.addOn.with))
+      discounts.push({ name: `${item.name} with ${SERVICES[item.addOn.with].name}`, amount: item.price - item.addOn.price });
+  };
   for (const slug of services) {
     const s = SERVICES[slug];
     if (!s || s.menu) continue;
     lines.push({ name: s.name, price: s.price });
-    if (s.addOn && services.includes(s.addOn.with))
-      discounts.push({ name: `${s.name} with ${SERVICES[s.addOn.with].name}`, amount: s.price - s.addOn.price });
+    addOnDiscount(s);
   }
-  for (const f of FEATURES.filter((f) => features.includes(f.id))) lines.push({ name: f.name, price: f.price });
+  for (const f of FEATURES.filter((f) => features.includes(f.id))) {
+    lines.push({ name: f.name, price: f.price });
+    addOnDiscount(f);
+  }
   const m = menuQuote(features);
   if (m.saved) discounts.push({ name: m.deal, amount: m.saved });
   if (other) lines.push({ name: "Other coding", price: null });
@@ -188,18 +203,32 @@ function renderCrumbs() {
 }
 
 // ---- service cards ----
+// "$39 with Remote Engine Start"
+function addOnText(item) {
+  return item.addOn ? `${money(item.addOn.price)} with ${SERVICES[item.addOn.with].name}` : "";
+}
+
+// Wide service card: photo on one side, details on the other. The Coding Menu card lists every feature.
 function svcCard(s) {
+  const feats = s.menu ? `
+    <ul class="svc-feats">
+      ${FEATURES.map((f) => `
+        <li><span>${esc(f.name)}${f.addOn ? `<small>${esc(addOnText(f))}</small>` : ""}</span><b>${money(f.price)}</b></li>`).join("")}
+    </ul>` : "";
   return `
     <a class="svc-card" href="${s.page}">
       ${s.img
         ? `<div class="svc-cover"><img src="media/${s.img}.jpg" alt="" loading="lazy"${s.coverPos ? ` style="object-position: ${s.coverPos}"` : ""}></div>`
         : `<div class="f-icon" aria-hidden="true">${ICONS[s.icon] || ""}</div>`}
-      <h3>${esc(s.name)}</h3>
-      <p>${esc(s.short)}</p>
-      <p class="svc-meta"><span>From <b>${money(s.price)}</b></span><span>${esc(s.time)}</span></p>
-      ${s.addOn ? `<p class="svc-deal">Only ${money(s.addOn.price)} with ${esc(SERVICES[s.addOn.with].name)}</p>` : ""}
-      ${s.menu ? `<p class="svc-deal">${dealsText()}</p>` : ""}
-      <span class="svc-more">Details and eligibility <span aria-hidden="true">→</span></span>
+      <div class="svc-body">
+        <h3>${esc(s.name)}</h3>
+        <p>${esc(s.short)}</p>
+        ${feats}
+        <p class="svc-meta"><span>From <b>${money(s.price)}</b></span><span>${esc(s.time)}</span></p>
+        ${s.addOn ? `<p class="svc-deal">Only ${esc(addOnText(s))}</p>` : ""}
+        ${s.menu ? `<p class="svc-deal">${dealsText()}</p>` : ""}
+        <span class="svc-more">${s.menu ? "See the full menu" : "Details and eligibility"} <span aria-hidden="true">→</span></span>
+      </div>
     </a>`;
 }
 
@@ -241,28 +270,40 @@ function renderServiceCards() {
     </a>`;
 }
 
-// Bundle banners: on the home page for every add-on, on a service page for the ones involving it
+// Bundle banners for every add-on discount (services or menu features).
+// Home shows them all; a service page shows the ones that involve it.
 function renderBundles() {
   const root = $("bundles");
   if (!root) return;
-  root.innerHTML = Object.entries(SERVICES)
-    .filter(([slug, s]) => s.addOn && (!pageService || pageService === slug || pageService === s.addOn.with))
-    .map(([slug, s]) => {
-      const q = buildQuote({ services: [s.addOn.with, slug] });
-      const base = SERVICES[s.addOn.with];
-      return `
-        <div class="bundle">
-          <div>
-            <p class="bundle-tag">Bundle and save ${money(q.saved)}</p>
-            <p class="bundle-title">${esc(base.name)} + ${esc(s.name)}</p>
-            <p class="bundle-sub">Add ${esc(s.name.toLowerCase())} to a ${esc(base.name.toLowerCase())} booking for just ${money(s.addOn.price)} (normally ${money(s.price)}). Both done in the same visit.</p>
-          </div>
-          <div class="bundle-price">
-            <p><span class="from">From</span> ${money(q.total)}</p>
-            <a class="btn btn-primary" href="enquire.html?pick=${s.addOn.with},${slug}">Book the bundle</a>
-          </div>
-        </div>`;
-    }).join("");
+  const menuSlug = Object.keys(SERVICES).find((k) => SERVICES[k].menu);
+  const offers = [
+    ...Object.entries(SERVICES).filter(([, s]) => s.addOn).map(([slug, s]) => ({
+      item: s, pages: [slug, s.addOn.with],
+      q: buildQuote({ services: [s.addOn.with, slug] }),
+      href: `enquire.html?pick=${s.addOn.with},${slug}`,
+    })),
+    ...FEATURES.filter((f) => f.addOn).map((f) => ({
+      item: f, pages: [menuSlug, f.addOn.with],
+      q: buildQuote({ services: [f.addOn.with], features: [f.id] }),
+      href: `enquire.html?pick=${f.addOn.with}&f=${f.id}`,
+    })),
+  ].filter((o) => !pageService || o.pages.includes(pageService));
+
+  root.innerHTML = offers.map(({ item, q, href }) => {
+    const base = SERVICES[item.addOn.with];
+    return `
+      <div class="bundle">
+        <div>
+          <p class="bundle-tag">Bundle and save ${money(q.saved)}</p>
+          <p class="bundle-title">${esc(base.name)} + ${esc(item.name)}</p>
+          <p class="bundle-sub">Add ${esc(item.name.toLowerCase())} to a ${esc(base.name.toLowerCase())} booking for just ${money(item.addOn.price)} (normally ${money(item.price)}). Both done in the same visit.</p>
+        </div>
+        <div class="bundle-price">
+          <p><span class="from">From</span> ${money(q.total)}</p>
+          <a class="btn btn-primary" href="${href}">Book the bundle</a>
+        </div>
+      </div>`;
+  }).join("");
 }
 
 // ---- compact item rows (Coding Menu page and quote page) ----
@@ -313,7 +354,12 @@ function picked(root, kind) {
 }
 
 function dealsText() {
-  return `Any 3 for ${money(MENU_DEALS.three)} · All ${FEATURES.length} for ${money(MENU_DEALS.all)}`;
+  return `Any 3 for ${money(MENU_DEALS.three)} · All ${DEAL_FEATURES.length} for ${money(MENU_DEALS.all)}`;
+}
+
+// Small line under a feature's name: what it needs, and any add-on price
+function featureSub(f) {
+  return [needsText(f), f.addOn ? `Only ${addOnText(f)}` : ""].filter(Boolean).join(" · ");
 }
 
 // ---- Coding Menu page ----
@@ -325,7 +371,7 @@ function renderMenu() {
     <h3 class="item-group">${esc(g)}</h3>
     <div class="items">
       ${FEATURES.filter((f) => f.group === g)
-        .map((f) => itemRow({ kind: "feature", id: f.id, name: f.name, price: money(f.price), sub: needsText(f), desc: f.desc, note: f.note, img: f.img, icon: f.icon }))
+        .map((f) => itemRow({ kind: "feature", id: f.id, name: f.name, price: money(f.price), sub: featureSub(f), desc: f.desc, note: f.note, img: f.img, icon: f.icon }))
         .join("")}
     </div>`).join("") + `
     <div class="total-bar">
@@ -343,7 +389,7 @@ function renderMenu() {
       return;
     }
     const m = menuQuote(menuPicked);
-    const more = m.count < 3 ? ` · Add ${3 - m.count} more and pay ${money(MENU_DEALS.three)} for all 3` : "";
+    const more = m.dealCount && m.dealCount < 3 ? ` · Add ${3 - m.dealCount} more and pay ${money(MENU_DEALS.three)} for 3` : "";
     el.innerHTML = `${m.count} selected · Total <b class="total-num">${money(m.total)}</b>` +
       (m.saved ? ` <span class="save-pill">Save ${money(m.saved)}</span>` : "") + more;
   };
@@ -395,16 +441,6 @@ function buildChecker() {
           <option value="unsure">I'm not sure</option>
         </select>
       </label>` : ""}
-      ${has("heatedSeats") ? `
-      <label>Does it have heated seats now?
-        <select id="heated">
-          <option value="">Select…</option>
-          <option value="yes">Yes, it has seat heating buttons</option>
-          <option value="no">No heated seats</option>
-          <option value="unsure">I'm not sure</option>
-        </select>
-        <small class="hint">Look for a button with a seat and wavy lines, usually on the climate control panel.</small>
-      </label>` : ""}
       ${Object.entries(REQUIREMENTS).filter(([key]) => has(key)).map(([key, r]) => `
       <label>${esc(r.question)}
         <select data-req="${key}">
@@ -419,7 +455,7 @@ function buildChecker() {
     <div id="result" class="result" hidden></div>`;
 
   const make = $("make"), model = $("model"), chassis = $("chassis"), result = $("result");
-  const bm = $("buildMonth"), by = $("buildYear"), engine = $("engine"), trans = $("trans"), heated = $("heated");
+  const bm = $("buildMonth"), by = $("buildYear"), engine = $("engine"), trans = $("trans");
   const reqs = [...root.querySelectorAll("[data-req]")];
 
   fill(make, [...Object.keys(svc.vehicles).map((m) => [m, m]), [OTHER, "Other make"], [UNSURE, "I'm not sure"]], "Select make…");
@@ -453,7 +489,7 @@ function buildChecker() {
     evaluate();
   });
 
-  [chassis, bm, by, engine, trans, heated, ...reqs].forEach((el) => el && el.addEventListener("change", evaluate));
+  [chassis, bm, by, engine, trans, ...reqs].forEach((el) => el && el.addEventListener("change", evaluate));
 
   // Some models switched from iDrive 6 to iDrive 7 part-way through production (vehicles.js `idrive7`).
   // Returns null (no rule), "before" (iDrive 6), "between" (changeover period), "after" (iDrive 7) or "unknown".
@@ -497,7 +533,6 @@ function buildChecker() {
     if (bm) fields["Build date"] = `${text(bm)} ${text(by)}`;
     if (engine) fields["Engine"] = text(engine);
     if (trans) fields["Transmission"] = text(trans);
-    if (heated) fields["Heated seats"] = text(heated);
     for (const s of reqs) fields[REQUIREMENTS[s.dataset.req].label.replace(/^./, (c) => c.toUpperCase())] = text(s);
     if (svc.menu && !result.hidden && !result.classList.contains("no"))
       fields["Menu features it can have"] = featureFit().filter((x) => x.state === "yes").map((x) => x.f.name).join(", ") || "-";
@@ -578,10 +613,6 @@ function buildChecker() {
       if (trans.value === "manual") no.push("Manual cars aren't supported. The feature needs an automatic transmission.");
       else if (trans.value !== "auto") check.push("We need to confirm your car has an automatic transmission.");
     }
-    if (heated) {
-      if (heated.value === "no") no.push("This feature needs factory heated seats. If your car doesn't have seat heating buttons, it can't be added by coding.");
-      else if (heated.value !== "yes") check.push("We need to confirm your car has factory heated seats (a button with a seat and wavy lines).");
-    }
     let cls, title;
     if (no.length) { cls = "no"; title = "Sorry, this car isn't eligible"; }
     else if (check.length) { cls = "check"; title = "Possibly eligible. We'll need to confirm a few details"; }
@@ -632,7 +663,7 @@ function buildQuotePage() {
     <h3 class="item-group">Coding Menu <small>${dealsText()}</small></h3>
     <div class="items">
       ${FEATURES.map((f) => itemRow({
-        kind: "feature", id: f.id, name: f.name, price: money(f.price), checked: pickF.includes(f.id), sub: needsText(f),
+        kind: "feature", id: f.id, name: f.name, price: money(f.price), checked: pickF.includes(f.id), sub: featureSub(f),
         desc: f.desc, note: f.note, img: f.img, icon: f.icon,
       })).join("")}
     </div>
@@ -670,11 +701,11 @@ function buildQuotePage() {
     const sel = selection();
     const q = buildQuote(sel);
     // show add-on prices as discounted when their partner service is ticked
-    for (const [slug, s] of services) {
-      if (!s.addOn) continue;
-      root.querySelector(`[data-price="${slug}"]`).innerHTML = sel.services.includes(s.addOn.with)
-        ? `<s>${money(s.price)}</s> ${money(s.addOn.price)}`
-        : money(s.price);
+    const addOns = [...services, ...FEATURES.map((f) => [f.id, f])].filter(([, x]) => x.addOn);
+    for (const [id, x] of addOns) {
+      root.querySelector(`[data-price="${id}"]`).innerHTML = sel.services.includes(x.addOn.with)
+        ? `<s>${money(x.price)}</s> ${money(x.addOn.price)}`
+        : money(x.price);
     }
     $("quote-summary").innerHTML = summaryHtml(q);
     $("quoteBar").hidden = !q.count;
