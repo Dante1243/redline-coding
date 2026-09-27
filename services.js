@@ -103,7 +103,7 @@ const FEATURES = [
   { id: "badge", group: "Style", name: "M or high-trim start-up badge", price: 15, icon: "badge", needs: ["cluster"], img: ["feat-badge"],
     desc: "Show an M, M4 CS, X3 M, X7 M or other badge on the cluster when you start the car.",
     note: "Purely cosmetic, and we can remove it any time, e.g. before you sell the car." },
-  { id: "idrive-startup", group: "Style", name: "iDrive start-up animation", price: 15, icon: "badge", needs: [],
+  { id: "idrive-startup", group: "Style", name: "iDrive start-up animation", price: 15, icon: "badge", needs: [], img: ["feat-idrive-startup"],
     desc: "Change the animation on the iDrive screen when you start the car, for example the BMW M logo.",
     note: "Which animations are available depends on your car's iDrive software version." },
 ];
