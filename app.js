@@ -42,7 +42,8 @@ function load(key) {
 // Features that count towards the multi-feature deals (heated seats has its own remote start discount instead)
 const DEAL_FEATURES = FEATURES.filter((f) => !f.noDeal);
 
-// Coding Menu price: the three priciest deal features for MENU_DEALS.three, or all of them for MENU_DEALS.all.
+// Coding Menu price. Each pack ("any N for $X") covers the N priciest quick features picked, the rest
+// are full price; picking every quick feature can use MENU_DEALS.all. The cheapest option wins.
 // noDeal features are added at their normal price.
 function menuQuote(ids) {
   const picked = FEATURES.filter((f) => ids.includes(f.id));
@@ -50,9 +51,10 @@ function menuQuote(ids) {
   const extra = sum(picked.filter((f) => f.noDeal).map((f) => f.price));
   const dealFull = sum(prices);
   let dealTotal = dealFull, deal = "";
-  if (prices.length >= 3 && MENU_DEALS.three + sum(prices.slice(3)) < dealTotal) {
-    dealTotal = MENU_DEALS.three + sum(prices.slice(3));
-    deal = `Coding Menu deal: any 3 for ${money(MENU_DEALS.three)}`;
+  for (const p of MENU_DEALS.packs) {
+    if (prices.length < p.count) continue;
+    const t = p.price + sum(prices.slice(p.count));
+    if (t < dealTotal) { dealTotal = t; deal = `Coding Menu deal: any ${p.count} for ${money(p.price)}`; }
   }
   if (prices.length === DEAL_FEATURES.length && MENU_DEALS.all < dealTotal) {
     dealTotal = MENU_DEALS.all;
@@ -353,8 +355,17 @@ function picked(root, kind) {
   return [...root.querySelectorAll(`input[data-kind="${kind}"]:checked`)].map((i) => i.value);
 }
 
+// "Add 2 more and pay $39 for 3": nudge towards the next deal tier (nothing once every quick feature is picked)
+function nextDealHint(n) {
+  if (!n) return "";
+  const next = MENU_DEALS.packs.find((p) => p.count > n);
+  if (next) return ` · Add ${next.count - n} more and pay ${money(next.price)} for ${next.count}`;
+  const left = DEAL_FEATURES.length - n;
+  return left > 0 ? ` · Add ${left} more and get all ${DEAL_FEATURES.length} for ${money(MENU_DEALS.all)}` : "";
+}
+
 function dealsText() {
-  return `Any 3 for ${money(MENU_DEALS.three)} · All ${DEAL_FEATURES.length} for ${money(MENU_DEALS.all)}`;
+  return [...MENU_DEALS.packs.map((p) => `Any ${p.count} for ${money(p.price)}`), `All ${DEAL_FEATURES.length} for ${money(MENU_DEALS.all)}`].join(" · ");
 }
 
 // Small line under a feature's name: what it needs, and any add-on price
@@ -389,7 +400,7 @@ function renderMenu() {
       return;
     }
     const m = menuQuote(menuPicked);
-    const more = m.dealCount && m.dealCount < 3 ? ` · Add ${3 - m.dealCount} more and pay ${money(MENU_DEALS.three)} for 3` : "";
+    const more = nextDealHint(m.dealCount);
     el.innerHTML = `${m.count} selected · Total <b class="total-num">${money(m.total)}</b>` +
       (m.saved ? ` <span class="save-pill">Save ${money(m.saved)}</span>` : "") + more;
   };

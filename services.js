@@ -114,7 +114,10 @@ function needsText(f) {
 }
 
 // Multi-feature deals on the quick features (noDeal ones are always full price). The best price is used automatically.
-const MENU_DEALS = { three: 39, all: 79 };
+const MENU_DEALS = {
+  packs: [{ count: 3, price: 39 }, { count: 5, price: 65 }], // any N quick features for this price
+  all: 99, // every quick feature
+};
 
 const ICONS = {
   fob: '<svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="3"/><circle cx="12" cy="8" r="1.6"/><path d="M10 13.5h4M10 16.5h4"/></svg>',
