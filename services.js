@@ -44,8 +44,7 @@ const SERVICES = {
     price: 10,
     time: "~5 min each",
     icon: "dial",
-    img: "feat-adv",
-    coverPos: "100% 50%", // show the Assisted Driving View side of the screenshot
+    img: "card-coding-menu",
     checks: ["build", "cluster", "dap"],
     vehicles: MENU_VEHICLES,
     makes: "BMW",
