@@ -42,41 +42,69 @@ const SERVICES = {
     price: 10,
     time: "~5 min each",
     icon: "dial",
-    checks: ["build"],
+    checks: ["build", "cluster", "dap"],
     vehicles: MENU_VEHICLES,
     makes: "BMW",
-    checkerNote: "Some features need specific equipment, like the full digital cluster or driver-assistance cameras. We'll confirm which ones your car can have from its VIN.",
     menu: true, // its FEATURES are listed and priced individually on the quote page
   },
 };
 
+// Equipment some features need. The Coding Menu checker asks about each one,
+// then shows which features the customer's car can have.
+const REQUIREMENTS = {
+  cluster: {
+    label: "full digital cluster",
+    question: "Is the cluster behind the wheel fully digital?",
+    hint: "One big screen with no physical needles (Live Cockpit Professional). Base models have physical-look dials with a small screen in the middle.",
+    yes: "Yes, it's one full screen",
+    no: "No, it has physical-look dials",
+  },
+  dap: {
+    label: "Driving Assistant Professional",
+    question: "Does it have Driving Assistant Professional?",
+    hint: "Adaptive cruise control plus steering assist that keeps you centred in your lane (option 5AU).",
+    yes: "Yes",
+    no: "No",
+  },
+};
+
 // Coding Menu features. Prices are per feature; MENU_DEALS below discounts multiple picks.
+// needs: REQUIREMENTS keys the car must have. note: caveats shown when the row is expanded.
+// Every feature also needs iDrive 7 and a build date before March 2021 (checked per model).
 const FEATURES = [
-  { id: "start-stop", group: "Comfort", name: "Auto start/stop memory", price: 15, icon: "power",
-    desc: "The car remembers when you switch engine auto start/stop off, so you don't have to press the button every time you drive." },
-  { id: "comfort-blink", group: "Comfort", name: "Comfort blink (3 → 5 flashes)", price: 10, icon: "blink",
+  { id: "start-stop", group: "Comfort", name: "Auto start/stop memory", price: 15, icon: "power", needs: [],
+    desc: "The car remembers when you switch engine auto start/stop off, so you don't have to press the button every time you drive.",
+    note: "Doesn't work on cars that have had BMW's late-2023 software update (11/2023) or newer. We check your car's software version first." },
+  { id: "comfort-blink", group: "Comfort", name: "Comfort blink (3 → 5 flashes)", price: 10, icon: "blink", needs: [],
     desc: "One tap of the indicator stalk flashes 5 times instead of 3. Handy for lane changes on the freeway." },
-  { id: "disclaimers", group: "Comfort", name: "Skip start-up legal disclaimers", price: 10, icon: "screen",
-    desc: "Removes the legal disclaimer pop-ups you have to click through on iDrive every time you start the car." },
-  { id: "drive-modes", group: "Driving", name: "Sport Plus & Comfort Plus modes", price: 15, icon: "dial",
-    desc: "Adds Sport Plus and Comfort Plus to your drive mode button, for a sharper or softer drive than the standard modes." },
-  { id: "adv", group: "Driving", name: "Assisted Driving View", price: 25, icon: "lanes",
-    desc: "Shows your car, the lanes and the cars around you live on the instrument cluster while the driver assistance is on.",
-    note: "Needs the car's driver-assistance cameras and the full digital cluster." },
-  { id: "sla", group: "Driving", name: "Speed Limit Assist auto-adjust", price: 25, icon: "gauge",
+  { id: "disclaimers", group: "Comfort", name: "Skip start-up legal disclaimers", price: 10, icon: "screen", needs: [],
+    desc: "Removes the legal disclaimer pop-ups you have to click through on iDrive every time you start the car.",
+    note: "A dealer software update can bring the pop-ups back. We can remove them again." },
+  { id: "drive-modes", group: "Driving", name: "Sport Plus & Comfort Plus modes", price: 15, icon: "dial", needs: [],
+    desc: "Adds Sport Plus and Comfort Plus to your drive mode button, for a sharper or softer drive than the standard modes.",
+    note: "Changes throttle, steering and gearbox response. The ride only gets firmer or softer if your car has adaptive suspension." },
+  { id: "adv", group: "Driving", name: "Assisted Driving View", price: 25, icon: "lanes", needs: ["dap", "cluster"],
+    desc: "Shows your car, the lanes and the cars around you live on the instrument cluster while the driver assistance is on." },
+  { id: "sla", group: "Driving", name: "Speed Limit Assist auto-adjust", price: 25, icon: "gauge", needs: ["dap"],
     desc: "Cruise control automatically adjusts your set speed to the speed limits the car detects.",
-    note: "Needs Active Cruise Control and speed-limit sign recognition. You're still responsible for your speed, because sign reading isn't always right." },
-  { id: "brake-force", group: "Safety", name: "Brake force display", price: 15, icon: "brake",
-    desc: "Under hard braking, your brake lights flash to warn the driver behind that you're stopping fast." },
-  { id: "cluster", group: "Style", name: "Cluster style", price: 19, icon: "screen",
-    desc: "Change the instrument cluster's look: the M-car layout, the Alpina style, or a 330 km/h speedo like the M340i.",
-    note: "Needs the full digital cluster (Live Cockpit Professional)." },
-  { id: "badge", group: "Style", name: "M or high-trim start-up badge", price: 15, icon: "badge",
+    note: "You're still responsible for your speed, because sign reading isn't always right." },
+  { id: "brake-force", group: "Safety", name: "Brake force display", price: 15, icon: "brake", needs: [],
+    desc: "Under hard braking, your brake lights flash to warn the driver behind that you're stopping fast.",
+    note: "Works with the factory Australian-spec tail lights." },
+  { id: "cluster", group: "Style", name: "Cluster style", price: 19, icon: "screen", needs: ["cluster"],
+    desc: "Change the instrument cluster's look: the M-car layout, the Alpina style, or a 330 km/h speedo like the M340i." },
+  { id: "badge", group: "Style", name: "M or high-trim start-up badge", price: 15, icon: "badge", needs: ["cluster"],
     desc: "Show an M, M4 CS, X3 M, X7 M or other badge on the cluster when you start the car.",
     note: "Purely cosmetic, and we can remove it any time, e.g. before you sell the car." },
-  { id: "idrive-startup", group: "Style", name: "iDrive start-up animation", price: 15, icon: "badge",
-    desc: "Change the animation on the iDrive screen when you start the car, for example the BMW M logo." },
+  { id: "idrive-startup", group: "Style", name: "iDrive start-up animation", price: 15, icon: "badge", needs: [],
+    desc: "Change the animation on the iDrive screen when you start the car, for example the BMW M logo.",
+    note: "Which animations are available depends on your car's iDrive software version." },
 ];
+
+// "Needs full digital cluster + Driving Assistant Professional"
+function needsText(f) {
+  return f.needs && f.needs.length ? `Needs ${f.needs.map((k) => REQUIREMENTS[k].label).join(" + ")}` : "";
+}
 
 // Multi-feature deals: the best price is used automatically.
 const MENU_DEALS = { three: 39, all: 99 };

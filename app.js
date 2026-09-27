@@ -314,7 +314,7 @@ function renderMenu() {
     <h3 class="item-group">${esc(g)}</h3>
     <div class="items">
       ${FEATURES.filter((f) => f.group === g)
-        .map((f) => itemRow({ kind: "feature", id: f.id, name: f.name, price: money(f.price), desc: f.desc, note: f.note }))
+        .map((f) => itemRow({ kind: "feature", id: f.id, name: f.name, price: money(f.price), sub: needsText(f), desc: f.desc, note: f.note }))
         .join("")}
     </div>`).join("") + `
     <div class="total-bar">
@@ -394,11 +394,22 @@ function buildChecker() {
         </select>
         <small class="hint">Look for a button with a seat and wavy lines, usually on the climate control panel.</small>
       </label>` : ""}
+      ${Object.entries(REQUIREMENTS).filter(([key]) => has(key)).map(([key, r]) => `
+      <label>${esc(r.question)}
+        <select data-req="${key}">
+          <option value="">Select…</option>
+          <option value="yes">${esc(r.yes)}</option>
+          <option value="no">${esc(r.no)}</option>
+          <option value="unsure">I'm not sure</option>
+        </select>
+        <small class="hint">${esc(r.hint)}</small>
+      </label>`).join("")}
     </div>
     <div id="result" class="result" hidden></div>`;
 
   const make = $("make"), model = $("model"), chassis = $("chassis"), result = $("result");
   const bm = $("buildMonth"), by = $("buildYear"), engine = $("engine"), trans = $("trans"), heated = $("heated");
+  const reqs = [...root.querySelectorAll("[data-req]")];
 
   fill(make, [...Object.keys(svc.vehicles).map((m) => [m, m]), [OTHER, "Other make"], [UNSURE, "I'm not sure"]], "Select make…");
   if (bm) {
@@ -431,7 +442,36 @@ function buildChecker() {
     evaluate();
   });
 
-  [chassis, bm, by, engine, trans, heated].forEach((el) => el && el.addEventListener("change", evaluate));
+  [chassis, bm, by, engine, trans, heated, ...reqs].forEach((el) => el && el.addEventListener("change", evaluate));
+
+  // Some models switched from iDrive 6 to iDrive 7 part-way through production (vehicles.js `idrive7`).
+  // Returns null (no rule), "before" (iDrive 6), "between" (changeover period), "after" (iDrive 7) or "unknown".
+  function iDrive7State(c) {
+    const rule = c.idrive7;
+    if (!rule) return null;
+    const cluster = reqs.find((s) => s.dataset.req === "cluster")?.value;
+    if (rule.digitalOk && cluster === "yes") return "after"; // full digital cluster cars always had iDrive 7
+    const y = by?.value, m = bm?.value;
+    if (!y || y === UNSURE) return "unknown";
+    const cmp = (ref) => (+y !== ref.year ? Math.sign(+y - ref.year) : m && m !== UNSURE ? Math.sign(+m - ref.month) : null);
+    const from = cmp(rule.from), sure = cmp(rule.sure);
+    if (from === -1) return rule.digitalOk && cluster !== "no" ? "unknown" : "before";
+    if (sure !== null && sure >= 0) return "after";
+    return from === null || sure === null ? "unknown" : "between";
+  }
+
+  // Coding Menu: which features this car can have, given its equipment answers
+  function featureFit() {
+    const ans = Object.fromEntries(reqs.map((s) => [s.dataset.req, s.value]));
+    return FEATURES.map((f) => {
+      const missing = f.needs.filter((k) => ans[k] === "no");
+      const unknown = f.needs.filter((k) => ans[k] !== "yes" && ans[k] !== "no");
+      const label = (keys) => keys.map((k) => REQUIREMENTS[k].label).join(" + ");
+      if (missing.length) return { f, state: "no", why: `Needs ${label(missing)}` };
+      if (unknown.length) return { f, state: "maybe", why: `Only with ${label(unknown)}` };
+      return { f, state: "yes", why: "" };
+    });
+  }
 
   // Remember the car and result so the quote page can include them
   function remember() {
@@ -447,6 +487,9 @@ function buildChecker() {
     if (engine) fields["Engine"] = text(engine);
     if (trans) fields["Transmission"] = text(trans);
     if (heated) fields["Heated seats"] = text(heated);
+    for (const s of reqs) fields[REQUIREMENTS[s.dataset.req].label.replace(/^./, (c) => c.toUpperCase())] = text(s);
+    if (svc.menu && !result.hidden && !result.classList.contains("no"))
+      fields["Menu features it can have"] = featureFit().filter((x) => x.state === "yes").map((x) => x.f.name).join(", ") || "-";
     fields[`Checker result (${svc.name})`] = result.hidden ? "Not checked" : result.dataset.verdict;
     const car = [make, model].map(text).filter((v) => v !== "-" && !/not sure|other/i.test(v)).join(" ");
     const built = bm && by.value && by.value !== UNSURE
@@ -483,8 +526,15 @@ function buildChecker() {
       } else {
         if (chassis.value === UNSURE && live.length < candidates.length)
           check.push(`Some ${model.value} versions are supported and some aren't. Your VIN tells us exactly which one you have.`);
-        live.filter((c) => c.status === "conditional").forEach((c) => check.push(c.note));
-        live.filter((c) => c.status === "eligible" && c.note).forEach((c) => info.push(c.note));
+        for (const c of live) {
+          const i7 = iDrive7State(c);
+          if (i7 === "before") (live.length === 1 ? no : check).push(c.idrive7.msg);
+          else if (i7 === "between") check.push(c.idrive7.msg);
+          else if (i7 === "unknown") (c.idrive7.digitalOk ? info : check).push(c.idrive7.msg);
+          if (i7 === "before" && live.length === 1) continue;
+          if (c.status === "conditional") check.push(c.note);
+          else if (c.note) info.push(c.note);
+        }
 
         const cutoff = live.find((c) => c.cutoff)?.cutoff;
         if (cutoff && bm) {
@@ -521,12 +571,18 @@ function buildChecker() {
       if (heated.value === "no") no.push("This feature needs factory heated seats. If your car doesn't have seat heating buttons, it can't be added by coding.");
       else if (heated.value !== "yes") check.push("We need to confirm your car has factory heated seats (a button with a seat and wavy lines).");
     }
-    if (svc.checkerNote) info.push(svc.checkerNote);
-
     let cls, title;
     if (no.length) { cls = "no"; title = "Sorry, this car isn't eligible"; }
     else if (check.length) { cls = "check"; title = "Possibly eligible. We'll need to confirm a few details"; }
     else { cls = "yes"; title = "Good news: your car looks eligible"; }
+
+    // Coding Menu: list each feature as available, not available, or depends on equipment
+    const fit = svc.menu && cls !== "no" ? featureFit() : [];
+    const fitList = fit.length ? `
+      <p class="fit-head">Features for your car</p>
+      <ul class="fit">${fit.map(({ f, state, why }) =>
+        `<li class="fit-${state}"><span>${esc(f.name)}</span>${why ? `<small>${esc(why)}</small>` : ""}</li>`).join("")}
+      </ul>` : "";
 
     const reasons = cls === "no" ? no : cls === "check" ? check : [];
     result.className = "result " + cls;
@@ -534,6 +590,7 @@ function buildChecker() {
       `<h3>${title}</h3>` +
       (reasons.length ? `<ul>${reasons.map((r) => `<li>${r}</li>`).join("")}</ul>` : "") +
       (info.length && cls !== "no" ? `<ul class="info">${info.map((r) => `<li>${r}</li>`).join("")}</ul>` : "") +
+      fitList +
       (cls === "no"
         ? `<p>Think we've got it wrong? You can still <a href="${quoteHref()}" data-quote>send an enquiry</a> and we'll double-check.</p>`
         : `<p><a class="btn btn-primary" href="${quoteHref()}" data-quote>Get a quote</a></p>`);
@@ -564,7 +621,7 @@ function buildQuotePage() {
     <h3 class="item-group">Coding Menu <small>${dealsText()}</small></h3>
     <div class="items">
       ${FEATURES.map((f) => itemRow({
-        kind: "feature", id: f.id, name: f.name, price: money(f.price), checked: pickF.includes(f.id),
+        kind: "feature", id: f.id, name: f.name, price: money(f.price), checked: pickF.includes(f.id), sub: needsText(f),
         desc: f.desc, note: f.note,
       })).join("")}
     </div>

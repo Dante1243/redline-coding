@@ -9,6 +9,18 @@
 
 const BMW_CUTOFF = { year: 2021, month: 3 };
 
+// Everything we code needs iDrive 7. These models were still built with iDrive 6 early on.
+// idrive7: built before `from` = iDrive 6, from `sure` on = iDrive 7, in between = check the VIN.
+// digitalOk: cars with the full digital cluster always had iDrive 7.
+const G20_IDRIVE7 = {
+  from: { year: 2020, month: 7 }, sure: { year: 2020, month: 7 }, digitalOk: true,
+  msg: "Base models with physical-look dials (Live Cockpit Plus) built before mid-2020 run iDrive 6, which can't be coded for this. We'll confirm your iDrive version from the VIN.",
+};
+const G01_IDRIVE7 = {
+  from: { year: 2019, month: 7 }, sure: { year: 2020, month: 1 },
+  msg: "X3s and X4s built before mid-2019 run iDrive 6, which can't be coded for this. Later cars have iDrive 7. We'll confirm your iDrive version from the VIN.",
+};
+
 const REMOTE_START_VEHICLES = {
   "Toyota": {
     "Supra": [
@@ -20,8 +32,8 @@ const REMOTE_START_VEHICLES = {
   },
   "BMW": {
     "3 Series": [
-      { code: "G20", label: "G20 Sedan", trims: "320i, 330i, M340i", status: "eligible", cutoff: BMW_CUTOFF, mhevRisk: true },
-      { code: "G21", label: "G21 Touring (wagon)", trims: "320i, 330i, M340i", status: "eligible", cutoff: BMW_CUTOFF, mhevRisk: true },
+      { code: "G20", label: "G20 Sedan", trims: "320i, 330i, M340i", status: "eligible", cutoff: BMW_CUTOFF, mhevRisk: true, idrive7: G20_IDRIVE7 },
+      { code: "G21", label: "G21 Touring (wagon)", trims: "320i, 330i, M340i", status: "eligible", cutoff: BMW_CUTOFF, mhevRisk: true, idrive7: G20_IDRIVE7 },
     ],
     "4 Series": [
       { code: "G22", label: "G22 Coupe", trims: "420i, 430i, M440i", status: "eligible", cutoff: BMW_CUTOFF, mhevRisk: true },
@@ -48,11 +60,11 @@ const REMOTE_START_VEHICLES = {
       { code: "G16", label: "G16 Gran Coupe", trims: "840i, M850i", status: "eligible", cutoff: BMW_CUTOFF },
     ],
     "X3": [
-      { code: "G01", label: "G01", trims: "xDrive30i, M40i", status: "conditional", cutoff: BMW_CUTOFF,
+      { code: "G01", label: "G01", trims: "xDrive30i, M40i", status: "conditional", cutoff: BMW_CUTOFF, idrive7: G01_IDRIVE7,
         note: "The X3 has mixed hardware, and most cars reject this coding even with a qualifying build date. We check your specific car before charging anything." },
     ],
     "X4": [
-      { code: "G02", label: "G02", trims: "xDrive30i, M40i", status: "conditional", cutoff: BMW_CUTOFF,
+      { code: "G02", label: "G02", trims: "xDrive30i, M40i", status: "conditional", cutoff: BMW_CUTOFF, idrive7: G01_IDRIVE7,
         note: "The X4 has mixed hardware, and most cars reject this coding even with a qualifying build date. We check your specific car before charging anything." },
     ],
     "X5": [
@@ -112,8 +124,8 @@ const HEATED_SEATS_VEHICLES = {
       { code: "F44", label: "F44 (2020+)", trims: "218i, M235i", status: "eligible", cutoff: BMW_CUTOFF },
     ],
     "3 Series": [
-      { code: "G20", label: "G20 Sedan", trims: "320i, 330i, M340i", status: "eligible", cutoff: BMW_CUTOFF },
-      { code: "G21", label: "G21 Touring (wagon)", trims: "320i, 330i, M340i", status: "eligible", cutoff: BMW_CUTOFF },
+      { code: "G20", label: "G20 Sedan", trims: "320i, 330i, M340i", status: "eligible", cutoff: BMW_CUTOFF, idrive7: G20_IDRIVE7 },
+      { code: "G21", label: "G21 Touring (wagon)", trims: "320i, 330i, M340i", status: "eligible", cutoff: BMW_CUTOFF, idrive7: G20_IDRIVE7 },
     ],
     "4 Series": [
       { code: "G22", label: "G22 Coupe", trims: "420i, 430i, M440i", status: "eligible", cutoff: BMW_CUTOFF },
@@ -130,10 +142,10 @@ const HEATED_SEATS_VEHICLES = {
         note: "Some X2s use an older head unit. We'll confirm your car from its VIN before booking." },
     ],
     "X3": [
-      { code: "G01", label: "G01", trims: "xDrive30i, M40i", status: "eligible", cutoff: BMW_CUTOFF },
+      { code: "G01", label: "G01", trims: "xDrive30i, M40i", status: "eligible", cutoff: BMW_CUTOFF, idrive7: G01_IDRIVE7 },
     ],
     "X4": [
-      { code: "G02", label: "G02", trims: "xDrive30i, M40i", status: "eligible", cutoff: BMW_CUTOFF },
+      { code: "G02", label: "G02", trims: "xDrive30i, M40i", status: "eligible", cutoff: BMW_CUTOFF, idrive7: G01_IDRIVE7 },
     ],
     "5 Series or above": [
       { code: "5+", label: "5 Series, 7 Series, 8 Series, X5, X6, X7", status: "excluded",
@@ -153,8 +165,8 @@ const MENU_VEHICLES = {
       { code: "F44", label: "F44 (2020+)", status: "eligible", cutoff: BMW_CUTOFF },
     ],
     "3 Series": [
-      { code: "G20", label: "G20 Sedan", status: "eligible", cutoff: BMW_CUTOFF },
-      { code: "G21", label: "G21 Touring (wagon)", status: "eligible", cutoff: BMW_CUTOFF },
+      { code: "G20", label: "G20 Sedan", status: "eligible", cutoff: BMW_CUTOFF, idrive7: G20_IDRIVE7 },
+      { code: "G21", label: "G21 Touring (wagon)", status: "eligible", cutoff: BMW_CUTOFF, idrive7: G20_IDRIVE7 },
     ],
     "4 Series": [
       { code: "G22", label: "G22 Coupe", status: "eligible", cutoff: BMW_CUTOFF },
@@ -189,14 +201,16 @@ const MENU_VEHICLES = {
       { code: "F39", label: "F39", status: "conditional", cutoff: BMW_CUTOFF,
         note: "Some X2s use an older head unit, so fewer features are available. We'll confirm which ones from your VIN." },
     ],
-    "X3": [{ code: "G01", label: "G01", status: "eligible", cutoff: BMW_CUTOFF }],
-    "X4": [{ code: "G02", label: "G02", status: "eligible", cutoff: BMW_CUTOFF }],
+    "X3": [{ code: "G01", label: "G01", status: "eligible", cutoff: BMW_CUTOFF, idrive7: G01_IDRIVE7 }],
+    "X4": [{ code: "G02", label: "G02", status: "eligible", cutoff: BMW_CUTOFF, idrive7: G01_IDRIVE7 }],
     "X5": [{ code: "G05", label: "G05", status: "eligible", cutoff: BMW_CUTOFF }],
     "X6": [{ code: "G06", label: "G06", status: "eligible", cutoff: BMW_CUTOFF }],
     "X7": [{ code: "G07", label: "G07", status: "eligible", cutoff: BMW_CUTOFF }],
     "Z4": [{ code: "G29", label: "G29", status: "eligible", cutoff: BMW_CUTOFF }],
     "M models": [
-      { code: "F97/F98", label: "X3 M / X4 M (F97 / F98)", status: "eligible", cutoff: BMW_CUTOFF },
+      { code: "F97/F98", label: "X3 M / X4 M (F97 / F98)", status: "eligible", cutoff: BMW_CUTOFF, idrive7: {
+        from: { year: 2020, month: 4 }, sure: { year: 2020, month: 4 },
+        msg: "X3 M and X4 M got iDrive 7 from April 2020, so only cars built April 2020 to February 2021 qualify." } },
       { code: "F90 LCI", label: "M5 facelift (F90 LCI)", status: "eligible", cutoff: BMW_CUTOFF },
       { code: "F91/F92/F93", label: "M8 (F91 / F92 / F93)", status: "eligible", cutoff: BMW_CUTOFF },
       { code: "F95/F96", label: "X5 M / X6 M (F95 / F96)", status: "eligible", cutoff: BMW_CUTOFF },
