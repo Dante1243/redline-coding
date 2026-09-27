@@ -183,6 +183,7 @@ function renderChrome() {
               <a href="index.html#how">How it works</a>
               <a href="${faq}">FAQ</a>
               <a href="enquire.html">Get a quote</a>
+              <a href="privacy.html">Privacy</a>
             </div>
           </div>
           <p class="disclaimer">Redline Coding is an independent business. It is not affiliated with, authorised by, sponsored by or endorsed by BMW AG, BMW M GmbH, Bayerische Motoren Werke AG, Toyota Motor Corporation, or any of their subsidiaries or dealers. BMW, M, iDrive, Supra and all related model names are trademarks of their respective owners and are used on this site only to identify compatible vehicles.</p>
@@ -196,7 +197,8 @@ function renderChrome() {
 function renderCrumbs() {
   const hero = document.querySelector(".hero .wrap");
   const svc = SERVICES[pageService];
-  const here = svc ? svc.name : document.body.dataset.page === "quote" ? "Get a quote" : "";
+  const pages = { quote: "Get a quote", privacy: "Privacy" };
+  const here = svc ? svc.name : pages[document.body.dataset.page] || "";
   if (!hero || !here) return;
   hero.insertAdjacentHTML("afterbegin", `
     <nav class="crumbs" aria-label="Breadcrumb">

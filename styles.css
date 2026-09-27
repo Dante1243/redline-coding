@@ -696,3 +696,15 @@ h1, h2, .h2 { text-wrap: balance; }
   .confirm-actions { flex-direction: column-reverse; }
   .confirm-actions .btn { width: 100%; }
 }
+
+/* ---------- simple text pages (privacy) ---------- */
+.prose { padding-top: 40px; padding-bottom: 24px; }
+.prose > * { max-width: 760px; }
+.prose h2 { margin: 36px 0 10px; font-size: 22px; letter-spacing: -.01em; }
+.prose h2:first-child { margin-top: 0; }
+.prose p, .prose li { color: var(--muted); font-size: 16px; }
+.prose b { color: var(--text); }
+.prose ul { padding-left: 20px; }
+.prose li { margin-bottom: 6px; }
+.prose .updated { margin-top: 40px; font-size: 14px; }
+.fine a { color: inherit; }
