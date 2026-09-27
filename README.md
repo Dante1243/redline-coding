@@ -4,7 +4,8 @@ Static site for Redline Coding. It's hosted on GitHub Pages.
 
 ## Pages
 - `index.html`: home page with the service cards, how it works and the general FAQ
-- `remote-start.html`, `heated-seats.html`, `coding-menu.html`: one page per service, each with an eligibility checker and FAQ
+- `remote-start.html`, `coding-menu.html`: one page per service, each with an eligibility checker and FAQ
+- `heated-seats.html`: redirects to the Coding Menu (automatic heated seats is now a menu feature)
 - `404.html`: branded "page not found" page (GitHub Pages serves it for any missing URL)
 - `sitemap.xml`: page list for Google Search Console
 - `enquire.html`: the "Get a quote" page. Customers tick services and Coding Menu features, see an itemised total and send it. Links can preselect items: `?pick=remote-start,heated-seats`, `?f=adv,sla` (menu features), `?other=1`.
@@ -15,10 +16,13 @@ Static site for Redline Coding. It's hosted on GitHub Pages.
 - `app.js`: nav, footer, eligibility checker, pricing and the quote page. Quotes are emailed through [FormSubmit](https://formsubmit.co), and customers get an automatic confirmation with the same itemised total.
 - `styles.css`: all styling
 
+## Adding a Coding Menu feature
+Add an entry to `FEATURES` in `services.js` (id, group, name, price, icon, needs, desc, and optionally note, img, addOn, noDeal). It appears on the home page card, the Coding Menu, the checker and the quote page automatically.
+
 ## Adding a new service
 1. In `vehicles.js`, add a vehicle list, e.g. `const MY_FEATURE_VEHICLES = { "BMW": { ... } };`
 2. In `services.js`, add an entry with `name`, `short`, `page`, `price`, `time`, `icon`, `checks` and `vehicles`. Add `addOn: { with: "<other-slug>", price: N }` to make it cheaper when booked with another service. The bundle banner, form price and emails update automatically.
-3. Copy `heated-seats.html` to the new `page` name. Set `<body data-service="...">` to the new slug and rewrite the hero, features, pricing and FAQ text.
+3. Copy `remote-start.html` to the new `page` name. Set `<body data-service="...">` to the new slug and rewrite the hero, features, pricing and FAQ text.
 4. Optionally add a link-preview image at `media/og-<slug>.jpg` and point the page's `og:image` at it.
 
 ## Photos

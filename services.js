@@ -1,15 +1,16 @@
-// Every coding service offered on the site.
+// Every coding service offered on the site. Big jobs get their own page; quick features
+// go on the Coding Menu (FEATURES below) instead.
 // To add a service: add an entry here (plus its vehicle list in vehicles.js),
-// then copy heated-seats.html to <slug>.html and change the text.
-// The home page cards, enquiry form checkboxes and footer links all come from this list.
+// then copy remote-start.html to <slug>.html and change the text.
+// The home page cards, quote page rows and footer links all come from this list.
 //
 // addOn: optional discounted price when booked with another service, e.g. { with: "remote-start", price: 39 }
 //
 // checks: which questions the eligibility checker asks
-//   "build"       build month/year against each chassis cutoff
-//   "engine"      petrol only (no diesel, hybrid or EV)
-//   "trans"       automatic only
-//   "heatedSeats" car must already have factory heated seats
+//   "build"   build month/year against each chassis cutoff
+//   "engine"  petrol only (no diesel, hybrid or EV)
+//   "trans"   automatic only
+//   any REQUIREMENTS key (cluster, dap, heated): asks about that equipment
 
 const SERVICES = {
   "remote-start": {
@@ -24,28 +25,15 @@ const SERVICES = {
     vehicles: REMOTE_START_VEHICLES,
     makes: "BMW and Toyota Supra",
   },
-  "heated-seats": {
-    name: "Automatic Heated Seats",
-    short: "Your heated seats switch on by themselves when it's cold, at the temperature and heat level you choose.",
-    page: "heated-seats.html",
-    price: 79,
-    addOn: { with: "remote-start", price: 39 }, // discounted price when booked together
-    time: "~15 min",
-    icon: "seat",
-    img: "hs-hero",
-    checks: ["build", "heatedSeats"],
-    vehicles: HEATED_SEATS_VEHICLES,
-    makes: "BMW",
-  },
   "coding-menu": {
     name: "Coding Menu",
-    short: "Auto start/stop memory, comfort blink, extra drive modes, M cluster styles, start-up badges and more. Pick what you want from $10 each.",
+    short: "Automatic heated seats, start/stop memory, extra drive modes, M cluster styles and more. Pick what you want and we do it all in one visit.",
     page: "coding-menu.html",
     price: 10,
     time: "~5 min each",
     icon: "dial",
     img: "card-coding-menu",
-    checks: ["build", "cluster", "dap"],
+    checks: ["build", "cluster", "dap", "heated"],
     vehicles: MENU_VEHICLES,
     makes: "BMW",
     menu: true, // its FEATURES are listed and priced individually on the quote page
@@ -69,13 +57,25 @@ const REQUIREMENTS = {
     yes: "Yes",
     no: "No",
   },
+  heated: {
+    label: "factory heated seats",
+    question: "Does it have heated seats now?",
+    hint: "Look for a button with a seat and wavy lines, usually on the climate control panel.",
+    yes: "Yes, it has seat heating buttons",
+    no: "No heated seats",
+  },
 };
 
 // Coding Menu features. Prices are per feature; MENU_DEALS below discounts multiple picks.
 // needs: REQUIREMENTS keys the car must have. note: caveats shown when the row is expanded.
 // img: photos in media/ (name.jpg full size, name-sm.jpg thumbnail); features without one show their icon.
+// addOn: cheaper when booked with a service. noDeal: not part of the 3-for / all-of-them deals.
 // Every feature also needs iDrive 7 and a build date before March 2021 (checked per model).
 const FEATURES = [
+  { id: "heated-seats", group: "Comfort", name: "Automatic heated seats", price: 79, icon: "seat", needs: ["heated"],
+    addOn: { with: "remote-start", price: 39 }, noDeal: true, img: ["hs-hero", "hs-menu"],
+    desc: "Your heated seats switch on by themselves when it's cold, at the temperature and heat level you choose. Change both any time in iDrive, separately for driver and passenger.",
+    note: "For 1–4 Series and X1–X4. Higher models like the 5 Series usually have it from the factory. It switches on once the driver's seatbelt is fastened." },
   { id: "start-stop", group: "Comfort", name: "Auto start/stop memory", price: 15, icon: "power", needs: [],
     desc: "The car remembers when you switch engine auto start/stop off, so you don't have to press the button every time you drive.",
     note: "Doesn't work on cars that have had BMW's late-2023 software update (11/2023) or newer. We check your car's software version first." },
