@@ -581,3 +581,14 @@ h1, h2, .h2 { text-wrap: balance; }
   .quote-form .card .h2, .quote-form .card > .muted { padding: 0 6px; }
   .item-main { padding-left: 12px; gap: 10px; }
 }
+
+/* checker: which Coding Menu features fit this car */
+.fit-head { margin: 14px 0 6px !important; font-weight: 700; }
+.fit { list-style: none; margin: 0 0 4px !important; padding: 0 !important; display: grid; gap: 4px; }
+.fit li { position: relative; padding-left: 24px; }
+.fit li small { display: block; font-size: 12.5px; opacity: .8; }
+.fit li::before { position: absolute; left: 0; top: 0; width: 18px; text-align: center; font-weight: 800; }
+.fit-yes::before { content: "✓"; }
+.fit-no { opacity: .6; }
+.fit-no::before { content: "✕"; }
+.fit-maybe::before { content: "?"; }
