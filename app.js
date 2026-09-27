@@ -181,6 +181,7 @@ function renderChrome() {
               <p class="foot-head">Info</p>
               <a href="index.html">Home</a>
               <a href="index.html#how">How it works</a>
+              <a href="index.html#about">About</a>
               <a href="${faq}">FAQ</a>
               <a href="enquire.html">Get a quote</a>
               <a href="privacy.html">Privacy</a>
