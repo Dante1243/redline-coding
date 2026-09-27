@@ -95,6 +95,9 @@ const FEATURES = [
   { id: "brake-force", group: "Safety", name: "Brake force display", price: 15, icon: "brake", needs: [],
     desc: "Under hard braking, your brake lights flash to warn the driver behind that you're stopping fast.",
     note: "Works with the factory Australian-spec tail lights." },
+  { id: "esa", group: "Safety", name: "Emergency Stop Assistant", price: 39, noDeal: true, icon: "alert", needs: ["dap"],
+    desc: "If the driver becomes unwell, pulling and holding the parking brake switch while driving hands control to the car. It slows down, moves towards the edge of the road where it can, stops, switches on the hazard lights and can call for help.",
+    note: "BMW doesn't offer this in Australia. It's an emergency aid, and the driver remains responsible for the car at all times. We recommend telling your insurer." },
   { id: "cluster", group: "Style", name: "Cluster style", price: 19, icon: "screen", needs: ["cluster"], img: ["feat-cluster"],
     desc: "Change the instrument cluster's look: the M-car layout, the Alpina style, or a 330 km/h speedo like the M340i." },
   { id: "badge", group: "Style", name: "M or high-trim start-up badge", price: 15, icon: "badge", needs: ["cluster"], img: ["feat-badge"],
@@ -126,5 +129,6 @@ const ICONS = {
   badge: '<svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 10v4.5M12 10v4.5M15 10v4.5"/></svg>',
   power: '<svg viewBox="0 0 24 24"><path d="M12 3v8"/><path d="M7 6.5a7 7 0 1 0 10 0"/></svg>',
   blink: '<svg viewBox="0 0 24 24"><path d="M4 12h11"/><path d="m11 7 5 5-5 5"/><path d="M19 7v10"/></svg>',
+  alert: '<svg viewBox="0 0 24 24"><path d="M12 3.5 21.5 20h-19z"/><path d="M12 10v4.5M12 17.5h.01"/></svg>',
   chat: '<svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9.5h8M8 12.5h5"/></svg>',
 };
