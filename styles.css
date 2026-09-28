@@ -384,7 +384,15 @@ form .btn { margin-top: 24px; }
 .item-more:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); color: var(--text); }
 .item-more svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform .2s; }
 .item-more[aria-expanded="true"] svg { transform: rotate(180deg); }
-.item-desc { grid-column: 1 / -1; padding: 0 16px 14px 50px; font-size: 14px; color: var(--muted); }
+/* row details slide open: the grid row animates from 0fr to 1fr, so it follows the content's real height */
+.item-desc {
+  grid-column: 1 / -1; display: grid; grid-template-rows: 0fr; visibility: hidden;
+  font-size: 14px; color: var(--muted); transition: grid-template-rows .3s ease, visibility 0s .3s;
+}
+.item-more[aria-expanded="true"] + .item-desc { grid-template-rows: 1fr; visibility: visible; transition: grid-template-rows .3s ease; }
+.item-desc-in { min-height: 0; overflow: hidden; padding: 0 16px 0 50px; }
+.item-desc-in::after { content: ""; display: block; height: 8px; }
+@media (prefers-reduced-motion: reduce) { .item-desc, .item-more[aria-expanded="true"] + .item-desc { transition: none; } }
 .item-desc p { margin: 0 0 6px; }
 .item-fine { font-style: italic; font-size: 13px; }
 
@@ -431,7 +439,7 @@ form .btn { margin-top: 24px; }
 
 @media (max-width: 560px) {
   .item-main { padding-left: 14px; }
-  .item-desc { padding-left: 14px; }
+  .item-desc-in { padding-left: 14px; }
   .cta-card { flex-direction: column; align-items: flex-start; padding: 22px; }
   .quote-form { padding-top: 20px; gap: 16px; }
 }
@@ -614,10 +622,10 @@ h1, h2, .h2 { text-wrap: balance; }
 .item-shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; margin: 2px 0 12px; }
 .item-shots img { display: block; width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--border); background: var(--ink); }
 .item-shots-sm img { max-width: 320px; }
-.item-desc { padding-left: 124px; }
+.item-desc-in { padding-left: 124px; }
 @media (max-width: 560px) {
   .item-thumb { width: 48px; height: 32px; }
-  .item-desc { padding-left: 14px; }
+  .item-desc-in { padding-left: 14px; }
 }
 
 /* two-up screenshot galleries */
