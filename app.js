@@ -908,6 +908,18 @@ function showThanks(form, data, q, car) {
   box.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
+// ---- deal wording that must match MENU_DEALS ("All 9 for $99", number of quick features) ----
+function fillDeals() {
+  const all = `${DEAL_FEATURES.length} for ${money(MENU_DEALS.all)}`;
+  const packs = MENU_DEALS.packs.map((p) => `any ${p.count} for ${money(p.price)}`);
+  document.querySelectorAll("[data-deal]").forEach((el) => {
+    const k = el.dataset.deal;
+    if (k === "all") el.textContent = `All ${all}`;
+    if (k === "count") el.textContent = DEAL_FEATURES.length;
+    if (k === "packs") el.textContent = `${packs.join(", ")}, or all ${all}`;
+  });
+}
+
 // ---- service page: fill hero facts and price from SERVICES ----
 function fillServiceFacts() {
   const svc = SERVICES[pageService];
@@ -965,6 +977,7 @@ buildChecker();
 buildQuotePage();
 renderClosing();
 fillServiceFacts();
+fillDeals();
 liteYouTube();
 updateQuoteLinks();
 revealOnScroll();
