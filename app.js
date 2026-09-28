@@ -876,6 +876,12 @@ We'll check your car's eligibility (from your VIN if you gave one) and get back 
 
 ${ELIGIBILITY_NOTE}
 
+Before we code, please make sure:
+- the car has been driven recently, so the battery is charged
+- the battery isn't too old
+- the battery hasn't been drained, and the car hasn't been sitting unused for an extended period
+We connect a battery charger while we work, but a weak battery can still let the voltage drop mid-coding, which can corrupt a module. If you're unsure about any of these, let us know before we book.
+
 Need to add something? Just send another quote request through the website.
 
 Redline Coding
