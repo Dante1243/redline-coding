@@ -233,6 +233,7 @@ form .btn { margin-top: 24px; }
   transform: rotate(45deg); transition: transform .2s;
 }
 .faq details[open] summary::after { transform: rotate(-135deg); margin-top: -2px; }
+.faq details.closing summary::after { transform: rotate(45deg); margin-top: -7px; } /* sliding shut */
 .faq summary:hover { color: var(--accent); }
 .faq details > :not(summary) { margin: 0 0 16px; color: var(--muted); max-width: 760px; }
 .faq details > :last-child { margin-bottom: 22px; }
