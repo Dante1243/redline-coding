@@ -88,7 +88,7 @@ const FEATURES = [
     desc: "Adds Sport Plus and Comfort Plus to your drive mode button, for a sharper or softer drive than the standard modes.",
     note: "Changes throttle, steering and gearbox response. The ride only gets firmer or softer if your car has adaptive suspension." },
   { id: "default-mode", group: "Driving", name: "Default driving mode", price: 15, icon: "dial", needs: [],
-    desc: "Choose the driving mode your car starts in every time, for example Sport instead of Comfort, so you don't have to press the mode button on every drive.",
+    desc: "Choose the driving mode your car starts in every time, such as Sport, Sport Individual, Comfort Plus or Eco Pro, so you don't have to press the mode button on every drive.",
     note: "Tell us which mode you want when you book." },
   { id: "adv", group: "Driving", name: "Assisted Driving View", price: 39, noDeal: true, icon: "lanes", needs: ["dap", "cluster"], img: ["feat-adv"],
     desc: "Shows your car, the lanes and the cars around you live on the instrument cluster while the driver assistance is on." },
