@@ -69,6 +69,7 @@ const REQUIREMENTS = {
 // Coding Menu features. Prices are per feature; MENU_DEALS below discounts multiple picks.
 // needs: REQUIREMENTS keys the car must have. note: caveats shown when the row is expanded.
 // img: photos in media/ (name.jpg full size, name-sm.jpg thumbnail); features without one show their icon.
+// closeUp: the photo is a close-up of a small button or badge, so it shows smaller when the row is opened.
 // addOn: cheaper when booked with a service. noDeal: not part of the 3-for / all-of-them deals.
 // Every feature also needs iDrive 7 and a build date before March 2021 (checked per model).
 const FEATURES = [
@@ -76,7 +77,7 @@ const FEATURES = [
     addOn: { with: "remote-start", price: 39 }, noDeal: true, img: ["hs-hero", "hs-menu"],
     desc: "Your heated seats switch on by themselves when it's colder than the temperature you choose, even part-way through a drive, at the heat level you choose. Change both any time in iDrive, separately for driver and passenger.",
     note: "For 1–4 Series and X1–X4. Higher models like the 5 Series usually have it from the factory. It switches on once the driver's seatbelt is fastened." },
-  { id: "start-stop", group: "Comfort", name: "Auto start/stop: memory or always off", price: 15, icon: "power", needs: [], img: ["feat-start-stop"],
+  { id: "start-stop", group: "Comfort", name: "Auto start/stop: memory or always off", price: 15, icon: "power", needs: [], img: ["feat-start-stop"], closeUp: true,
     desc: "Your choice: the car remembers when you switch auto start/stop off, or auto start/stop starts switched off every drive. Either way, no more pressing the button each time you get in.",
     note: "May not work on cars that have had BMW's late-2023 software update (11/2023) or newer. We check your car's software version first. Tell us in your quote which option you want." },
   { id: "comfort-blink", group: "Comfort", name: "Comfort blink (3 → 5 flashes)", price: 10, icon: "blink", needs: [], img: ["feat-comfort-blink", "feat-comfort-blink-set"],
@@ -103,7 +104,7 @@ const FEATURES = [
     note: "BMW doesn't offer this in Australia. It's an emergency aid, and the driver remains responsible for the car at all times. We recommend telling your insurer." },
   { id: "cluster", group: "Style", name: "Cluster style", price: 19, icon: "screen", needs: ["cluster"], img: ["feat-cluster"],
     desc: "Change the instrument cluster's look: the M340i layout with a 330 km/h speedo, the M3 / M4 layout with shift lights, the M-car or M Sport layouts, or the Alpina style." },
-  { id: "badge", group: "Style", name: "M or high-trim start-up badge", price: 15, icon: "badge", needs: ["cluster"], img: ["feat-badge"],
+  { id: "badge", group: "Style", name: "M or high-trim start-up badge", price: 15, icon: "badge", needs: ["cluster"], img: ["feat-badge"], closeUp: true,
     desc: "Choose from over 80 badges, from M, M Sport and Alpina to M3 CS, M4 CSL, M5 Competition, X5 M Competition and V12, to show when you start the car.",
     note: "Purely cosmetic, and we can remove it any time, e.g. before you sell the car." },
   { id: "idrive-startup", group: "Style", name: "iDrive start-up animation", price: 15, icon: "badge", needs: [], img: ["feat-idrive-startup"],
@@ -115,14 +116,14 @@ const FEATURES = [
   { id: "xview", group: "Quick extras", name: "X View display", price: 5, noDeal: true, extra: true, icon: "screen", needs: [], img: ["feat-xview", "feat-xview-menu"],
     desc: "Unlocks the X View display normally only on BMW X models, showing your car's tilt and incline angles.",
     note: "For models that don't have it from the factory." },
-  { id: "lock-horn", group: "Quick extras", name: "No horn when locking with the engine running", price: 5, noDeal: true, extra: true, icon: "lock", needs: [], img: ["feat-lock-horn"],
+  { id: "lock-horn", group: "Quick extras", name: "No horn when locking with the engine running", price: 5, noDeal: true, extra: true, icon: "lock", needs: [], img: ["feat-lock-horn"], closeUp: true,
     desc: "Stops the horn sounding when you lock the car with the engine running, for example while it warms up." },
-  { id: "window-interrupt", group: "Quick extras", name: "Windows keep moving when a door opens", price: 5, noDeal: true, extra: true, icon: "window", needs: [], img: ["feat-window-interrupt"],
+  { id: "window-interrupt", group: "Quick extras", name: "Windows keep moving when a door opens", price: 5, noDeal: true, extra: true, icon: "window", needs: [], img: ["feat-window-interrupt"], closeUp: true,
     desc: "Automatic window up or down no longer stops halfway when you open a door." },
-  { id: "parking-longer", group: "Quick extras", name: "Parking sensors & cameras stay on longer", price: 5, noDeal: true, extra: true, icon: "camera", needs: [], img: ["feat-parking-longer"],
+  { id: "parking-longer", group: "Quick extras", name: "Parking sensors & cameras stay on longer", price: 5, noDeal: true, extra: true, icon: "camera", needs: [], img: ["feat-parking-longer"], closeUp: true,
     desc: "Parking sensors, Top View and the reversing camera stay on for longer and up to 50 km/h, so they don't switch off as soon as you pull away.",
     note: "Made for cars with Parking Assistant Professional (360° cameras). It may work on others, and we'll check yours." },
-  { id: "seat-memory", group: "Quick extras", name: "Seat heating memory", price: 5, noDeal: true, extra: true, icon: "seat", needs: [], img: ["feat-seat-memory"],
+  { id: "seat-memory", group: "Quick extras", name: "Seat heating memory", price: 5, noDeal: true, extra: true, icon: "seat", needs: [], img: ["feat-seat-memory"], closeUp: true,
     desc: "Choose how long your seat heating (and cooling, if fitted) setting is remembered: 15 minutes, 24 hours, unlimited, or not at all.",
     note: "Usually the driver's seat." },
 ];
