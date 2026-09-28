@@ -227,6 +227,8 @@ form .btn { margin-top: 24px; }
   font-weight: 600; font-size: 17px;
 }
 .faq summary::-webkit-details-marker { display: none; }
+/* no double-tap zoom delay on toggles */
+.faq summary, .item-more, .item-main { touch-action: manipulation; }
 .faq summary::after {
   content: ""; position: absolute; right: 6px; top: 50%; width: 9px; height: 9px; margin-top: -7px;
   border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted);

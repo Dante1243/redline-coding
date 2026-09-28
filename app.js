@@ -1021,6 +1021,12 @@ function smoothFaq() {
   });
 }
 
+// Clicking a toggle quickly (double or triple click) shouldn't highlight the text around it.
+// Only multi-clicks are stopped, so text can still be selected by dragging.
+document.addEventListener("mousedown", (e) => {
+  if (e.detail > 1 && e.target.closest(".faq summary, .item-more, .item-main")) e.preventDefault();
+});
+
 renderChrome();
 renderCrumbs();
 renderServiceCards();
