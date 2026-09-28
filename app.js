@@ -995,6 +995,32 @@ function revealOnScroll() {
     });
 }
 
+// FAQ answers slide open and closed like the menu rows (native <details>, height animated here)
+function smoothFaq() {
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+  document.querySelectorAll(".faq details").forEach((d) => {
+    let anim = null;
+    d.querySelector("summary").addEventListener("click", (e) => {
+      if (reduce.matches || !d.animate) return; // plain instant toggle
+      e.preventDefault();
+      const closing = d.open && !d.classList.contains("closing");
+      const from = d.offsetHeight; // measured before cancelling, so a reversed slide starts where it is
+      anim?.cancel();
+      d.open = !closing;
+      const to = d.offsetHeight;
+      d.open = true; // stay open while sliding shut so the answer stays visible
+      d.classList.toggle("closing", closing); // flips the arrow straight away
+      d.style.overflow = "hidden";
+      anim = d.animate({ height: [`${from}px`, `${to}px`] }, { duration: 300, easing: "ease" });
+      anim.finished.then(() => {
+        anim = null;
+        d.style.overflow = "";
+        if (closing) { d.open = false; d.classList.remove("closing"); }
+      }, () => {}); // cancelled by another click: that click has taken over
+    });
+  });
+}
+
 renderChrome();
 renderCrumbs();
 renderServiceCards();
@@ -1008,3 +1034,4 @@ fillDeals();
 liteYouTube();
 updateQuoteLinks();
 revealOnScroll();
+smoothFaq();
