@@ -32,7 +32,7 @@ const SERVICES = {
     price: 5,
     time: "~5 min each",
     icon: "dial",
-    img: "card-coding-menu",
+    img: "card-coding-menu-hd",
     checks: ["build", "cluster", "dap", "heated"],
     vehicles: MENU_VEHICLES,
     makes: "BMW",
