@@ -74,7 +74,7 @@ const REQUIREMENTS = {
 const FEATURES = [
   { id: "heated-seats", group: "Comfort", name: "Automatic heated seats", price: 79, icon: "seat", needs: ["heated"],
     addOn: { with: "remote-start", price: 39 }, noDeal: true, img: ["hs-hero", "hs-menu"],
-    desc: "Your heated seats switch on by themselves when it's cold, at the temperature and heat level you choose. Change both any time in iDrive, separately for driver and passenger.",
+    desc: "Your heated seats switch on by themselves when it's colder than the temperature you choose, even part-way through a drive, at the heat level you choose. Change both any time in iDrive, separately for driver and passenger.",
     note: "For 1–4 Series and X1–X4. Higher models like the 5 Series usually have it from the factory. It switches on once the driver's seatbelt is fastened." },
   { id: "start-stop", group: "Comfort", name: "Auto start/stop: memory or always off", price: 15, icon: "power", needs: [],
     desc: "Your choice: the car remembers when you switch auto start/stop off, or auto start/stop starts switched off every drive. Either way, no more pressing the button each time you get in.",
