@@ -27,9 +27,9 @@ const SERVICES = {
   },
   "coding-menu": {
     name: "Coding Menu",
-    short: "Automatic heated seats, start/stop memory or always off, extra drive modes, M cluster styles and more. Pick what you want and we do it all in one visit.",
+    short: "Automatic heated seats, start/stop memory or always off, extra drive modes, M cluster styles and more. Pick what you want from $5 and we do it all in one visit.",
     page: "coding-menu.html",
-    price: 10,
+    price: 5,
     time: "~5 min each",
     icon: "dial",
     img: "card-coding-menu",
@@ -109,6 +109,22 @@ const FEATURES = [
   { id: "idrive-startup", group: "Style", name: "iDrive start-up animation", price: 15, icon: "badge", needs: [], img: ["feat-idrive-startup"],
     desc: "Change the animation on the iDrive screen when you start the car: BMW M, Alpina, BMW i, or even Rolls-Royce.",
     note: "Which animations are available depends on your car's iDrive software version." },
+  // Quick extras: $5 each, always full price (outside the deals). extra: shown as one line on the home page card.
+  { id: "speedo-refresh", group: "Quick extras", name: "Faster digital speedo", price: 5, noDeal: true, extra: true, icon: "gauge", needs: [],
+    desc: "The digital speed readout updates 5 or 10 times a second instead of twice, so it keeps up with the car." },
+  { id: "xview", group: "Quick extras", name: "X View display", price: 5, noDeal: true, extra: true, icon: "screen", needs: [],
+    desc: "Unlocks the X View display normally only on BMW X models, showing your car's tilt and incline angles.",
+    note: "For models that don't have it from the factory." },
+  { id: "lock-horn", group: "Quick extras", name: "No horn when locking with the engine running", price: 5, noDeal: true, extra: true, icon: "lock", needs: [],
+    desc: "Stops the horn sounding when you lock the car with the engine running, for example while it warms up." },
+  { id: "window-interrupt", group: "Quick extras", name: "Windows keep moving when a door opens", price: 5, noDeal: true, extra: true, icon: "window", needs: [],
+    desc: "Automatic window up or down no longer stops halfway when you open a door." },
+  { id: "parking-longer", group: "Quick extras", name: "Parking sensors & cameras stay on longer", price: 5, noDeal: true, extra: true, icon: "camera", needs: [],
+    desc: "Parking sensors, Top View and the reversing camera stay on for longer and up to 50 km/h, so they don't switch off as soon as you pull away.",
+    note: "Made for cars with Parking Assistant Professional (360° cameras). It may work on others, and we'll check yours." },
+  { id: "seat-memory", group: "Quick extras", name: "Seat heating memory", price: 5, noDeal: true, extra: true, icon: "seat", needs: [],
+    desc: "Choose how long your seat heating (and cooling, if fitted) setting is remembered: 15 minutes, 24 hours, unlimited, or not at all.",
+    note: "Usually the driver's seat." },
 ];
 
 // "Needs full digital cluster + Driving Assistant Professional"
@@ -136,5 +152,7 @@ const ICONS = {
   power: '<svg viewBox="0 0 24 24"><path d="M12 3v8"/><path d="M7 6.5a7 7 0 1 0 10 0"/></svg>',
   blink: '<svg viewBox="0 0 24 24"><path d="M4 12h11"/><path d="m11 7 5 5-5 5"/><path d="M19 7v10"/></svg>',
   alert: '<svg viewBox="0 0 24 24"><path d="M12 3.5 21.5 20h-19z"/><path d="M12 10v4.5M12 17.5h.01"/></svg>',
+  window: '<svg viewBox="0 0 24 24"><path d="M5 20V9l7-5h7v16z"/><path d="M5 12h14M12 4v8"/></svg>',
+  camera: '<svg viewBox="0 0 24 24"><rect x="3" y="7" width="13" height="11" rx="2"/><path d="m16 11 5-3v9l-5-3"/></svg>',
   chat: '<svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9.5h8M8 12.5h5"/></svg>',
 };

@@ -215,10 +215,13 @@ function addOnText(item) {
 
 // Wide service card: photo on one side, details on the other. The Coding Menu card lists every feature.
 function svcCard(s) {
+  const extras = FEATURES.filter((f) => f.extra);
   const feats = s.menu ? `
     <ul class="svc-feats">
-      ${FEATURES.map((f) => `
+      ${FEATURES.filter((f) => !f.extra).map((f) => `
         <li><span>${esc(f.name)}${f.addOn ? `<small>${esc(addOnText(f))}</small>` : ""}</span><b>${money(f.price)}</b></li>`).join("")}
+      ${extras.length ? `
+        <li><span>+ ${extras.length} quick extras<small>Faster speedo, X View, parking cameras and more</small></span><b>${money(Math.min(...extras.map((f) => f.price)))}</b></li>` : ""}
     </ul>` : "";
   return `
     <a class="svc-card" href="${s.page}">
