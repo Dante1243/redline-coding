@@ -338,23 +338,42 @@ function itemRow({ kind, id, name, price, sub, desc, note, link, checked, img, i
       </label>
       ${desc ? `
       <button type="button" class="item-more" aria-expanded="false" aria-controls="${did}" aria-label="More about ${esc(name)}">${CHEVRON}</button>
-      <div class="item-desc" id="${did}" hidden>
-        ${shots}
-        <p>${esc(desc)}</p>
-        ${note ? `<p class="item-fine">${esc(note)}</p>` : ""}
-        ${link ? `<p><a href="${link}">Details and eligibility →</a></p>` : ""}
+      <div class="item-desc" id="${did}">
+        <div class="item-desc-in">
+          ${shots}
+          <p>${esc(desc)}</p>
+          ${note ? `<p class="item-fine">${esc(note)}</p>` : ""}
+          ${link ? `<p><a href="${link}">Details and eligibility →</a></p>` : ""}
+        </div>
       </div>` : ""}
     </div>`;
 }
 
+const MAX_OPEN_ROWS = 2; // opening another row closes the one opened longest ago
+
+// Row details slide open and closed (CSS, driven by aria-expanded on the arrow button)
 function wireRows(root) {
+  const open = []; // expanded arrow buttons, oldest first
+  const setOpen = (btn, on) => btn.setAttribute("aria-expanded", String(on));
   root.addEventListener("click", (e) => {
     const btn = e.target.closest(".item-more");
     if (!btn) return;
-    const open = btn.getAttribute("aria-expanded") !== "true";
-    btn.setAttribute("aria-expanded", String(open));
-    $(btn.getAttribute("aria-controls")).hidden = !open;
+    const opening = btn.getAttribute("aria-expanded") !== "true";
+    setOpen(btn, opening);
+    const i = open.indexOf(btn);
+    if (i !== -1) open.splice(i, 1);
+    if (opening) {
+      open.push(btn);
+      while (open.length > MAX_OPEN_ROWS) setOpen(open.shift(), false);
+    }
   });
+  // Start loading a row's photos once the pointer or focus reaches its arrow, so they're ready as it opens
+  const warm = (e) => {
+    const btn = e.target.closest?.(".item-more");
+    if (btn) $(btn.getAttribute("aria-controls")).querySelectorAll('img[loading="lazy"]').forEach((img) => { img.loading = "eager"; });
+  };
+  root.addEventListener("pointerover", warm);
+  root.addEventListener("focusin", warm);
 }
 
 function picked(root, kind) {
