@@ -80,7 +80,7 @@ const FEATURES = [
     desc: "Your choice: the car remembers when you switch auto start/stop off, or auto start/stop starts switched off every drive. Either way, no more pressing the button each time you get in.",
     note: "May not work on cars that have had BMW's late-2023 software update (11/2023) or newer. We check your car's software version first. Tell us in your quote which option you want." },
   { id: "comfort-blink", group: "Comfort", name: "Comfort blink (3 → 5 flashes)", price: 10, icon: "blink", needs: [],
-    desc: "One tap of the indicator stalk flashes 5 times instead of 3. Handy for lane changes on the freeway." },
+    desc: "Adds a 5-flash option to your iDrive lighting settings, so one tap of the indicator stalk can flash 5 times instead of 3. Handy for freeway lane changes, and you can switch back to 3 any time." },
   { id: "disclaimers", group: "Comfort", name: "Skip start-up legal disclaimers", price: 10, icon: "screen", needs: [],
     desc: "Removes the legal disclaimer pop-ups you have to click through on iDrive every time you start the car.",
     note: "A dealer software update can bring the pop-ups back. We can remove them again." },
