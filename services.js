@@ -107,7 +107,7 @@ const FEATURES = [
     desc: "Choose from over 80 badges, from M, M Sport and Alpina to M3 CS, M4 CSL, M5 Competition, X5 M Competition and V12, to show when you start the car.",
     note: "Purely cosmetic, and we can remove it any time, e.g. before you sell the car." },
   { id: "idrive-startup", group: "Style", name: "iDrive start-up animation", price: 15, icon: "badge", needs: [], img: ["feat-idrive-startup"],
-    desc: "Change the animation on the iDrive screen when you start the car, for example the BMW M logo.",
+    desc: "Change the animation on the iDrive screen when you start the car: BMW M, Alpina, BMW i, or even Rolls-Royce.",
     note: "Which animations are available depends on your car's iDrive software version." },
 ];
 
