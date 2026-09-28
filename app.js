@@ -318,14 +318,14 @@ function renderBundles() {
 const CHEVRON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
 let rowCount = 0;
 
-function itemRow({ kind, id, name, price, sub, desc, note, link, checked, img, icon }) {
+function itemRow({ kind, id, name, price, sub, desc, note, link, checked, img, icon, closeUp }) {
   const did = `item-desc-${++rowCount}`;
   const photos = [].concat(img || []);
   const thumb = photos.length
     ? `<img class="item-thumb" src="media/${photos[0]}-sm.jpg" alt="" loading="lazy">`
     : icon ? `<span class="item-thumb item-icon" aria-hidden="true">${ICONS[icon] || ""}</span>` : "";
   const shots = photos.length
-    ? `<div class="item-shots">${photos.map((p) => `<img src="media/${p}.jpg" alt="${esc(name)} on a BMW screen" loading="lazy">`).join("")}</div>`
+    ? `<div class="item-shots${closeUp ? " item-shots-sm" : ""}">${photos.map((p) => `<img src="media/${p}.jpg" alt="${esc(name)} on a BMW" loading="lazy">`).join("")}</div>`
     : "";
   return `
     <div class="item">
@@ -388,7 +388,7 @@ function renderMenu() {
     <h3 class="item-group">${esc(g)}</h3>
     <div class="items">
       ${FEATURES.filter((f) => f.group === g)
-        .map((f) => itemRow({ kind: "feature", id: f.id, name: f.name, price: money(f.price), sub: featureSub(f), desc: f.desc, note: f.note, img: f.img, icon: f.icon }))
+        .map((f) => itemRow({ kind: "feature", id: f.id, name: f.name, price: money(f.price), sub: featureSub(f), desc: f.desc, note: f.note, img: f.img, icon: f.icon, closeUp: f.closeUp }))
         .join("")}
     </div>`).join("") + `
     <div class="total-bar">
@@ -681,7 +681,7 @@ function buildQuotePage() {
     <div class="items">
       ${FEATURES.map((f) => itemRow({
         kind: "feature", id: f.id, name: f.name, price: money(f.price), checked: pickF.includes(f.id), sub: featureSub(f),
-        desc: f.desc, note: f.note, img: f.img, icon: f.icon,
+        desc: f.desc, note: f.note, img: f.img, icon: f.icon, closeUp: f.closeUp,
       })).join("")}
     </div>
     <h3 class="item-group">Something else</h3>
