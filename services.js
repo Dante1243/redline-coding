@@ -104,7 +104,7 @@ const FEATURES = [
   { id: "cluster", group: "Style", name: "Cluster style", price: 19, icon: "screen", needs: ["cluster"], img: ["feat-cluster"],
     desc: "Change the instrument cluster's look: the M340i layout with a 330 km/h speedo, the M3 / M4 layout with shift lights, the M-car or M Sport layouts, or the Alpina style." },
   { id: "badge", group: "Style", name: "M or high-trim start-up badge", price: 15, icon: "badge", needs: ["cluster"], img: ["feat-badge"],
-    desc: "Show an M, M4 CS, X3 M, X7 M or other badge on the cluster when you start the car.",
+    desc: "Choose from over 80 badges, from M, M Sport and Alpina to M3 CS, M4 CSL, M5 Competition, X5 M Competition and V12, to show when you start the car.",
     note: "Purely cosmetic, and we can remove it any time, e.g. before you sell the car." },
   { id: "idrive-startup", group: "Style", name: "iDrive start-up animation", price: 15, icon: "badge", needs: [], img: ["feat-idrive-startup"],
     desc: "Change the animation on the iDrive screen when you start the car, for example the BMW M logo.",
