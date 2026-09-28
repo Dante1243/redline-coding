@@ -102,7 +102,7 @@ const FEATURES = [
     desc: "If the driver becomes unwell, pulling and holding the parking brake switch while driving hands control to the car. It slows down in the breakdown lane if possible (otherwise in its own lane), stops, switches on the hazard lights and starts an emergency call.",
     note: "BMW doesn't offer this in Australia. It's an emergency aid, and the driver remains responsible for the car at all times. We recommend telling your insurer." },
   { id: "cluster", group: "Style", name: "Cluster style", price: 19, icon: "screen", needs: ["cluster"], img: ["feat-cluster"],
-    desc: "Change the instrument cluster's look: the M-car layout, the Alpina style, or a 330 km/h speedo like the M340i." },
+    desc: "Change the instrument cluster's look: the M340i layout with a 330 km/h speedo, the M3 / M4 layout with shift lights, the M-car or M Sport layouts, or the Alpina style." },
   { id: "badge", group: "Style", name: "M or high-trim start-up badge", price: 15, icon: "badge", needs: ["cluster"], img: ["feat-badge"],
     desc: "Show an M, M4 CS, X3 M, X7 M or other badge on the cluster when you start the car.",
     note: "Purely cosmetic, and we can remove it any time, e.g. before you sell the car." },
