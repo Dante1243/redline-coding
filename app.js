@@ -245,7 +245,7 @@ function ctaCard() {
     <div class="cta-card">
       <div>
         <h2>Ready when you are.</h2>
-        <p>Pick what you want, see your total and send it in under a minute.</p>
+        <p>Free quote, confirmed from your VIN. You only pay once it's working.</p>
       </div>
       <a class="btn btn-primary" href="enquire.html" data-quote>Get a quote</a>
     </div>`;
@@ -402,7 +402,7 @@ function renderMenu() {
     updateQuoteLinks();
     const el = $("menuSummary");
     if (!menuPicked.length) {
-      el.innerHTML = `Tick the features you want. <b>${dealsText()}</b>`;
+      el.innerHTML = `<b>${dealsText()}</b>`;
       return;
     }
     const m = menuQuote(menuPicked);
@@ -898,7 +898,6 @@ function showThanks(form, data, q, car) {
       <ol>
         <li>We check ${car ? "your " + esc(car) : "your car"}${data.vin ? " using your VIN" : ""}.</li>
         <li>We reply within one business day with your final price and available times.</li>
-        <li>You only pay once it's working.</li>
       </ol>
       <p class="thanks-note">${ELIGIBILITY_NOTE}</p>
     </div>
