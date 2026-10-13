@@ -176,6 +176,9 @@ select:disabled { opacity: .55; }
 select:focus, input:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent; }
 .hint { font-weight: 400; color: var(--muted); font-size: 13px; }
 .hp { position: absolute; left: -9999px; }
+/* "I agree to the terms" tick box on the quote form */
+.agree { flex-direction: row; align-items: flex-start; gap: 10px; font-weight: 400; font-size: 15px; }
+.agree input { flex: none; width: 20px; height: 20px; margin: 1px 0 0; padding: 0; accent-color: var(--accent); }
 form .btn { margin-top: 24px; }
 
 /* result */
