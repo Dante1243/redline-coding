@@ -836,6 +836,7 @@ async function submitQuote(e, form, selection) {
     });
     const json = await res.json().catch(() => ({}));
     if (!res.ok || json.success === "false" || json.success === false) throw new Error(json.message || res.statusText);
+    if (typeof gtag === "function") gtag("event", "generate_lead", { currency: "AUD", value: q.total }); // counts quote requests in Google Analytics
     showThanks(form, data, q, car);
   } catch (err) {
     statusEl.className = "status err";
