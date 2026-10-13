@@ -835,6 +835,9 @@ async function submitQuote(e, form, selection) {
     "VIN": (data.vin || "-").toUpperCase(),
     ...(chk && chk.fields ? chk.fields : {}),
     "Message": data.message || "-",
+    // proof of agreement: which terms they ticked, and when
+    "Agreed to terms": `Yes, ticked on the quote form (booking terms, ${TERMS_VERSION} version)`,
+    "Agreed at": `${new Date().toLocaleString("en-AU", { timeZone: "Australia/Perth", dateStyle: "medium", timeStyle: "medium" })} Perth time`,
   };
 
   if (!(await confirmQuote(q, data, car))) return; // customer chose to go back and edit
@@ -865,6 +868,9 @@ async function submitQuote(e, form, selection) {
   }
 }
 
+// Keep in step with "Last updated" on terms.html, so each quote records which terms were agreed to
+const TERMS_VERSION = "October 2026";
+
 const ELIGIBILITY_NOTE = "We assess your car's eligibility before anything is booked. You won't be charged for any feature your car already has, or for anything that can't be coded on it. You only pay once it's working.";
 
 // Review step: shows the request and the eligibility note. Resolves true to send, false to go back.
@@ -882,6 +888,7 @@ function confirmQuote(q, data, car) {
           <div><dt>Car</dt><dd>${esc(car || "Not given")}${data.vin ? ` · VIN ${esc(data.vin.toUpperCase())}` : ""}</dd></div>
           <div><dt>Contact</dt><dd>${esc(data.name)} · ${esc(data.email)}${data.phone ? ` · ${esc(data.phone)}` : ""}</dd></div>
           <div><dt>Where</dt><dd>${esc(data.service)}${data.location ? `, ${esc(data.location)}` : ""}</dd></div>
+          <div><dt>Terms</dt><dd>Agreed (booking terms, ${TERMS_VERSION})</dd></div>
         </dl>
         <div class="confirm-note">
           <p class="confirm-note-title">Your eligibility will be assessed first</p>
@@ -921,7 +928,7 @@ Before we code, please make sure:
 - the battery hasn't been drained, and the car hasn't been sitting unused for an extended period
 We connect a battery charger while we work, but a weak battery can still let the voltage drop mid-coding, which can corrupt a module. If you're unsure about any of these, let us know before we book.
 
-Our booking terms (confirming, cancelling and payment): https://dante1243.github.io/redline-coding/terms.html
+You agreed to our booking terms (${TERMS_VERSION} version) when you sent this request. You can read them any time: https://dante1243.github.io/redline-coding/terms.html
 
 Need to add something? Just send another quote request through the website.
 
