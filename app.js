@@ -684,6 +684,19 @@ function buildQuotePage() {
   const root = $("quote-items");
   if (!root) return;
   const params = new URLSearchParams(location.search);
+
+  // After a quote is sent, the page reloads as enquire.html?sent=1 and shows the thank-you message
+  if (params.has("sent")) {
+    const sent = load("rc-sent");
+    store("rc-sent", null); // a refresh shouldn't show it again
+    if (sent) {
+      showThanks($("quote"), sent.data, sent.q, sent.car);
+      if (typeof gtag === "function") gtag("event", "generate_lead", { currency: "AUD", value: sent.q.total }); // counts quote requests in Google Analytics
+      return;
+    }
+    history.replaceState(null, "", "enquire.html"); // opened directly: show the normal quote page
+  }
+
   const pickS = (params.get("pick") || "").split(",");
   const pickF = (params.get("f") || "").split(",");
 
@@ -836,8 +849,13 @@ async function submitQuote(e, form, selection) {
     });
     const json = await res.json().catch(() => ({}));
     if (!res.ok || json.success === "false" || json.success === false) throw new Error(json.message || res.statusText);
-    if (typeof gtag === "function") gtag("event", "generate_lead", { currency: "AUD", value: q.total }); // counts quote requests in Google Analytics
-    showThanks(form, data, q, car);
+    store("rc-sent", { data: { name: data.name, email: data.email, vin: data.vin || "" }, q, car });
+    if (load("rc-sent")) {
+      location.replace("enquire.html?sent=1"); // reload as the "sent" page, a real page Google Ads can count as a booking
+    } else { // storage blocked: thank them right here instead
+      if (typeof gtag === "function") gtag("event", "generate_lead", { currency: "AUD", value: q.total });
+      showThanks(form, data, q, car);
+    }
   } catch (err) {
     statusEl.className = "status err";
     statusEl.textContent = `Sorry, your quote request didn't send (${err.message}). Please try again or email ${ENQUIRY_EMAIL} directly.`;
