@@ -928,7 +928,7 @@ Before we code, please make sure:
 - the battery hasn't been drained, and the car hasn't been sitting unused for an extended period
 We connect a battery charger while we work, but a weak battery can still let the voltage drop mid-coding, which can corrupt a module. If you're unsure about any of these, let us know before we book.
 
-You agreed to our booking terms (${TERMS_VERSION} version) when you sent this request. You can read them any time: https://dante1243.github.io/redline-coding/terms.html
+You agreed to our booking terms (${TERMS_VERSION} version) when you sent this request. You can read them any time: https://redlinecoding.com.au/terms.html
 
 Need to add something? Just send another quote request through the website.
 
