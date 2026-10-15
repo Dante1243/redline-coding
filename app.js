@@ -189,7 +189,7 @@ function renderChrome() {
             </div>
           </div>
           <p class="disclaimer">Redline Coding is an independent business. It is not affiliated with, authorised by, sponsored by or endorsed by BMW AG, BMW M GmbH, Bayerische Motoren Werke AG, Toyota Motor Corporation, or any of their subsidiaries or dealers. BMW, M, iDrive, Supra and all related model names are trademarks of their respective owners and are used on this site only to identify compatible vehicles.</p>
-          <p class="copy">© ${thisYear} Redline Coding · Perth, WA</p>
+          <p class="copy">© ${thisYear} Redline Coding · ABN 55 424 847 928 · Perth, WA</p>
         </div>
       </footer>`;
   }
