@@ -742,3 +742,21 @@ h1, h2, .h2 { text-wrap: balance; }
 .about-shots figcaption { margin-top: 8px; font-size: 13px; color: var(--muted); }
 @media (max-width: 860px) { .about { grid-template-columns: 1fr; gap: 24px; } }
 @media (max-width: 480px) { .about-shots { flex-direction: column; } }
+
+/* "Cars we code" page */
+.cars { padding: 4px 28px; }
+.car-row { display: grid; grid-template-columns: 210px 1fr; gap: 6px 24px; padding: 16px 0; border-bottom: 1px solid var(--border); }
+.car-row:last-child { border-bottom: 0; }
+.car-row h3 { margin: 0; font-size: 16px; }
+.car-row ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.car-row li { font-size: 15px; font-weight: 600; }
+.car-row li small { display: block; margin-top: 3px; font-size: 13px; font-weight: 400; color: var(--muted); }
+.car-trims { font-weight: 400; color: var(--muted); }
+.car-note { margin: 8px 0 0; font-size: 13px; color: var(--muted); }
+.car-tag { display: inline-block; margin-left: 6px; padding: 1px 8px; border-radius: 999px; font-size: 12px; font-weight: 700; background: var(--check-bg); color: var(--check-fg); border: 1px solid var(--check-bd); }
+.car-tag-yes { background: var(--yes-bg); color: var(--yes-fg); border-color: var(--yes-bd); }
+.cars-no .car-row li { font-weight: 500; }
+@media (max-width: 560px) {
+  .cars { padding: 4px 18px; }
+  .car-row { grid-template-columns: 1fr; }
+}

@@ -140,6 +140,7 @@ function renderChrome() {
             <div class="nav-svcs">${svcLinks}</div>
             <div class="nav-more">
               <a href="${home}#how">How it works</a>
+              <a href="cars.html">Cars we code</a>
               <a href="${faq}">FAQ</a>
               <a href="enquire.html">Get a quote</a>
             </div>
@@ -182,6 +183,7 @@ function renderChrome() {
               <a href="index.html">Home</a>
               <a href="index.html#how">How it works</a>
               <a href="index.html#about">About</a>
+              <a href="cars.html">Cars we code</a>
               <a href="${faq}">FAQ</a>
               <a href="enquire.html">Get a quote</a>
               <a href="privacy.html">Privacy</a>
@@ -199,7 +201,7 @@ function renderChrome() {
 function renderCrumbs() {
   const hero = document.querySelector(".hero .wrap");
   const svc = SERVICES[pageService];
-  const pages = { quote: "Get a quote", privacy: "Privacy", terms: "Terms" };
+  const pages = { quote: "Get a quote", privacy: "Privacy", terms: "Terms", cars: "Cars we code" };
   const here = svc ? svc.name : pages[document.body.dataset.page] || "";
   if (!hero || !here) return;
   hero.insertAdjacentHTML("afterbegin", `
@@ -1024,6 +1026,61 @@ function revealOnScroll() {
     });
 }
 
+// ---- "Cars we code" page: built from the checkers' vehicle lists, so it always matches them ----
+function renderCars() {
+  if (!$("cars-remote-start")) return;
+  const lists = { "remote-start": REMOTE_START_VEHICLES, "coding-menu": MENU_VEHICLES };
+  const parts = (code) => code.split("/").map((c) => c.trim());
+  const notesOf = (r) => [r.note, r.idrive7 && r.idrive7.msg].filter(Boolean);
+  // items: [{ html, notes }]. A note every item shares is shown once under the list instead of repeating.
+  const row = (title, items) => {
+    if (!items.length) return "";
+    const shared = items.length > 1 ? items[0].notes.filter((n) => items.every((i) => i.notes.includes(n))) : [];
+    const li = items.map((i) => `<li>${i.html}${i.notes.filter((n) => !shared.includes(n)).map((n) => `<small>${esc(n)}</small>`).join("")}</li>`);
+    return `<div class="car-row"><h3>${esc(title)}</h3><div><ul>${li.join("")}</ul>${shared.map((n) => `<p class="car-note">${esc(n)}</p>`).join("")}</div></div>`;
+  };
+
+  // Cars each service can do (eligible, or "check your VIN" for conditional ones)
+  for (const [svc, list] of Object.entries(lists)) {
+    const html = [];
+    for (const [make, models] of Object.entries(list)) {
+      for (const [model, rows] of Object.entries(models)) {
+        const items = rows.filter((r) => r.status !== "excluded").map((r) => ({
+          html: `${esc(r.label)}${r.trims ? ` <span class="car-trims">${esc(r.trims)}</span>` : ""}` +
+            `${r.status === "conditional" ? ` <span class="car-tag">We check your VIN</span>` : ""}` +
+            `${r.cutoff === null ? ` <span class="car-tag car-tag-yes">Any build year</span>` : ""}`,
+          notes: notesOf(r),
+        }));
+        html.push(row(`${make} ${model}`, items));
+      }
+    }
+    $(`cars-${svc}`).innerHTML = html.join("");
+  }
+
+  // Cars neither service can do, plus the ones only remote start can't do
+  const allowed = (svc, code) => Object.values(lists[svc]).some((models) => Object.values(models).some((rows) =>
+    rows.some((r) => r.status !== "excluded" && parts(r.code).some((p) => parts(code).includes(p)))));
+  const seen = new Set();
+  const groups = {};
+  for (const [svc, list] of Object.entries(lists)) {
+    for (const [make, models] of Object.entries(list)) {
+      for (const [model, rows] of Object.entries(models)) {
+        for (const r of rows.filter((x) => x.status === "excluded")) {
+          if (parts(r.code).every((p) => seen.has(p))) continue;
+          parts(r.code).forEach((p) => seen.add(p));
+          const other = svc === "remote-start" ? "coding-menu" : "remote-start";
+          const onlyThis = allowed(other, r.code);
+          (groups[`${make} ${model}`] ||= []).push({
+            html: `${esc(r.label)}${onlyThis ? ` <span class="car-tag">${svc === "remote-start" ? "No remote start, Coding Menu OK" : "No Coding Menu"}</span>` : ""}`,
+            notes: r.note ? [r.note] : [],
+          });
+        }
+      }
+    }
+  }
+  $("cars-excluded").innerHTML = Object.entries(groups).map(([title, items]) => row(title, items)).join("");
+}
+
 // FAQ answers slide open and closed like the menu rows (native <details>, height animated here)
 function smoothFaq() {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)");
@@ -1061,6 +1118,7 @@ renderCrumbs();
 renderServiceCards();
 renderBundles();
 renderMenu();
+renderCars();
 buildChecker();
 buildQuotePage();
 renderClosing();
