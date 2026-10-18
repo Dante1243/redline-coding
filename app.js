@@ -1,5 +1,5 @@
-// Where enquiries are emailed. FormSubmit.co forwards form posts to this address.
-const ENQUIRY_EMAIL = "redlinecodingperth@gmail.com";
+// Where enquiries are emailed. FormSubmit.co forwards form posts to the business Gmail; this is its alias, so the address isn't in the code.
+const ENQUIRY_EMAIL = "5032f7264e4468c244df70bc8821d656";
 // Shown to customers if a quote fails to send
 const CONTACT_EMAIL = "redlinecodingperth@gmail.com";
 
