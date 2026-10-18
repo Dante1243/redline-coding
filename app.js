@@ -966,7 +966,10 @@ function showThanks(form, data, q, car) {
     </div>
     <h3 class="sum-head">Your quote</h3>
     ${summaryHtml(q)}`;
-  form.replaceWith(box);
+  const wrap = document.createElement("div"); // keeps the page width and spacing the form had
+  wrap.className = "wrap thanks-wrap";
+  wrap.append(box);
+  form.replaceWith(wrap);
   const bar = $("quoteBar");
   if (bar) bar.hidden = true;
   box.focus();

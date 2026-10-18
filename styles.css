@@ -432,6 +432,7 @@ form .btn { margin-top: 24px; }
 .sum-total small { font-size: 13px; font-weight: 500; color: var(--muted); }
 #summary .btn { margin-top: 16px; }
 .thanks-card { display: grid; gap: 8px; }
+.thanks-wrap { padding-top: 32px; }
 .sum-head { margin: 16px 0 0; font-size: 18px; }
 
 /* home: closing call to action */
