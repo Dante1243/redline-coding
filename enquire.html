@@ -64,7 +64,7 @@
       <div id="checkerNote" hidden></div>
       <div class="grid">
         <label class="span2">Car
-          <input name="car" placeholder="e.g. 2020 BMW 330i" autocomplete="off">
+          <input name="car" maxlength="80" placeholder="e.g. 2020 BMW 330i" autocomplete="off">
         </label>
         <label>Build date (optional)
           <div class="row">
@@ -83,10 +83,10 @@
     <section class="card qstep">
       <h2 class="h2">3. Your details</h2>
       <div class="grid">
-        <label>Full name *<input name="name" required autocomplete="name"></label>
-        <label>Email *<input name="email" type="email" required autocomplete="email"></label>
-        <label>Phone<input name="phone" type="tel" autocomplete="tel"></label>
-        <label>Suburb<input name="location" autocomplete="address-level2" placeholder="e.g. Joondalup"></label>
+        <label>Full name *<input name="name" maxlength="80" required autocomplete="name"></label>
+        <label>Email *<input name="email" type="email" maxlength="120" required autocomplete="email"></label>
+        <label>Phone<input name="phone" type="tel" maxlength="20" autocomplete="tel"></label>
+        <label>Suburb<input name="location" maxlength="60" autocomplete="address-level2" placeholder="e.g. Joondalup"></label>
         <label class="span2">Where would you like it done?
           <select name="service">
             <option>Mobile (at my home or work)</option>
@@ -95,7 +95,7 @@
           </select>
         </label>
         <label class="span2">Message
-          <textarea name="message" rows="3" placeholder="Anything else we should know? Preferred days or times?"></textarea>
+          <textarea name="message" rows="3" maxlength="1500" placeholder="Anything else we should know? Preferred days or times?"></textarea>
         </label>
         <label class="span2 agree">
           <input type="checkbox" name="agree" required>
