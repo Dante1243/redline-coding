@@ -1,5 +1,7 @@
 // Where enquiries are emailed. FormSubmit.co forwards form posts to this address.
 const ENQUIRY_EMAIL = "redlinecodingperth@gmail.com";
+// Shown to customers if a quote fails to send
+const CONTACT_EMAIL = "redlinecodingperth@gmail.com";
 
 const UNSURE = "__unsure";
 const OTHER = "__other";
@@ -868,7 +870,7 @@ async function submitQuote(e, form, selection) {
     }
   } catch (err) {
     statusEl.className = "status err";
-    statusEl.textContent = `Sorry, your quote request didn't send (${err.message}). Please try again or email ${ENQUIRY_EMAIL} directly.`;
+    statusEl.textContent = `Sorry, your quote request didn't send (${err.message}). Please try again or email ${CONTACT_EMAIL} directly.`;
   } finally {
     btn.disabled = false;
     btn.textContent = "Send quote request";
