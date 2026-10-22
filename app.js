@@ -109,8 +109,8 @@ function updateQuoteLinks() {
 
 // ---- shared nav + footer ----
 function renderChrome() {
-  const home = pageService || document.body.dataset.page ? "index.html" : "";
-  const faq = $("faq") ? "#faq" : "index.html#faq";
+  const home = pageService || document.body.dataset.page ? "/" : ""; // the root, not index.html, so Google only sees one home page
+  const faq = $("faq") ? "#faq" : "/#faq";
   const nav = $("site-nav");
   if (nav) {
     const svcLinks = Object.entries(SERVICES).map(([slug, s]) => `
@@ -187,9 +187,9 @@ function renderChrome() {
             </div>
             <div class="foot-col">
               <p class="foot-head">Info</p>
-              <a href="index.html">Home</a>
-              <a href="index.html#how">How it works</a>
-              <a href="index.html#about">About</a>
+              <a href="/">Home</a>
+              <a href="/#how">How it works</a>
+              <a href="/#about">About</a>
               <a href="cars.html">Cars we code</a>
               <a href="${faq}">FAQ</a>
               <a href="enquire.html">Get a quote</a>
@@ -213,7 +213,7 @@ function renderCrumbs() {
   if (!hero || !here) return;
   hero.insertAdjacentHTML("afterbegin", `
     <nav class="crumbs" aria-label="Breadcrumb">
-      <a href="index.html">Home</a><span aria-hidden="true">/</span><span aria-current="page">${esc(here)}</span>
+      <a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">${esc(here)}</span>
     </nav>`);
 }
 
