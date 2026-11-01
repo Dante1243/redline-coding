@@ -36,7 +36,45 @@
 </head>
 <body data-page="cars">
 
-<div id="site-nav"></div>
+<!--prerender:site-nav--><div id="site-nav">
+      <div class="mstripe" aria-hidden="true"></div>
+      <nav class="nav" aria-label="Main">
+        <div class="wrap nav-inner">
+          <a class="brand" href="/" aria-label="Redline Coding home">
+            <span class="brand-name">REDLINE<b>CODING</b></span>
+            <span class="brand-sub">BMW Coding Services · Perth</span>
+          </a>
+          <div class="nav-links">
+            <a href="/#services">Services</a>
+            <a href="/#how">How it works</a>
+            <a href="/#faq">FAQ</a>
+            <a class="btn btn-primary btn-sm" href="enquire.html" data-quote="">Get a quote</a>
+          </div>
+          <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="nav-panel" aria-label="Open menu">
+            <span></span><span></span>
+          </button>
+        </div>
+        <div class="nav-panel" id="nav-panel" hidden="">
+          <div class="wrap">
+            <p class="nav-label">Services</p>
+            <div class="nav-svcs">
+      <a href="remote-start.html">
+        <span class="f-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="3"></rect><circle cx="12" cy="8" r="1.6"></circle><path d="M10 13.5h4M10 16.5h4"></path></svg></span>
+        <span>Remote Engine Start<small>From $199 · ~1 hr</small></span>
+      </a>
+      <a href="coding-menu.html">
+        <span class="f-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 12l3.5-3.5"></path><path d="M12 5v1.5M5 12h1.5M17.5 12H19"></path></svg></span>
+        <span>Coding Menu<small>From $5 · ~5 min each</small></span>
+      </a></div>
+            <div class="nav-more">
+              <a href="/#how">How it works</a>
+              <a href="cars.html">Cars we code</a>
+              <a href="/#faq">FAQ</a>
+              <a href="enquire.html">Get a quote</a>
+            </div>
+          </div>
+        </div>
+      </nav></div><!--/prerender:site-nav-->
 
 <header class="hero hero-slim" id="top">
   <div class="wrap">
@@ -50,19 +88,19 @@
   <section class="wrap section" id="remote-start-cars">
     <h2 class="h2">Remote Engine Start</h2>
     <p class="muted">Petrol automatics built before March 2021 with iDrive 7, plus Toyota Supras of any build year. <a href="remote-start.html#check">Check your car</a></p>
-    <div class="card cars" id="cars-remote-start"></div>
+    <!--prerender:cars-remote-start--><div class="card cars" id="cars-remote-start"><div class="car-row"><h3>Toyota Supra</h3><div><ul><li>A90 (2019–2020) <span class="car-trims">2.0L, 3.0L</span> <span class="car-tag car-tag-yes">Any build year</span></li><li>A91 (2021+ facelift) <span class="car-trims">2.0L, 3.0L</span> <span class="car-tag car-tag-yes">Any build year</span></li></ul><p class="car-note">Supras don't have BMW's secure-coding lock, so every build year is supported.</p></div></div><div class="car-row"><h3>BMW 3 Series</h3><div><ul><li>G20 Sedan <span class="car-trims">320i, 330i, M340i</span></li><li>G21 Touring (wagon) <span class="car-trims">320i, 330i, M340i</span></li></ul><p class="car-note">Base models with physical-look dials (Live Cockpit Plus) built before mid-2020 run iDrive 6, which can't be coded for this. We'll confirm your iDrive version from the VIN.</p></div></div><div class="car-row"><h3>BMW 4 Series</h3><div><ul><li>G22 Coupe <span class="car-trims">420i, 430i, M440i</span></li><li>G23 Convertible <span class="car-trims">420i, 430i, M440i</span></li></ul></div></div><div class="car-row"><h3>BMW 5 Series</h3><div><ul><li>G30 / G31 facelift (LCI, mid-2020 on) <span class="car-trims">520i, 530i, 540i, M550i</span><small>The car must be the facelift (LCI) model with iDrive 7.</small></li></ul></div></div><div class="car-row"><h3>BMW 7 Series</h3><div><ul><li>G11 / G12 facelift (LCI) <span class="car-trims">740i, 750i, M760Li</span></li></ul></div></div><div class="car-row"><h3>BMW 8 Series</h3><div><ul><li>G14 Convertible <span class="car-trims">840i, M850i</span></li><li>G15 Coupe <span class="car-trims">840i, M850i</span></li><li>G16 Gran Coupe <span class="car-trims">840i, M850i</span></li></ul></div></div><div class="car-row"><h3>BMW X3</h3><div><ul><li>G01 <span class="car-trims">xDrive30i, M40i</span> <span class="car-tag">We check your VIN</span><small>The X3 has mixed hardware, and most cars reject this coding even with a qualifying build date. We check your specific car before charging anything.</small><small>X3s and X4s built before mid-2019 run iDrive 6, which can't be coded for this. Later cars have iDrive 7. We'll confirm your iDrive version from the VIN.</small></li></ul></div></div><div class="car-row"><h3>BMW X4</h3><div><ul><li>G02 <span class="car-trims">xDrive30i, M40i</span> <span class="car-tag">We check your VIN</span><small>The X4 has mixed hardware, and most cars reject this coding even with a qualifying build date. We check your specific car before charging anything.</small><small>X3s and X4s built before mid-2019 run iDrive 6, which can't be coded for this. Later cars have iDrive 7. We'll confirm your iDrive version from the VIN.</small></li></ul></div></div><div class="car-row"><h3>BMW X5</h3><div><ul><li>G05 <span class="car-trims">xDrive40i, M50i</span></li></ul></div></div><div class="car-row"><h3>BMW X6</h3><div><ul><li>G06 <span class="car-trims">xDrive40i, M50i</span></li></ul></div></div><div class="car-row"><h3>BMW X7</h3><div><ul><li>G07 <span class="car-trims">xDrive40i, M50i</span></li></ul></div></div><div class="car-row"><h3>BMW M5</h3><div><ul><li>F90 facelift (LCI) <span class="car-trims">M5, M5 Competition</span></li></ul></div></div><div class="car-row"><h3>BMW M8</h3><div><ul><li>F91 Convertible <span class="car-trims">M8, M8 Competition</span></li><li>F92 Coupe <span class="car-trims">M8, M8 Competition</span></li><li>F93 Gran Coupe <span class="car-trims">M8, M8 Competition</span></li></ul></div></div><div class="car-row"><h3>BMW X5 M</h3><div><ul><li>F95 <span class="car-trims">X5 M, X5 M Competition</span></li></ul></div></div><div class="car-row"><h3>BMW X6 M</h3><div><ul><li>F96 <span class="car-trims">X6 M, X6 M Competition</span></li></ul></div></div></div><!--/prerender:cars-remote-start-->
   </section>
 
   <section class="wrap section" id="coding-menu-cars">
     <h2 class="h2">Coding Menu</h2>
     <p class="muted">BMWs built before March 2021 with iDrive 7. Some features also need specific equipment, like the full digital cluster. <a href="coding-menu.html#check">Check your car</a></p>
-    <div class="card cars" id="cars-coding-menu"></div>
+    <!--prerender:cars-coding-menu--><div class="card cars" id="cars-coding-menu"><div class="car-row"><h3>BMW 1 Series</h3><div><ul><li>F40 (2019+)</li></ul></div></div><div class="car-row"><h3>BMW 2 Series Gran Coupe</h3><div><ul><li>F44 (2020+)</li></ul></div></div><div class="car-row"><h3>BMW 3 Series</h3><div><ul><li>G20 Sedan</li><li>G21 Touring (wagon)</li></ul><p class="car-note">Base models with physical-look dials (Live Cockpit Plus) built before mid-2020 run iDrive 6, which can't be coded for this. We'll confirm your iDrive version from the VIN.</p></div></div><div class="car-row"><h3>BMW 4 Series</h3><div><ul><li>G22 Coupe</li><li>G23 Convertible</li></ul></div></div><div class="car-row"><h3>BMW 5 Series</h3><div><ul><li>G30 / G31 facelift (LCI, mid-2020 on)</li><li>G30 / G31 pre-facelift (2017 – mid-2020) <span class="car-tag">We check your VIN</span><small>Pre-facelift 5 Series cars have an older head unit, so fewer features are available. We'll confirm which ones from your VIN.</small></li></ul></div></div><div class="car-row"><h3>BMW 7 Series</h3><div><ul><li>G11 / G12 facelift (LCI)</li><li>G11 / G12 pre-facelift <span class="car-tag">We check your VIN</span><small>Pre-facelift 7 Series cars have an older head unit, so fewer features are available. We'll confirm which ones from your VIN.</small></li></ul></div></div><div class="car-row"><h3>BMW 8 Series</h3><div><ul><li>G14 Convertible</li><li>G15 Coupe</li><li>G16 Gran Coupe</li></ul></div></div><div class="car-row"><h3>BMW X1</h3><div><ul><li>F48 <span class="car-tag">We check your VIN</span><small>Some X1s use an older head unit, so fewer features are available. We'll confirm which ones from your VIN.</small></li></ul></div></div><div class="car-row"><h3>BMW X2</h3><div><ul><li>F39 <span class="car-tag">We check your VIN</span><small>Some X2s use an older head unit, so fewer features are available. We'll confirm which ones from your VIN.</small></li></ul></div></div><div class="car-row"><h3>BMW X3</h3><div><ul><li>G01<small>X3s and X4s built before mid-2019 run iDrive 6, which can't be coded for this. Later cars have iDrive 7. We'll confirm your iDrive version from the VIN.</small></li></ul></div></div><div class="car-row"><h3>BMW X4</h3><div><ul><li>G02<small>X3s and X4s built before mid-2019 run iDrive 6, which can't be coded for this. Later cars have iDrive 7. We'll confirm your iDrive version from the VIN.</small></li></ul></div></div><div class="car-row"><h3>BMW X5</h3><div><ul><li>G05</li></ul></div></div><div class="car-row"><h3>BMW X6</h3><div><ul><li>G06</li></ul></div></div><div class="car-row"><h3>BMW X7</h3><div><ul><li>G07</li></ul></div></div><div class="car-row"><h3>BMW Z4</h3><div><ul><li>G29</li></ul></div></div><div class="car-row"><h3>BMW M models</h3><div><ul><li>X3 M / X4 M (F97 / F98)<small>X3 M and X4 M got iDrive 7 from April 2020, so only cars built April 2020 to February 2021 qualify.</small></li><li>M5 facelift (F90 LCI)</li><li>M8 (F91 / F92 / F93)</li><li>X5 M / X6 M (F95 / F96)</li></ul></div></div></div><!--/prerender:cars-coding-menu-->
   </section>
 
   <section class="wrap section" id="not-codable">
     <h2 class="h2">Cars we can't code</h2>
     <p class="muted">BMW locked coding on cars built from March 2021, and on newer models with iDrive 8 or later.</p>
-    <div class="card cars cars-no" id="cars-excluded"></div>
+    <!--prerender:cars-excluded--><div class="card cars cars-no" id="cars-excluded"><div class="car-row"><h3>BMW 4 Series</h3><div><ul><li>G26 Gran Coupe (4-door)<small>The 4 Series Gran Coupe went into production in late 2021, after BMW locked coding, so no build date qualifies.</small></li></ul></div></div><div class="car-row"><h3>BMW 5 Series</h3><div><ul><li>G30 / G31 pre-facelift (2017 – mid-2020) <span class="car-tag">No remote start, Coding Menu OK</span><small>Pre-facelift 5 Series cars don't have the iDrive 7 head unit that this feature needs.</small></li><li>G60 / G61 (2023+)<small>Current-generation cars are coding-locked from launch (iDrive 8.5+ and NCD 2.0/3.0).</small></li></ul></div></div><div class="car-row"><h3>BMW 7 Series</h3><div><ul><li>G70 (2022+)<small>Current-generation cars are coding-locked from launch (iDrive 8.5+ and NCD 2.0/3.0).</small></li></ul></div></div><div class="car-row"><h3>BMW M2</h3><div><ul><li>G87 (2023+)<small>The G87 M2 is coding-locked from launch (iDrive 8 and NCD 2.0).</small></li></ul></div></div><div class="car-row"><h3>BMW M3</h3><div><ul><li>G80<small>The G80 M3 is coding-locked from launch, so no build date qualifies.</small></li></ul></div></div><div class="car-row"><h3>BMW M4</h3><div><ul><li>G82 Coupe</li><li>G83 Convertible</li></ul><p class="car-note">The G82/G83 M4 is coding-locked from launch, so no build date qualifies.</p></div></div><div class="car-row"><h3>BMW M5</h3><div><ul><li>G90 (2024+)<small>Current-generation cars are coding-locked from launch (iDrive 8.5+ and NCD 2.0/3.0).</small></li></ul></div></div><div class="car-row"><h3>BMW i4 / iX / other electric</h3><div><ul><li>Any fully electric BMW<small>Electric cars have no engine control unit to code remote start into.</small></li></ul></div></div></div><!--/prerender:cars-excluded-->
   </section>
 
   <section class="wrap section">
@@ -76,7 +114,41 @@
   </section>
 </main>
 
-<div id="site-footer"></div>
+<!--prerender:site-footer--><div id="site-footer">
+      <footer class="footer">
+        <div class="mstripe" aria-hidden="true"></div>
+        <div class="wrap">
+          <div class="foot-grid">
+            <div class="foot-about">
+              <p class="foot-brand">REDLINE<b>CODING</b></p>
+              <p>Independent BMW coding in Perth. We switch on factory features already in your car's software. Mobile across Perth, or drop-off.</p>
+              <a class="btn btn-primary btn-sm" href="enquire.html">Get a quote</a>
+              <div class="foot-social">
+                <a href="https://www.instagram.com/redlinecodingperth/" target="_blank" rel="noopener" aria-label="Redline Coding on Instagram" title="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"></circle></svg></a>
+                <a href="https://www.tiktok.com/@redline.coding" target="_blank" rel="noopener" aria-label="Redline Coding on TikTok" title="TikTok"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"></path></svg></a>
+                <a href="https://share.google/6yGSnhQcemCVBCfMC" target="_blank" rel="noopener" aria-label="Redline Coding on Google" title="Google"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"></path></svg></a>
+              </div>
+            </div>
+            <div class="foot-col">
+              <p class="foot-head">Services</p>
+              <a href="remote-start.html">Remote Engine Start</a><a href="coding-menu.html">Coding Menu</a>
+            </div>
+            <div class="foot-col">
+              <p class="foot-head">Info</p>
+              <a href="/">Home</a>
+              <a href="/#how">How it works</a>
+              <a href="/#about">About</a>
+              <a href="cars.html">Cars we code</a>
+              <a href="/#faq">FAQ</a>
+              <a href="enquire.html">Get a quote</a>
+              <a href="privacy.html">Privacy</a>
+              <a href="terms.html">Terms</a>
+            </div>
+          </div>
+          <p class="disclaimer">Redline Coding is an independent business. It is not affiliated with, authorised by, sponsored by or endorsed by BMW AG, BMW M GmbH, Bayerische Motoren Werke AG, Toyota Motor Corporation, or any of their subsidiaries or dealers. BMW, M, iDrive, Supra and all related model names are trademarks of their respective owners and are used on this site only to identify compatible vehicles.</p>
+          <p class="copy">© 2026 Redline Coding · ABN 55 424 847 928 · Perth, WA</p>
+        </div>
+      </footer></div><!--/prerender:site-footer-->
 
 <script src="vehicles.js"></script>
 <script src="services.js"></script>

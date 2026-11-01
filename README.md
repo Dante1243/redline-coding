@@ -16,6 +16,11 @@ Static site for Redline Coding. It's hosted on GitHub Pages.
 - `app.js`: nav, footer, eligibility checker, pricing and the quote page. Quotes are emailed through [FormSubmit](https://formsubmit.co), and customers get an automatic confirmation with the same itemised total.
 - `styles.css`: all styling
 
+## Static copies for search engines
+The nav, footer, home service cards, bundle banners, Coding Menu list and Cars we code lists are built by `app.js`. Each page also keeps a saved copy of them between `<!--prerender:...-->` markers, so search engines and AI tools that don't run JavaScript still see the links and content. `app.js` replaces them on load, so they never show stale prices to customers.
+
+After changing `services.js`, `vehicles.js`, `app.js` or a page, run `powershell -File tools\prerender.ps1` before committing. It refreshes those copies (using Edge or Chrome in the background) and sets each page's `<lastmod>` date in `sitemap.xml`.
+
 ## Adding a Coding Menu feature
 Add an entry to `FEATURES` in `services.js` (id, group, name, price, icon, needs, desc, and optionally note, img, addOn, noDeal). It appears on the home page card, the Coding Menu, the checker and the quote page automatically.
 

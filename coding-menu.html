@@ -38,7 +38,45 @@
 </head>
 <body data-service="coding-menu">
 
-<div id="site-nav"></div>
+<!--prerender:site-nav--><div id="site-nav">
+      <div class="mstripe" aria-hidden="true"></div>
+      <nav class="nav" aria-label="Main">
+        <div class="wrap nav-inner">
+          <a class="brand" href="/" aria-label="Redline Coding home">
+            <span class="brand-name">REDLINE<b>CODING</b></span>
+            <span class="brand-sub">BMW Coding Services · Perth</span>
+          </a>
+          <div class="nav-links">
+            <a href="/#services">Services</a>
+            <a href="/#how">How it works</a>
+            <a href="#faq">FAQ</a>
+            <a class="btn btn-primary btn-sm" href="enquire.html" data-quote="">Get a quote</a>
+          </div>
+          <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="nav-panel" aria-label="Open menu">
+            <span></span><span></span>
+          </button>
+        </div>
+        <div class="nav-panel" id="nav-panel" hidden="">
+          <div class="wrap">
+            <p class="nav-label">Services</p>
+            <div class="nav-svcs">
+      <a href="remote-start.html">
+        <span class="f-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="3"></rect><circle cx="12" cy="8" r="1.6"></circle><path d="M10 13.5h4M10 16.5h4"></path></svg></span>
+        <span>Remote Engine Start<small>From $199 · ~1 hr</small></span>
+      </a>
+      <a href="coding-menu.html" aria-current="page">
+        <span class="f-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"></circle><path d="M12 12l3.5-3.5"></path><path d="M12 5v1.5M5 12h1.5M17.5 12H19"></path></svg></span>
+        <span>Coding Menu<small>From $5 · ~5 min each</small></span>
+      </a></div>
+            <div class="nav-more">
+              <a href="/#how">How it works</a>
+              <a href="cars.html">Cars we code</a>
+              <a href="#faq">FAQ</a>
+              <a href="enquire.html">Get a quote</a>
+            </div>
+          </div>
+        </div>
+      </nav></div><!--/prerender:site-nav-->
 
 <header class="hero" id="top">
   <div class="wrap">
@@ -64,7 +102,354 @@
   <section class="wrap section" id="menu-section">
     <h2 class="h2">The menu</h2>
     <p class="muted">We'll confirm which features your car can have from its VIN before we book anything.</p>
-    <div id="menu"></div>
+    <!--prerender:menu--><div id="menu">
+    <h3 class="item-group">Comfort</h3>
+    <div class="items">
+      
+    <div class="item">
+      <label class="item-main">
+        <input type="checkbox" data-kind="feature" value="heated-seats">
+        <span class="item-box" aria-hidden="true"></span>
+        <img class="item-thumb" src="media/hs-hero-sm.jpg" alt="" loading="lazy">
+        <span class="item-name">Automatic heated seats<small>Needs factory heated seats · Only $39 with Remote Engine Start</small></span>
+        <span class="item-price" data-price="heated-seats">$79</span>
+      </label>
+      
+      <button type="button" class="item-more" aria-expanded="false" aria-controls="item-desc-1" aria-label="More about Automatic heated seats"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
+      <div class="item-desc" id="item-desc-1">
+        <div class="item-desc-in">
+          <div class="item-shots"><img src="media/hs-hero.jpg" alt="Automatic heated seats on a BMW" loading="lazy"><img src="media/hs-menu.jpg" alt="Automatic heated seats on a BMW" loading="lazy"></div>
+          <p>Your heated seats switch on by themselves when it's colder than the temperature you choose, even part-way through a drive, at the heat level you choose. Change both any time in iDrive, separately for driver and passenger.</p>
+          <p class="item-fine">For 1–4 Series and X1–X4. Higher models like the 5 Series usually have it from the factory. It switches on once the driver's seatbelt is fastened.</p>
+          
+        </div>
+      </div>
+    </div>
+    <div class="item">
+      <label class="item-main">
+        <input type="checkbox" data-kind="feature" value="start-stop">
+        <span class="item-box" aria-hidden="true"></span>
+        <img class="item-thumb" src="media/feat-start-stop-sm.jpg" alt="" loading="lazy">
+        <span class="item-name">Auto start/stop: memory or always off</span>
+        <span class="item-price" data-price="start-stop">$15</span>
+      </label>
+      
+      <button type="button" class="item-more" aria-expanded="false" aria-controls="item-desc-2" aria-label="More about Auto start/stop: memory or always off"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
+      <div class="item-desc" id="item-desc-2">
+        <div class="item-desc-in">
+          <div class="item-shots item-shots-sm"><img src="media/feat-start-stop.jpg" alt="Auto start/stop: memory or always off on a BMW" loading="lazy"></div>
+          <p>Your choice: the car remembers when you switch auto start/stop off, or auto start/stop starts switched off every drive. Either way, no more pressing the button each time you get in.</p>
+          <p class="item-fine">May not work on cars that have had BMW's late-2023 software update (11/2023) or newer. We check your car's software version first. Tell us in your quote which option you want.</p>
+          
+        </div>
+      </div>
+    </div>
+    <div class="item">
+      <label class="item-main">
+        <input type="checkbox" data-kind="feature" value="comfort-blink">
+        <span class="item-box" aria-hidden="true"></span>
+        <img class="item-thumb" src="media/feat-comfort-blink-sm.jpg" alt="" loading="lazy">
+        <span class="item-name">Comfort blink (3 → 5 flashes)</span>
+        <span class="item-price" data-price="comfort-blink">$10</span>
+      </label>
+      
+      <button type="button" class="item-more" aria-expanded="false" aria-controls="item-desc-3" aria-label="More about Comfort blink (3 → 5 flashes)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
+      <div class="item-desc" id="item-desc-3">
+        <div class="item-desc-in">
+          <div class="item-shots"><img src="media/feat-comfort-blink.jpg" alt="Comfort blink (3 → 5 flashes) on a BMW" loading="lazy"><img src="media/feat-comfort-blink-set.jpg" alt="Comfort blink (3 → 5 flashes) on a BMW" loading="lazy"></div>
+          <p>Adds a 5-flash option to your iDrive lighting settings, so one tap of the indicator stalk can flash 5 times instead of 3. Handy for freeway lane changes, and you can switch back to 3 any time.</p>
+          
+          
+        </div>
+      </div>
+    </div>
+    <div class="item">
+      <label class="item-main">
+        <input type="checkbox" data-kind="feature" value="disclaimers">
+        <span class="item-box" aria-hidden="true"></span>
+        <span class="item-thumb item-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6h16v10H4z"></path><path d="M9 20h6M12 16v4"></path><path d="m9 10 2 2 4-4"></path></svg></span>
+        <span class="item-name">Skip iDrive warning pop-ups</span>
+        <span class="item-price" data-price="disclaimers">$10</span>
+      </label>
+      
+      <button type="button" class="item-more" aria-expanded="false" aria-controls="item-desc-4" aria-label="More about Skip iDrive warning pop-ups"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
+      <div class="item-desc" id="item-desc-4">
+        <div class="item-desc-in">
+          
+          <p>Removes the warning pop-ups you have to click through: the legal disclaimer on iDrive at start-up, the warning on the reversing camera screen, and the Night Vision warning if your car has it.</p>
+          <p class="item-fine">A dealer software update can bring the warnings back. We can remove them again.</p>
+          
+        </div>
+      </div>
+    </div>
+    </div>
+    <h3 class="item-group">Driving</h3>
+    <div class="items">
+      
+    <div class="item">
+      <label class="item-main">
+        <input type="checkbox" data-kind="feature" value="drive-modes">
+        <span class="item-box" aria-hidden="true"></span>
+        <img class="item-thumb" src="media/feat-sport-plus-sm.jpg" alt="" loading="lazy">
+        <span class="item-name">Sport Plus &amp; Comfort Plus modes</span>
+        <span class="item-price" data-price="drive-modes">$15</span>
+      </label>
+      
+      <button type="button" class="item-more" aria-expanded="false" aria-controls="item-desc-5" aria-label="More about Sport Plus &amp; Comfort Plus modes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
+      <div class="item-desc" id="item-desc-5">
+        <div class="item-desc-in">
+          <div class="item-shots"><img src="media/feat-sport-plus.jpg" alt="Sport Plus &amp; Comfort Plus modes on a BMW" loading="lazy"><img src="media/feat-comfort-plus.jpg" alt="Sport Plus &amp; Comfort Plus modes on a BMW" loading="lazy"></div>
+          <p>Adds Sport Plus and Comfort Plus to your drive mode button, for a sharper or softer drive than the standard modes.</p>
+          <p class="item-fine">Changes throttle, steering and gearbox response. The ride only gets firmer or softer if your car has adaptive suspension.</p>
+          
+        </div>
+      </div>
+    </div>
+    <div class="item">
+      <label class="item-main">
+        <input type="checkbox" data-kind="feature" value="default-mode">
+        <span class="item-box" aria-hidden="true"></span>
+        <img class="item-thumb" src="media/feat-default-mode-sm.jpg" alt="" loading="lazy">
+        <span class="item-name">Default driving mode</span>
+        <span class="item-price" data-price="default-mode">$15</span>
+      </label>
+      
+      <button type="button" class="item-more" aria-expanded="false" aria-controls="item-desc-6" aria-label="More about Default driving mode"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
+      <div class="item-desc" id="item-desc-6">
+        <div class="item-desc-in">
+          <div class="item-shots"><img src="media/feat-default-mode.jpg" alt="Default driving mode on a BMW" loading="lazy"></div>
+          <p>Choose the driving mode your car starts in every time, such as Sport, Sport Individual, Comfort Plus or Eco Pro, so you don't have to press the mode button on every drive.</p>
+          <p class="item-fine">Tell us which mode you want when you book.</p>
+          
+        </div>
+      </div>
+    </div>
+    <div class="item">
+      <label class="item-main">
+        <input type="checkbox" data-kind="feature" value="adv">
+        <span class="item-box" aria-hidden="true"></span>
+        <img class="item-thumb" src="media/feat-adv-sm.jpg" alt="" loading="lazy">
+        <span class="item-name">Assisted Driving View<small>Needs Driving Assistant Professional + full digital cluster</small></span>
+        <span class="item-price" data-price="adv">$39</span>
+      </label>
+      
+      <button type="button" class="item-more" aria-expanded="false" aria-controls="item-desc-7" aria-label="More about Assisted Driving View"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
+      <div class="item-desc" id="item-desc-7">
+        <div class="item-desc-in">
+          <div class="item-shots"><img src="media/feat-adv.jpg" alt="Assisted Driving View on a BMW" loading="lazy"></div>
+          <p>Shows your car, the lanes and the cars around you live on the instrument cluster while the driver assistance is on.</p>
+          
+          
+        </div>
+      </div>
+    </div>
+    </div>
+    <h3 class="item-group">Safety</h3>
+    <div class="items">
+      
+    <div class="item">
+      <label class="item-main">
+        <input type="checkbox" data-kind="feature" value="brake-force">
+        <span class="item-box" aria-hidden="true"></span>
+        <span class="item-thumb item-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"></circle><path d="M12 9v3.5M12 15h.01"></path><path d="M4.5 7.5a9 9 0 0 0 0 9M19.5 7.5a9 9 0 0 1 0 9"></path></svg></span>
+        <span class="item-name">Brake force display</span>
+        <span class="item-price" data-price="brake-force">$15</span>
+      </label>
+      
+      <button type="button" class="item-more" aria-expanded="false" aria-controls="item-desc-8" aria-label="More about Brake force display"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
+      <div class="item-desc" id="item-desc-8">
+        <div class="item-desc-in">
+          
+          <p>Under hard braking, your brake lights flash to warn the driver behind that you're stopping fast.</p>
+          <p class="item-fine">Works with the factory Australian-spec tail lights.</p>
+          
+        </div>
+      </div>
+    </div>
+    </div>
+    <h3 class="item-group">Style</h3>
+    <div class="items">
+      
+    <div class="item">
+      <label class="item-main">
+        <input type="checkbox" data-kind="feature" value="cluster">
+        <span class="item-box" aria-hidden="true"></span>
+        <img class="item-thumb" src="media/feat-cluster-sm.jpg" alt="" loading="lazy">
+        <span class="item-name">Cluster style<small>Needs full digital cluster</small></span>
+        <span class="item-price" data-price="cluster">$19</span>
+      </label>
+      
+      <button type="button" class="item-more" aria-expanded="false" aria-controls="item-desc-9" aria-label="More about Cluster style"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
+      <div class="item-desc" id="item-desc-9">
+        <div class="item-desc-in">
+          <div class="item-shots"><img src="media/feat-cluster.jpg" alt="Cluster style on a BMW" loading="lazy"></div>
+          <p>Change the instrument cluster's look: the M340i layout with a 330 km/h speedo, the M3 / M4 layout with shift lights, the M-car or M Sport layouts, or the Alpina style.</p>
+          
+          
+        </div>
+      </div>
+    </div>
+    <div class="item">
+      <label class="item-main">
+        <input type="checkbox" data-kind="feature" value="badge">
+        <span class="item-box" aria-hidden="true"></span>
+        <img class="item-thumb" src="media/feat-badge-sm.jpg" alt="" loading="lazy">
+        <span class="item-name">M or high-trim start-up badge<small>Needs full digital cluster</small></span>
+        <span class="item-price" data-price="badge">$15</span>
+      </label>
+      
+      <button type="button" class="item-more" aria-expanded="false" aria-controls="item-desc-10" aria-label="More about M or high-trim start-up badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
+      <div class="item-desc" id="item-desc-10">
+        <div class="item-desc-in">
+          <div class="item-shots item-shots-sm"><img src="media/feat-badge.jpg" alt="M or high-trim start-up badge on a BMW" loading="lazy"></div>
+          <p>Choose from over 80 badges, from M, M Sport and Alpina to M3 CS, M4 CSL, M5 Competition, X5 M Competition and V12, to show when you start the car.</p>
+          <p class="item-fine">Purely cosmetic, and we can remove it any time, e.g. before you sell the car.</p>
+          
+        </div>
+      </div>
+    </div>
+    <div class="item">
+      <label class="item-main">
+        <input type="checkbox" data-kind="feature" value="idrive-startup">
+        <span class="item-box" aria-hidden="true"></span>
+        <img class="item-thumb" src="media/feat-idrive-startup-sm.jpg" alt="" loading="lazy">
+        <span class="item-name">iDrive start-up animation</span>
+        <span class="item-price" data-price="idrive-startup">$15</span>
+      </label>
+      
+      <button type="button" class="item-more" aria-expanded="false" aria-controls="item-desc-11" aria-label="More about iDrive start-up animation"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
+      <div class="item-desc" id="item-desc-11">
+        <div class="item-desc-in">
+          <div class="item-shots"><img src="media/feat-idrive-startup.jpg" alt="iDrive start-up animation on a BMW" loading="lazy"></div>
+          <p>Change the animation on the iDrive screen when you start the car: BMW M, Alpina, BMW i, or even Rolls-Royce.</p>
+          <p class="item-fine">Which animations are available depends on your car's iDrive software version.</p>
+          
+        </div>
+      </div>
+    </div>
+    </div>
+    <h3 class="item-group">Quick extras</h3>
+    <div class="items">
+      
+    <div class="item">
+      <label class="item-main">
+        <input type="checkbox" data-kind="feature" value="speedo-refresh">
+        <span class="item-box" aria-hidden="true"></span>
+        <span class="item-thumb item-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4.5 17.5a8 8 0 1 1 15 0"></path><path d="M12 13.5l4-4"></path><path d="M12 6.5v1.5M6.5 12H8M16 12h1.5"></path></svg></span>
+        <span class="item-name">Faster digital speedo</span>
+        <span class="item-price" data-price="speedo-refresh">$5</span>
+      </label>
+      
+      <button type="button" class="item-more" aria-expanded="false" aria-controls="item-desc-12" aria-label="More about Faster digital speedo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
+      <div class="item-desc" id="item-desc-12">
+        <div class="item-desc-in">
+          
+          <p>The digital speed readout updates 5 or 10 times a second instead of twice, so it keeps up with the car.</p>
+          
+          
+        </div>
+      </div>
+    </div>
+    <div class="item">
+      <label class="item-main">
+        <input type="checkbox" data-kind="feature" value="xview">
+        <span class="item-box" aria-hidden="true"></span>
+        <img class="item-thumb" src="media/feat-xview-sm.jpg" alt="" loading="lazy">
+        <span class="item-name">X View display</span>
+        <span class="item-price" data-price="xview">$5</span>
+      </label>
+      
+      <button type="button" class="item-more" aria-expanded="false" aria-controls="item-desc-13" aria-label="More about X View display"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
+      <div class="item-desc" id="item-desc-13">
+        <div class="item-desc-in">
+          <div class="item-shots"><img src="media/feat-xview.jpg" alt="X View display on a BMW" loading="lazy"><img src="media/feat-xview-menu.jpg" alt="X View display on a BMW" loading="lazy"></div>
+          <p>Unlocks the X View display normally only on BMW X models, showing your car's tilt and incline angles.</p>
+          <p class="item-fine">For models that don't have it from the factory.</p>
+          
+        </div>
+      </div>
+    </div>
+    <div class="item">
+      <label class="item-main">
+        <input type="checkbox" data-kind="feature" value="lock-horn">
+        <span class="item-box" aria-hidden="true"></span>
+        <img class="item-thumb" src="media/feat-lock-horn-sm.jpg" alt="" loading="lazy">
+        <span class="item-name">No horn when locking with the engine running</span>
+        <span class="item-price" data-price="lock-horn">$5</span>
+      </label>
+      
+      <button type="button" class="item-more" aria-expanded="false" aria-controls="item-desc-14" aria-label="More about No horn when locking with the engine running"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
+      <div class="item-desc" id="item-desc-14">
+        <div class="item-desc-in">
+          <div class="item-shots item-shots-sm"><img src="media/feat-lock-horn.jpg" alt="No horn when locking with the engine running on a BMW" loading="lazy"></div>
+          <p>Stops the horn sounding when you lock the car with the engine running, for example while it warms up.</p>
+          
+          
+        </div>
+      </div>
+    </div>
+    <div class="item">
+      <label class="item-main">
+        <input type="checkbox" data-kind="feature" value="window-interrupt">
+        <span class="item-box" aria-hidden="true"></span>
+        <img class="item-thumb" src="media/feat-window-interrupt-sm.jpg" alt="" loading="lazy">
+        <span class="item-name">Windows keep moving when a door opens</span>
+        <span class="item-price" data-price="window-interrupt">$5</span>
+      </label>
+      
+      <button type="button" class="item-more" aria-expanded="false" aria-controls="item-desc-15" aria-label="More about Windows keep moving when a door opens"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
+      <div class="item-desc" id="item-desc-15">
+        <div class="item-desc-in">
+          <div class="item-shots item-shots-sm"><img src="media/feat-window-interrupt.jpg" alt="Windows keep moving when a door opens on a BMW" loading="lazy"></div>
+          <p>Automatic window up or down no longer stops halfway when you open a door.</p>
+          
+          
+        </div>
+      </div>
+    </div>
+    <div class="item">
+      <label class="item-main">
+        <input type="checkbox" data-kind="feature" value="parking-longer">
+        <span class="item-box" aria-hidden="true"></span>
+        <img class="item-thumb" src="media/feat-parking-longer-sm.jpg" alt="" loading="lazy">
+        <span class="item-name">Parking sensors &amp; cameras stay on longer</span>
+        <span class="item-price" data-price="parking-longer">$5</span>
+      </label>
+      
+      <button type="button" class="item-more" aria-expanded="false" aria-controls="item-desc-16" aria-label="More about Parking sensors &amp; cameras stay on longer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
+      <div class="item-desc" id="item-desc-16">
+        <div class="item-desc-in">
+          <div class="item-shots item-shots-sm"><img src="media/feat-parking-longer.jpg" alt="Parking sensors &amp; cameras stay on longer on a BMW" loading="lazy"></div>
+          <p>Parking sensors, Top View and the reversing camera stay on for longer and up to 50 km/h, so they don't switch off as soon as you pull away.</p>
+          <p class="item-fine">Made for cars with Parking Assistant Professional (360° cameras). It may work on others, and we'll check yours.</p>
+          
+        </div>
+      </div>
+    </div>
+    <div class="item">
+      <label class="item-main">
+        <input type="checkbox" data-kind="feature" value="seat-memory">
+        <span class="item-box" aria-hidden="true"></span>
+        <img class="item-thumb" src="media/feat-seat-memory-sm.jpg" alt="" loading="lazy">
+        <span class="item-name">Seat heating memory</span>
+        <span class="item-price" data-price="seat-memory">$5</span>
+      </label>
+      
+      <button type="button" class="item-more" aria-expanded="false" aria-controls="item-desc-17" aria-label="More about Seat heating memory"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></button>
+      <div class="item-desc" id="item-desc-17">
+        <div class="item-desc-in">
+          <div class="item-shots item-shots-sm"><img src="media/feat-seat-memory.jpg" alt="Seat heating memory on a BMW" loading="lazy"></div>
+          <p>Choose how long your seat heating (and cooling, if fitted) setting is remembered: 15 minutes, 24 hours, unlimited, or not at all.</p>
+          <p class="item-fine">Usually the driver's seat.</p>
+          
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="total-bar">
+      <p id="menuSummary"><b>Any 3 for $39 · Any 5 for $65 · All 9 for $99</b></p>
+      <a class="btn btn-primary btn-sm" href="enquire.html" data-quote="">Get a quote</a>
+    </div></div><!--/prerender:menu-->
   </section>
 
   <section class="wrap section" id="check">
@@ -125,7 +510,41 @@
 
 </main>
 
-<div id="site-footer"></div>
+<!--prerender:site-footer--><div id="site-footer">
+      <footer class="footer">
+        <div class="mstripe" aria-hidden="true"></div>
+        <div class="wrap">
+          <div class="foot-grid">
+            <div class="foot-about">
+              <p class="foot-brand">REDLINE<b>CODING</b></p>
+              <p>Independent BMW coding in Perth. We switch on factory features already in your car's software. Mobile across Perth, or drop-off.</p>
+              <a class="btn btn-primary btn-sm" href="enquire.html">Get a quote</a>
+              <div class="foot-social">
+                <a href="https://www.instagram.com/redlinecodingperth/" target="_blank" rel="noopener" aria-label="Redline Coding on Instagram" title="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"></circle></svg></a>
+                <a href="https://www.tiktok.com/@redline.coding" target="_blank" rel="noopener" aria-label="Redline Coding on TikTok" title="TikTok"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"></path></svg></a>
+                <a href="https://share.google/6yGSnhQcemCVBCfMC" target="_blank" rel="noopener" aria-label="Redline Coding on Google" title="Google"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"></path></svg></a>
+              </div>
+            </div>
+            <div class="foot-col">
+              <p class="foot-head">Services</p>
+              <a href="remote-start.html">Remote Engine Start</a><a href="coding-menu.html">Coding Menu</a>
+            </div>
+            <div class="foot-col">
+              <p class="foot-head">Info</p>
+              <a href="/">Home</a>
+              <a href="/#how">How it works</a>
+              <a href="/#about">About</a>
+              <a href="cars.html">Cars we code</a>
+              <a href="#faq">FAQ</a>
+              <a href="enquire.html">Get a quote</a>
+              <a href="privacy.html">Privacy</a>
+              <a href="terms.html">Terms</a>
+            </div>
+          </div>
+          <p class="disclaimer">Redline Coding is an independent business. It is not affiliated with, authorised by, sponsored by or endorsed by BMW AG, BMW M GmbH, Bayerische Motoren Werke AG, Toyota Motor Corporation, or any of their subsidiaries or dealers. BMW, M, iDrive, Supra and all related model names are trademarks of their respective owners and are used on this site only to identify compatible vehicles.</p>
+          <p class="copy">© 2026 Redline Coding · ABN 55 424 847 928 · Perth, WA</p>
+        </div>
+      </footer></div><!--/prerender:site-footer-->
 
 <script src="vehicles.js"></script>
 <script src="services.js"></script>
