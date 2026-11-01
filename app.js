@@ -123,7 +123,7 @@ function renderChrome() {
       <nav class="nav" aria-label="Main">
         <div class="wrap nav-inner">
           <a class="brand" href="${home || "#top"}" aria-label="Redline Coding home">
-            <span class="brand-name">REDLINE<b>CODING</b></span>
+            <span class="brand-name">REDLINE <b>CODING</b></span>
             <span class="brand-sub">BMW Coding Services · Perth</span>
           </a>
           <div class="nav-links">
@@ -172,7 +172,7 @@ function renderChrome() {
         <div class="wrap">
           <div class="foot-grid">
             <div class="foot-about">
-              <p class="foot-brand">REDLINE<b>CODING</b></p>
+              <p class="foot-brand">REDLINE <b>CODING</b></p>
               <p>Independent BMW coding in Perth. We switch on factory features already in your car's software. Mobile across Perth, or drop-off.</p>
               <a class="btn btn-primary btn-sm" href="enquire.html">Get a quote</a>
               <div class="foot-social">
