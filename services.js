@@ -10,7 +10,7 @@
 //   "build"   build month/year against each chassis cutoff
 //   "engine"  petrol only (no diesel, hybrid or EV)
 //   "trans"   automatic only
-//   any REQUIREMENTS key (cluster, dap, heated): asks about that equipment
+//   any REQUIREMENTS key (cluster, dap, acc, sli, heated): asks about that equipment
 
 const SERVICES = {
   "remote-start": {
@@ -33,7 +33,7 @@ const SERVICES = {
     time: "~5 min each",
     icon: "dial",
     img: "card-coding-menu-hd",
-    checks: ["build", "cluster", "dap", "heated"],
+    checks: ["build", "cluster", "dap", "acc", "sli", "heated"],
     vehicles: MENU_VEHICLES,
     makes: "BMW",
     menu: true, // its FEATURES are listed and priced individually on the quote page
@@ -54,6 +54,20 @@ const REQUIREMENTS = {
     label: "Driving Assistant Professional",
     question: "Does it have Driving Assistant Professional?",
     hint: "Adaptive cruise control plus steering assist that keeps you centred in your lane (option 5AU).",
+    yes: "Yes",
+    no: "No",
+  },
+  acc: {
+    label: "Active Cruise Control",
+    question: "Does it have Active Cruise Control?",
+    hint: "Cruise control that keeps a set gap to the car ahead and can slow down by itself. Every car with Driving Assistant Professional has it.",
+    yes: "Yes",
+    no: "No, normal cruise control only",
+  },
+  sli: {
+    label: "Speed Limit Info",
+    question: "Does the cluster show the speed limit sign?",
+    hint: "A round speed sign in the instrument cluster that changes as you pass speed signs.",
     yes: "Yes",
     no: "No",
   },
@@ -93,6 +107,12 @@ const FEATURES = [
     note: "Tell us which mode you want when you book." },
   { id: "adv", group: "Driving", name: "Assisted Driving View", price: 39, noDeal: true, icon: "lanes", needs: ["dap", "cluster"], img: ["feat-adv"],
     desc: "Shows your car, the lanes and the cars around you live on the instrument cluster while the driver assistance is on." },
+  { id: "acc-distance", group: "Driving", name: "Dynamic ACC distance", price: 15, icon: "lanes", needs: ["acc"], img: ["feat-acc-distance"],
+    desc: "Active Cruise Control adjusts the gap to the car ahead by itself to suit the driving situation, instead of holding one fixed distance. Switch it on or off any time in iDrive.",
+    note: "Shows up in iDrive under Speed Assistant as \"Adjust distance acc. to situation\"." },
+  { id: "speed-limit-chime", group: "Safety", name: "Speed limit change sound", price: 10, icon: "alert", needs: ["sli"], img: ["feat-speed-limit-chime"],
+    desc: "A short chime whenever the speed limit changes, so you notice a new limit without looking down at the cluster. Switch it on or off any time in iDrive.",
+    note: "Shows up in iDrive under Speed Assistant as \"Warning when changes\"." },
   { id: "brake-force", group: "Safety", name: "Brake force display", price: 15, icon: "brake", needs: [],
     desc: "Under hard braking, your brake lights flash to warn the driver behind that you're stopping fast.",
     note: "Works with the factory Australian-spec tail lights." },
