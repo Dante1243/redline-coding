@@ -108,7 +108,7 @@ const FEATURES = [
   { id: "adv", group: "Driving", name: "Assisted Driving View", price: 39, noDeal: true, icon: "lanes", needs: ["dap", "cluster"], img: ["feat-adv"],
     desc: "Shows your car, the lanes and the cars around you live on the instrument cluster while the driver assistance is on." },
   { id: "acc-distance", group: "Driving", name: "Dynamic ACC distance", price: 15, icon: "lanes", needs: ["acc"], img: ["feat-acc-distance"],
-    desc: "Active Cruise Control adjusts the gap to the car ahead by itself to suit the situation, instead of holding the one fixed distance you set on the wheel. It closes up in stop-start traffic so cars are less likely to cut in, and leaves more room in the wet. Switch it on or off any time in iDrive.",
+    desc: "Active Cruise Control adjusts the gap to the car ahead by itself to suit the situation, instead of holding the one fixed distance you set on the wheel. It can close up in stop-start traffic and increase the distance in wet weather. Switch it on or off any time in iDrive.",
     note: "Shows up in iDrive under Speed Assistant as \"Adjust distance acc. to situation\"." },
   { id: "speed-limit-chime", group: "Safety", name: "Speed limit change sound", price: 10, icon: "alert", needs: ["sli"], img: ["feat-speed-limit-chime"],
     desc: "A short chime whenever the speed limit changes, so you notice a new limit straight away without looking down at the cluster. Handy for school zones. Switch it on or off any time in iDrive.",
